@@ -1,0 +1,48 @@
+[data-screen="lobby"] {
+    font-size: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+[data-screen="lobby"] button {
+  max-width: 250px;
+}
+
+[data-screen=lobby] .game-info {
+  text-align: center;
+  padding: 10px;
+  border: 1px dashed #ccc;
+  margin-bottom: 20px;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+[data-screen=lobby] .game-name {
+  padding-bottom: 10px;
+}
+
+[data-group="host"] [data-screen="lobby"] {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+[data-group="host"] [data-screen="lobby"] .horse {
+  height: 54px;
+  width: 100px;
+  margin-left: -100px;
+  background-image: url(./images/horse_still_frame.png);
+  background-position: right;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+[data-group="host"] [data-screen="lobby"] .track {
+  border-bottom: 1px dashed #333;
+  padding-top: 20px;
+}
+
+[data-group="host"] [data-screen="lobby"] .waiting {
+  text-align: center;
+  padding: 30px 0;
+  text-transform: uppercase;
+}

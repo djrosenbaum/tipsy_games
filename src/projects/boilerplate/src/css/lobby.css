@@ -1,0 +1,7 @@
+[data-screen="lobby"] {
+    font-size: 20px;
+}
+
+[data-screen="lobby"] div {
+  margin-bottom: 20px;
+}

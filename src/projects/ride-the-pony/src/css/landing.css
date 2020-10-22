@@ -1,0 +1,13 @@
+[data-screen="landing"] {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+[data-screen="landing"] .game-name {
+  text-align: center;
+  padding: 10px;
+  border: 1px dashed #ccc;
+  margin-bottom: 20px;
+  font-weight: 400;
+  font-size: 18px;
+}

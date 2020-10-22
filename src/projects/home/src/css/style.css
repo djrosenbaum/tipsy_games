@@ -1,0 +1,90 @@
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: Lato, Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a, button, input {
+  font-family: Lato, Arial, Helvetica, sans-serif;
+}
+
+button {
+  background-color: #222;
+  border: none;
+  border-bottom: 2px solid #000;
+  border-radius: 6px;
+  color: lime;
+  cursor: pointer;
+  padding: 20px;
+  text-shadow: 1px 2px #000;
+  width: 100%;
+  font-family: Monoton,cursive;
+  font-size: 21px;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+input {
+  box-sizing: border-box;
+  font-size: 36px;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+label {
+  font-size: 21px;
+}
+
+.absolute-center {
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.hidden {
+  display: none!important;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.spacer {
+  border-bottom: 1px dashed #777;
+  margin: 10px 0;
+}
+
+.page-wrapper {
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='126' height='84' viewBox='0 0 126 84'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23f0f0f0' fill-opacity='0.4'%3E%3Cpath d='M126 83v1H0v-2h40V42H0v-2h40V0h2v40h40V0h2v40h40V0h2v83zm-2-1V42H84v40h40zM82 42H42v40h40V42zm-50-6a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM8 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm96 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm-42 0a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm30-12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM20 54a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm12 24a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM8 54a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm24 0a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM8 78a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm12 0a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm54 0a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM50 54a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm24 0a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM50 78a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm54-12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm12 12a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM92 54a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm24 0a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM92 78a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm24-42a4 4 0 1 1 0-8 4 4 0 0 1 0 8z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  position: relative;
+  z-index: 20;
+}
+
+.button-wrapper {
+  text-align: center;
+  margin: 0 auto;
+  padding: 10px 0;
+  width: 40vw;
+  min-width: 250px;
+}
+
+.container {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.bold.link {
+  font-weight: 700;
+  padding: 10px 0;
+}

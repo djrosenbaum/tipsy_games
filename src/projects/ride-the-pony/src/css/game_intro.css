@@ -1,0 +1,37 @@
+[data-screen="game_intro"] {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+[data-screen=game_intro] .game-info {
+  text-align: center;
+  padding: 10px;
+  border: 1px dashed #ccc;
+  margin-bottom: 20px;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+[data-screen=game_intro] .game-name {
+  padding-bottom: 10px;
+}
+
+[data-screen="game_intro"] .horse {
+  height: 54px;
+  width: 100px;
+  margin-left: -100px;
+  background-image: url(./images/horse_still_frame.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+[data-screen="game_intro"] .tracks.hot .horse {
+  background-image: url(./images/simple_cartoon_horse.gif);
+  transition: all 1s linear;
+}
+
+[data-screen="game_intro"] .track {
+  border-bottom: 1px dashed #333;
+  padding-top: 20px;
+}

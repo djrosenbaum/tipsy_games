@@ -1,0 +1,21 @@
+.header {
+  width: 100vw;
+  text-align: center;
+  background-color: #000;
+  color: #fff;
+  font-weight: 200;
+  padding: 10px 0;
+  position: relative;
+}
+
+.header h1 {
+  font-size: 24px;
+}
+
+.header svg {
+  fill: #fff;
+  position: absolute;
+  left: -6px;
+  top: 2px;
+  height: 100%;
+}

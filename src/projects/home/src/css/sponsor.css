@@ -1,0 +1,21 @@
+[data-screen="sponsor"] .wrapper {
+  height: 50vh;
+}
+
+/* [data-screen="sponsor"] .sponsored-by {
+  padding-bottom: 30px;
+  text-align: left;
+  width: 50vw;
+  margin: 0 auto;
+  color: #777;
+} */
+
+[data-screen="sponsor"] .sponsor-logo {
+  background-image: url('./images/sponsor/yuengling_logo.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  height: 40vh;
+  max-width: 80vw;
+  margin: 0 auto;
+}
