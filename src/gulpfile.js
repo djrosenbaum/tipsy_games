@@ -8,18 +8,31 @@ const path = require('path');
 const rollup = require('rollup');
 const rollupConfig = require('./rollup.config');
 
+// The name of the project selected in cli.js
+const project = process.env.CLIENT;
+
 // The client directory
-const base = path.join('projects', process.env.CLIENT);
+const base = path.join('projects', project);
+
+let docs = '';
+if (project === 'home') {
+  docs = path.join('../', 'docs');
+} else {
+  docs = path.join('../', 'docs', project);
+}
 
 // Server
 let shouldStartServer = false;
 
 /**
- * Clean dist directory.
+ * Clean output directory.
  */
 async function clean() {
-	const dist = path.resolve(base, 'dist');
-  await del(dist);
+  if (project === 'home') {
+    return;
+  }
+  const dir = path.resolve(docs);
+  await del(dir);
 }
 
 /**
@@ -28,7 +41,7 @@ async function clean() {
 function css() {
   return gulp.src(path.resolve(base, 'src', 'css', 'index.css'))
   	.pipe(cssimport())
-    .pipe(gulp.dest(path.resolve(base, 'dist', 'css')));
+    .pipe(gulp.dest(path.resolve(docs, 'css')));
 }
 
 /**
@@ -49,13 +62,13 @@ function copyImages() {
   // copy all images
   files.push(
     gulp.src(path.resolve(base, 'src', 'images', '**', '*'))
-      .pipe(gulp.dest(path.resolve(base, 'dist', 'images')))
+      .pipe(gulp.dest(path.resolve(docs, 'images')))
   );
 
   // copy favicon
   files.push(
     gulp.src(path.resolve(base, 'src', 'images', 'favicon.ico'))
-      .pipe(gulp.dest(path.resolve(base, 'dist')))
+      .pipe(gulp.dest(path.resolve(docs)))
   );
 
   return Promise.all(files);
@@ -67,11 +80,11 @@ function includes() {
     hardFail: true
   }))
 	.on('error', console.log)
-	.pipe(gulp.dest(path.resolve(base, 'dist')))
+	.pipe(gulp.dest(path.resolve(docs)))
 }
 
 function minifyHTML() {
-  return gulp.src(path.resolve(base, 'dist', 'index.html')).pipe(minifier({
+  return gulp.src(path.resolve(docs, 'index.html')).pipe(minifier({
     minify: true,
     minifyHTML: {
       collapseWhitespace: true,
@@ -79,7 +92,7 @@ function minifyHTML() {
       minifyCSS: true,
       minifyJS: true
     }
-  })).pipe(gulp.dest(path.resolve(base, 'dist')));
+  })).pipe(gulp.dest(path.resolve(docs)));
 }
 
 async function watch() {
@@ -100,7 +113,14 @@ function startServer(cb) {
   console.log(`localhost:${port}`);
   shouldStartServer = false;
 
-  let childProcess = exec(`http-server ${path.resolve(base, 'dist')} -o -p ${port}`, (err, stdout, stderr) => {
+  let dir = '';
+  if (project === 'home') {
+    dir = path.resolve(docs)
+  } else {
+    dir = path.resolve(docs, project)
+  }
+
+  let childProcess = exec(`http-server ${dir} -o -p ${port}`, (err, stdout, stderr) => {
     // child process
   });
 
