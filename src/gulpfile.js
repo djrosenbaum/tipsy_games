@@ -25,14 +25,11 @@ if (project === 'home') {
 let shouldStartServer = false;
 
 /**
- * Clean dist directory.
+ * Clean temp directory.
  */
 async function clean() {
   const directories = [];
-  directories.push(path.resolve(base, 'dist'));
-  if (project !== 'home') {
-    directories.push(path.resolve(docs))
-  }
+  directories.push(path.resolve(base, 'temp'));
   await del(directories);
 }
 
@@ -42,7 +39,7 @@ async function clean() {
 function css() {
   return gulp.src(path.resolve(base, 'src', 'css', 'index.css'))
   	.pipe(cssimport())
-    .pipe(gulp.dest(path.resolve(base, 'dist', 'css')));
+    .pipe(gulp.dest(path.resolve(base, 'temp', 'css')));
 }
 
 /**
@@ -81,11 +78,11 @@ function includes() {
     hardFail: true
   }))
 	.on('error', console.log)
-	.pipe(gulp.dest(path.resolve(base, 'dist')))
+	.pipe(gulp.dest(path.resolve(base, 'temp')))
 }
 
 function minifyHTML() {
-  return gulp.src(path.resolve(base, 'dist', 'index.html')).pipe(minifier({
+  return gulp.src(path.resolve(base, 'temp', 'index.html')).pipe(minifier({
     minify: true,
     minifyHTML: {
       collapseWhitespace: true,
@@ -93,7 +90,7 @@ function minifyHTML() {
       minifyCSS: true,
       minifyJS: true
     }
-  })).pipe(gulp.dest(path.resolve(base, 'dist')));
+  })).pipe(gulp.dest(path.resolve(base, 'temp')));
 }
 
 async function watch() {
@@ -111,7 +108,7 @@ function outputToDocs() {
 
   // copy index
   files.push(
-    gulp.src(path.resolve(base, 'dist', 'index.html'))
+    gulp.src(path.resolve(base, 'temp', 'index.html'))
       .pipe(gulp.dest(path.resolve(docs)))
   );
 
@@ -135,7 +132,7 @@ function startServer(cb) {
   cb();
 }
 
-const build = gulp.series(clean, gulp.parallel(css, javascript, copyImages), includes, minifyHTML, outputToDocs, startServer);
+const build = gulp.series(clean, gulp.parallel(css, javascript, copyImages), includes, minifyHTML, outputToDocs, clean, startServer);
 
 exports.build = build;
 exports.watch = watch;

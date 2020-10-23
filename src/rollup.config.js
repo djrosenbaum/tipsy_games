@@ -8,7 +8,7 @@ const base = path.join('projects', process.env.CLIENT);
 module.exports = {
   input: path.resolve(base, 'src', 'js', 'main.js'),
   output: {
-    file: path.resolve(base, 'dist', 'js', 'bundle.js'),
+    file: path.resolve(base, 'temp', 'js', 'bundle.js'),
     format: 'iife'
   },
   plugins: [

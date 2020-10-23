@@ -2,12 +2,16 @@
   height: 50vh;
 }
 
-[data-screen="ride-the-pony"] .game-title {
+[data-screen="ride-the-pony"] .meta {
   padding-bottom: 30px;
   text-align: left;
   width: 50vw;
   margin: 0 auto;
   color: #777;
+}
+
+[data-screen="ride-the-pony"] .game-title {
+  font-weight: bold;
 }
 
 [data-screen="ride-the-pony"] .game-teaser {
