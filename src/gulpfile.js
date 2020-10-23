@@ -25,14 +25,15 @@ if (project === 'home') {
 let shouldStartServer = false;
 
 /**
- * Clean output directory.
+ * Clean dist directory.
  */
 async function clean() {
-  if (project === 'home') {
-    return;
+  const directories = [];
+  directories.push(path.resolve(base, 'dist'));
+  if (project !== 'home') {
+    directories.push(path.resolve(docs))
   }
-  const dir = path.resolve(docs);
-  await del(dir);
+  await del(directories);
 }
 
 /**
@@ -41,7 +42,7 @@ async function clean() {
 function css() {
   return gulp.src(path.resolve(base, 'src', 'css', 'index.css'))
   	.pipe(cssimport())
-    .pipe(gulp.dest(path.resolve(docs, 'css')));
+    .pipe(gulp.dest(path.resolve(base, 'dist', 'css')));
 }
 
 /**
@@ -58,7 +59,7 @@ async function javascript() {
  */
 function copyImages() {
   const files = [];
-  
+
   // copy all images
   files.push(
     gulp.src(path.resolve(base, 'src', 'images', '**', '*'))
@@ -80,11 +81,11 @@ function includes() {
     hardFail: true
   }))
 	.on('error', console.log)
-	.pipe(gulp.dest(path.resolve(docs)))
+	.pipe(gulp.dest(path.resolve(base, 'dist')))
 }
 
 function minifyHTML() {
-  return gulp.src(path.resolve(docs, 'index.html')).pipe(minifier({
+  return gulp.src(path.resolve(base, 'dist', 'index.html')).pipe(minifier({
     minify: true,
     minifyHTML: {
       collapseWhitespace: true,
@@ -92,7 +93,7 @@ function minifyHTML() {
       minifyCSS: true,
       minifyJS: true
     }
-  })).pipe(gulp.dest(path.resolve(docs)));
+  })).pipe(gulp.dest(path.resolve(base, 'dist')));
 }
 
 async function watch() {
@@ -105,6 +106,18 @@ async function watch() {
   );
 }
 
+function outputToDocs() {
+  const files = [];
+
+  // copy index
+  files.push(
+    gulp.src(path.resolve(base, 'dist', 'index.html'))
+      .pipe(gulp.dest(path.resolve(docs)))
+  );
+
+  return Promise.all(files);
+}
+
 function startServer(cb) {
   if (!shouldStartServer) {
     return cb();
@@ -113,14 +126,7 @@ function startServer(cb) {
   console.log(`localhost:${port}`);
   shouldStartServer = false;
 
-  let dir = '';
-  if (project === 'home') {
-    dir = path.resolve(docs)
-  } else {
-    dir = path.resolve(docs, project)
-  }
-
-  let childProcess = exec(`http-server ${dir} -o -p ${port}`, (err, stdout, stderr) => {
+  let childProcess = exec(`http-server ${path.resolve(docs)} -o -p ${port}`, (err, stdout, stderr) => {
     // child process
   });
 
@@ -129,7 +135,7 @@ function startServer(cb) {
   cb();
 }
 
-const build = gulp.series(clean, gulp.parallel(css, javascript, copyImages), includes, minifyHTML, startServer);
+const build = gulp.series(clean, gulp.parallel(css, javascript, copyImages), includes, minifyHTML, outputToDocs, startServer);
 
 exports.build = build;
 exports.watch = watch;
