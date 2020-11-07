@@ -55,7 +55,7 @@ function startRace() {
 
 function moveHorses(outcome) {
   console.log('move horses:', outcome);
-  const horses = document.querySelectorAll('[data-screen="game_intro"] .track .horse');
+  // const horses = document.querySelectorAll('[data-screen="game_intro"] .track .horse');
   let iteration = 0;
   const winner = getWinner(outcome);
 
@@ -65,14 +65,15 @@ function moveHorses(outcome) {
 
     console.log('frames:', frames);
 
-    for (let i = 0; i < horses.length; i++) {
+    for (let i = 0; i < outcome.length; i++) {
       const { distances } = outcome[i];
+      const horse = document.querySelector(`[data-screen="game_intro"] .track[data-key="${outcome[i].player}"] .horse`);
       console.log('distance', distances[iteration]);
       // last lap
       if (iteration >= frames[0]) {
-        moveHorse(horses[i], 40);
+        moveHorse(horse, 40);
       } else {
-        moveHorse(horses[i], distances[iteration]);
+        moveHorse(horse, distances[iteration]);
       }
     }
 
@@ -93,15 +94,21 @@ function moveHorse(horse, distance) {
 }
 
 function getWinner(outcome) {
-  const winner = outcome
-    .sort((a, b) => a.frame - b.frame)
-    .filter(a => a.frame === outcome[0].frame)
-    .sort((a, b) => a.steps - b.steps);
+  // sort by frame finished
+  const step1 = outcome.sort((a, b) => a.frame - b.frame);
+  
+  // only keep the lowest frame
+  const step2 = step1.filter(a => a.frame === step1[0].frame);
 
-    console.log('==== GET WINNER ', winner);
-    const { playerName } = window.app.host.playerList[winner[0].player];
-    console.log('==== PLAYER NAME ', winner);
-    return playerName;
+  // sort by how many steps were taken in the last frame
+  const step3 = step2.sort((a, b) => a.steps - b.steps);
+
+  const winner = step3[0];
+
+  console.log('==== GET WINNER ', winner);
+  const { playerName } = window.app.host.playerList[winner.player];
+  console.log('==== PLAYER NAME ', playerName);
+  return playerName;
 }
 
 function updatePlayerList(playerList) {
@@ -109,7 +116,7 @@ function updatePlayerList(playerList) {
 
   let markup = Object.keys(playerList).map(player => {
     const playerName = playerList[player].playerName;
-    return `<div class="track"><div class="horse" style="margin-left: -100px"></div><div class="player-name">${ playerName }</div></div>`;
+    return `<div class="track" data-key=${player}><div class="horse" style="margin-left: -100px"></div><div class="player-name">${ playerName }</div></div>`;
   }).join('');
 
   const track = document.querySelector('[data-screen="game_intro"] .tracks');

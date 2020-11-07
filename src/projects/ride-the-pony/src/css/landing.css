@@ -3,6 +3,15 @@
   margin: 0 auto;
 }
 
+[data-screen="landing"] button {
+  color: #ff0;
+  font-family: Monoton,cursive;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-shadow: 1px 2px #000;
+  text-transform: uppercase;
+}
+
 [data-screen="landing"] .game-name {
   text-align: center;
   padding: 10px;
