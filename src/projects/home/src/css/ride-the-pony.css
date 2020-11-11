@@ -1,5 +1,5 @@
 [data-screen="ride-the-pony"] .wrapper {
-  height: 50vh;
+  min-height: 50vh;
 }
 
 [data-screen="ride-the-pony"] .meta {
@@ -11,17 +11,39 @@
 }
 
 [data-screen="ride-the-pony"] .game-title {
+  font-size: 24px;
   font-weight: bold;
 }
 
 [data-screen="ride-the-pony"] .game-teaser {
-  background-image: url('./images/ride-the-pony/teaser.svg');
+  /* background-image: url('./images/ride-the-pony/teaser.svg');
   background-repeat: no-repeat;
   background-position: center;
-  background-size: contain;
+  background-size: contain; */
   height: 40vh;
   max-width: 60vw;
   margin: 0 auto;
+}
+
+[data-screen="ride-the-pony"] .pony {
+  background-image: url('./images/ride-the-pony/horse_still_frame.png');
+  background-position: right;
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 54px;
+  width: 100px;
+}
+
+[data-screen="ride-the-pony"] .pony:nth-child(2) {
+  filter: hue-rotate(270deg)
+}
+
+[data-screen="ride-the-pony"] .pony:nth-child(3) {
+  filter: hue-rotate(135deg)
+}
+
+[data-screen="ride-the-pony"] .pony:nth-child(4) {
+  filter: hue-rotate(225deg)
 }
 
 [data-screen="ride-the-pony"] button {
