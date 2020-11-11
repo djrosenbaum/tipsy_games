@@ -14,7 +14,7 @@ function game_intro() {
 
 async function startCountdown() {
   // set start time
-  const startTime = Math.floor(Date.now() / 1000) + 5;
+  const startTime = Math.floor(Date.now() / 1000) + 10;
 
   // get reference to firebase
   const ref = getRef();
