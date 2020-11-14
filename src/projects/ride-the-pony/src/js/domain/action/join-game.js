@@ -18,7 +18,7 @@ async function joinGame() {
     return;
   }
 
-  canJoinGame = false;
+  canJoinGame = false; // prevent joining multiple times
   const code = getRoomCode();
   const ref = window.firebase.database().ref(`rooms/${code}`);
   let isValidRoom = false;
