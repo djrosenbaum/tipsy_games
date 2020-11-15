@@ -18,7 +18,7 @@ function lobby() {
 function updatePlayerList(playerList) {
   console.log('update player list', playerList);
   const $playerList = document.querySelector('[data-screen="lobby"] .player-list');
-  $playerList.innerHTML = Object.keys(playerList).map(player => `<div>${playerList[player].playerName}</div>`).join('');
+  $playerList.innerHTML = Object.keys(playerList).map(player => `<div class="player">${playerList[player].playerName}</div>`).join('');
 }
 
 function setRoomCode(code) {

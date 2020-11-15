@@ -116,7 +116,7 @@ function updatePlayerList(playerList) {
 
   let markup = Object.keys(playerList).map(player => {
     const playerName = playerList[player].playerName;
-    return `<div class="track" data-key=${player}><div class="horse" style="margin-left: -100px"></div><div class="player-name">${ playerName }</div></div>`;
+    return `<div class="track" data-key=${player}><div class="horse" style="margin-left: -100px; filter: hue-rotate(${hue}deg)"></div><div class="player-name">${ playerName }</div></div>`;
   }).join('');
 
   const track = document.querySelector('[data-screen="game_intro"] .tracks');

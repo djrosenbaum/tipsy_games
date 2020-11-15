@@ -9,10 +9,12 @@ async function Player({ code }) {
   let playerKey = '';
   let playerList = '';
   const playerName = getPlayerName();
+  const defaultHue = '0';
   setCookie('playerName', playerName);
 
   await ref.child('players').push({
     playerName,
+    hue: defaultHue,
   }).then(data => {
     console.log('player set');
     playerKey = data.getKey();

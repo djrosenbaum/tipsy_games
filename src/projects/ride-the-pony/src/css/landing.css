@@ -3,6 +3,10 @@
   margin: 0 auto;
 }
 
+[data-screen="landing"] [data-input="room-code"] {
+  text-transform: uppercase;
+}
+
 [data-screen="landing"] button {
   color: #ff0;
   font-family: Monoton,cursive;

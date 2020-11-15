@@ -30,8 +30,8 @@ function updatePlayerList(playerList) {
   console.log('update player list', playerList);
 
   let markup = Object.keys(playerList).map(player => {
-    const playerName = playerList[player].playerName;
-    return `<div class="track"><div class="horse"></div><div class="player-name">${ playerName }</div></div>`;
+    const { playerName, hue } = playerList[player];
+    return `<div class="track"><div class="horse" style="filter: hue-rotate(${hue}deg)"></div><div class="player-name">${ playerName }</div></div>`;
   }).join('');
 
   const track = document.querySelector('[data-screen="lobby"] .tracks');
