@@ -1,14 +1,24 @@
+/*
+  Player clicks Join from the Landing page
+*/
 import { Player } from '../class/Player';
+import { log } from '../../library/log';
+import { app } from '../app';
 
 let canJoinGame = true;
 
-function getRoomCode() {
-  console.log('get room code');
+/**
+ * Gets a room code from html <input> field
+ * 
+ * @returns {string} value of the room code input field
+ */
+const getRoomCode = () => {
+  log('getRoomCode');
   let roomCode = document.querySelector('[data-input="room-code"]').value;  
   return roomCode.toLowerCase();
 }
 
-async function joinGame() {
+const joinGame = async () => {
   // prevent clicking join game multiple times
   if (!canJoinGame) {
     return;
@@ -36,8 +46,8 @@ async function joinGame() {
 
   if (isValidRoom) {
     document.querySelector('[data-group="host"]').remove();
-    player = await new Player({ code });
-    player.listen();
+    app.player = await new Player({ code });
+    app.player.listen();
   }
 }
 

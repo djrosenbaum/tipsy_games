@@ -5,12 +5,14 @@ async function Host() {
   console.log('new host');
   const code = createRoomCode();
   const ref = window.firebase.database().ref(`rooms/${code}`);
+  console.log('ref:', ref);
   
   let playerList = '';
   
   // remove room from firebase when disconnected
   await ref.onDisconnect().remove();
 
+  console.log('ref set lobby');
   await ref.set({
     screen: 'lobby',
   });
