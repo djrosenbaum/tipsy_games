@@ -1,5 +1,5 @@
 import { app } from '../app';
-import { getRef } from'../get-ref';
+import { getRef } from'../../library/get-ref';
 
 let canSelectPony = true;
 

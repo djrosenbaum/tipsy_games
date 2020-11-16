@@ -1,21 +1,19 @@
 import { createRoomCode } from './create-room-code';
-import { displayScreen } from '../../../library/display-screen';
 import { onPlayerListUpdated } from './on-player-list-updated';
 import { app } from '../../app';
 
 async function Host() {
+  console.log('new host');
   const code = createRoomCode();
   const ref = window.firebase.database().ref(`rooms/${code}`);
+  
   let playerList = '';
   
   // remove room from firebase when disconnected
   await ref.onDisconnect().remove();
-  
-  // set screen
+
   await ref.set({
     screen: 'lobby',
-  }).then(() => {
-    displayScreen('lobby');
   });
 
   return {

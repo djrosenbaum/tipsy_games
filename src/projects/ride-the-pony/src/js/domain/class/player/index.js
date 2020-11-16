@@ -5,6 +5,7 @@ import { app } from '../../app';
 import { setCookie } from '../../../library/cookie';
 
 async function Player({ code }) {
+  console.log('new player');
   const ref = window.firebase.database().ref(`rooms/${code}`);
   let playerKey = '';
   let playerList = '';
@@ -20,6 +21,7 @@ async function Player({ code }) {
     playerKey = data.getKey();
     // remove player when disconnected
     ref.child('players').child(playerKey).onDisconnect().remove();
+    console.log('display lobby');
     displayScreen('lobby');
   });
 

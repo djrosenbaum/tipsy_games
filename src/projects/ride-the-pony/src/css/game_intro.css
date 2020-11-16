@@ -26,6 +26,10 @@
   background-position: right;
 }
 
+[data-screen="game_intro"] .tracks {
+  margin-bottom: 20px;
+}
+
 [data-screen="game_intro"] .tracks.hot .horse {
   background-image: url(./images/simple_cartoon_horse.gif);
   transition: all 1s linear;
@@ -34,4 +38,13 @@
 [data-screen="game_intro"] .track {
   border-bottom: 1px dashed #333;
   padding-top: 20px;
+}
+
+[data-screen="game_intro"] .race-again {
+  text-align: center;
+}
+
+[data-screen="game_intro"] .race-again button {
+  max-width: 200px;
+  text-transform: capitalize;
 }

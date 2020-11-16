@@ -1,7 +1,8 @@
 import { host } from './host';
 import { player } from './player';
+import { displayScreen } from '../../library/display-screen';
 
-function render({ playerType, screen }) {
+async function render({ playerType, screen }) {
   console.log('render:', playerType, screen);
 
   const roomMap = {
@@ -9,7 +10,8 @@ function render({ playerType, screen }) {
     player,
   }
 
-  roomMap[playerType][screen]();
+  await roomMap[playerType][screen]();
+  displayScreen(screen);
 }
 
 export {

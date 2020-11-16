@@ -1,8 +1,8 @@
 import { lobby } from './lobby';
-import { game_intro } from './game_intro';
+import { gameIntro } from './game-intro';
 
 const host = {
-  game_intro,
+  game_intro: gameIntro,
   lobby
 }
 

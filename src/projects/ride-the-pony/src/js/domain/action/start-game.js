@@ -1,13 +1,10 @@
-import { app } from '../app';
-import { Game } from '../class/game';
-
-let canStartGame = true;
+import { setScreen } from '../../library/set-screen';
 
 async function startGame() {
-  if (canStartGame) {
-    canStartGame = false;
-    app.game = await new Game();
-    app.game.listen();
+  console.log('start game');
+  const { screen } = window.app;
+  if (screen !== 'game_intro') {
+    setScreen('game_intro');
   }
 }
 

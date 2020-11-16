@@ -1,15 +1,29 @@
 import { app } from '../../app';
-import { getRef } from '../../get-ref';
+import { getRef } from '../../../library/get-ref';
 
-function game_intro() {
+let initial_markup = '';
+let can_start_new_game = true;
+let first_run = true;
+
+function gameIntro() {
   console.log('render game intro');
 
-  const { playerList } = app.host;
+  if (first_run) {
+    first_run = false;
+    initial_markup = document.querySelector('[data-screen="game_intro"]').innerHTML;
+  }
 
-  updatePlayerList(playerList);
+  newGame();
+}
+
+function newGame() {
+  if (!can_start_new_game) {
+    return;
+  }
+  can_start_new_game = false;
+  document.querySelector('[data-screen="game_intro"]').innerHTML = initial_markup;
+  updatePlayerList();
   startCountdown();
-
-  console.log('beginning to render the game intro'); 
 }
 
 async function startCountdown() {
@@ -81,7 +95,9 @@ function moveHorses(outcome) {
       clearInterval(interval);
       setTimeout(() => {
         document.querySelector('[data-screen="game_intro"] .tracks').classList.remove('hot');
+        document.querySelector('[data-screen="game_intro"] .race-again').classList.remove('hide');
         document.querySelector('[data-screen="game_intro"] .leader').innerHTML = `winner: ${winner}`;
+        can_start_new_game = true;
       }, 1000);
     }
     iteration += 1;
@@ -111,11 +127,12 @@ function getWinner(outcome) {
   return playerName;
 }
 
-function updatePlayerList(playerList) {
+function updatePlayerList() {
+  const { playerList } = app.host;
   console.log('update player list', playerList);
 
   let markup = Object.keys(playerList).map(player => {
-    const playerName = playerList[player].playerName;
+    const { playerName, hue } = playerList[player];
     return `<div class="track" data-key=${player}><div class="horse" style="margin-left: -100px; filter: hue-rotate(${hue}deg)"></div><div class="player-name">${ playerName }</div></div>`;
   }).join('');
 
@@ -161,5 +178,6 @@ function getRandomDistance(min, max) {
 }
 
 export {
-  game_intro
+  gameIntro,
+  newGame,
 }
