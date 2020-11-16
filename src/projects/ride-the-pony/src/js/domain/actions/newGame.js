@@ -1,19 +1,19 @@
-import { app } from '../app';
 import { Host } from '../class/Host';
 import { render } from '../render';
 
 let canCreateNewGame = true;
 
 async function newGame() {
-  if (app.host) {
+  const { host } = window.app;
+  if (host) {
     return;
   }
 
   if (canCreateNewGame) {
     canCreateNewGame = false;
     document.querySelector('[data-group="player"]').remove();
-    app.host = await new Host();
-    app.host.listen();
+    host = await new Host();
+    host.listen();
     render({
       playerType: 'host',
       screen: 'lobby',

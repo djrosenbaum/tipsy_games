@@ -1,3 +1,7 @@
+/**
+ * Tipsy.Games entry point
+ */
 import { init } from './domain/init';
 
-document.addEventListener('DOMContentLoaded', init);
+// Initialize once the page is fully loaded
+window.addEventListener('load', init);

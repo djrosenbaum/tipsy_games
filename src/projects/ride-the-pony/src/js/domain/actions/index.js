@@ -1,9 +1,14 @@
-// import { newGameHost } from '../action/new-game-host';
-import { joinGame } from '../../actions/joinGame';
-import { newGame } from '../../actions/newGame';
-import { startGame } from '../../actions/startGame';
-import { selectPony } from '../../actions/selectPony';
-import { raceAgain } from '../../actions/raceAgain';
+/*
+  Index of click handler actions
+  set actions on clickable html elements
+  ie: <button data-action="joinGame"></button>
+*/
+
+import { joinGame } from './joinGame';
+import { newGame } from './newGame';
+import { startGame } from './startGame';
+import { selectPony } from './selectPony';
+import { raceAgain } from './raceAgain';
 
 const actions = {
   joinGame,

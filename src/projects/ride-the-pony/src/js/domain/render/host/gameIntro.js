@@ -1,4 +1,3 @@
-import { app } from '../../app';
 import { getRef } from '../../../library/getRef';
 
 let initial_markup = '';
@@ -141,7 +140,7 @@ function updatePlayerList() {
 }
 
 function getOutcome() {
-  const { playerList } = app.host;
+  const { playerList } = window.app.host;
 
   return Object.keys(playerList).map(player => {
     let distances = [];

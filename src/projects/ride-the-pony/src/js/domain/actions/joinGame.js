@@ -1,4 +1,3 @@
-import { app } from '../app';
 import { Player } from '../class/Player';
 
 let canJoinGame = true;
@@ -14,7 +13,8 @@ async function joinGame() {
   if (!canJoinGame) {
     return;
   }
-  if (app.player) {
+  const { player } = window.app;
+  if (player) {
     return;
   }
 
@@ -36,8 +36,8 @@ async function joinGame() {
 
   if (isValidRoom) {
     document.querySelector('[data-group="host"]').remove();
-    app.player = await new Player({ code });
-    app.player.listen();
+    player = await new Player({ code });
+    player.listen();
   }
 }
 

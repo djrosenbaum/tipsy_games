@@ -1,4 +1,3 @@
-import { app } from '../app';
 import { getRef } from'../../library/getRef';
 
 let canSelectPony = true;

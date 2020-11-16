@@ -1,6 +1,5 @@
-const app = {};
-window.app = app;
+import { displayLog } from '../library/log';
 
-export {
-  app
-}
+export const app = {
+  displayLog,
+};

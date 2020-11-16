@@ -1,7 +1,6 @@
 import { displayScreen } from '../../../library/displayScreen';
 import { onPlayerListUpdated } from './onPlayerListUpdated';
 import { onScreenUpdated } from './onScreenUpdated';
-import { app } from '../../app';
 import { setCookie } from '../../../library/cookie';
 
 async function Player({ code }) {
@@ -42,7 +41,7 @@ function getPlayerName() {
 
 function listen() {
   console.log('listening');
-  const { ref } = app.player;
+  const { ref } = window.app.player;
   ref.child('players').on('value', onPlayerListUpdated);
   ref.child('screen').on('value', onScreenUpdated);
 }

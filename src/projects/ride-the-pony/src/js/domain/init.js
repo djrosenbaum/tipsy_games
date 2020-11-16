@@ -1,25 +1,19 @@
-import { handleClick } from '../library/handleClick';
-// import { handleInput } from '../library/handleInput';
-import { getCookie } from '../library/cookie';
+import { addEventListeners } from './addEventListeners';
+import { autofill } from './autofill';
+import { app } from './app';
+import { log } from '../library/log';
 
-function init() {
+/**
+ * Initializes the application
+ * 
+ * @returns {undefined} undefined
+ */
+const init = () => {
+  log('init');
+  window.app = app;
+  autofill();
   addEventListeners();
-  autoFill();
 };
-
-function addEventListeners() {
-  document.addEventListener('click', handleClick, false);
-  // document.addEventListener('input', handleInput, false);
-}
-
-function autoFill() {
-  // Landing Screen
-  const playerName = getCookie('playerName');
-  if(playerName) {
-    console.log('player name found:', playerName);
-    document.querySelector('[data-input="player-name"]').value = playerName;
-  }
-}
 
 export {
   init
