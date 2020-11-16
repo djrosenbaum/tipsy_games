@@ -1,5 +1,5 @@
 import { app } from '../app';
-import { Player } from '../class/player';
+import { Player } from '../class/Player';
 
 let canJoinGame = true;
 

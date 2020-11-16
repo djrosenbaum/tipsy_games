@@ -17,7 +17,7 @@ function lobby() {
 
 function updateStartRaceButton(playerList, minimumPlayers) {
   const totalPlayers = Object.keys(playerList).length;
-  const startRaceButtonWrapper = document.querySelector('[data-screen="lobby"] button[data-action="start_game"]').parentNode;
+  const startRaceButtonWrapper = document.querySelector('[data-screen="lobby"] button[data-action="startGame"]').parentNode;
 
   if (totalPlayers < minimumPlayers) {
     startRaceButtonWrapper.classList.add('hide');

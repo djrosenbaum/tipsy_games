@@ -1,9 +1,9 @@
-[data-screen="game_intro"] {
+[data-screen="gameIntro"] {
   max-width: 1000px;
   margin: 0 auto;
 }
 
-[data-screen=game_intro] .game-info {
+[data-screen=gameIntro] .game-info {
   text-align: center;
   padding: 10px;
   border: 1px dashed #ccc;
@@ -12,11 +12,11 @@
   font-size: 18px;
 }
 
-[data-screen=game_intro] .game-name {
+[data-screen=gameIntro] .game-name {
   padding-bottom: 10px;
 }
 
-[data-screen="game_intro"] .horse {
+[data-screen="gameIntro"] .horse {
   height: 54px;
   width: 100px;
   margin-left: -100px;
@@ -26,25 +26,25 @@
   background-position: right;
 }
 
-[data-screen="game_intro"] .tracks {
+[data-screen="gameIntro"] .tracks {
   margin-bottom: 20px;
 }
 
-[data-screen="game_intro"] .tracks.hot .horse {
+[data-screen="gameIntro"] .tracks.hot .horse {
   background-image: url(./images/simple_cartoon_horse.gif);
   transition: all 1s linear;
 }
 
-[data-screen="game_intro"] .track {
+[data-screen="gameIntro"] .track {
   border-bottom: 1px dashed #333;
   padding-top: 20px;
 }
 
-[data-screen="game_intro"] .race-again {
+[data-screen="gameIntro"] .race-again {
   text-align: center;
 }
 
-[data-screen="game_intro"] .race-again button {
+[data-screen="gameIntro"] .race-again button {
   max-width: 200px;
   text-transform: capitalize;
 }

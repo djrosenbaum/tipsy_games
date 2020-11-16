@@ -1,5 +1,5 @@
 import { app } from '../../app';
-import { getRef } from '../../../library/get-ref';
+import { getRef } from '../../../library/getRef';
 
 let initial_markup = '';
 let can_start_new_game = true;
@@ -10,7 +10,7 @@ function gameIntro() {
 
   if (first_run) {
     first_run = false;
-    initial_markup = document.querySelector('[data-screen="game_intro"]').innerHTML;
+    initial_markup = document.querySelector('[data-screen="gameIntro"]').innerHTML;
   }
 
   newGame();
@@ -21,7 +21,7 @@ function newGame() {
     return;
   }
   can_start_new_game = false;
-  document.querySelector('[data-screen="game_intro"]').innerHTML = initial_markup;
+  document.querySelector('[data-screen="gameIntro"]').innerHTML = initial_markup;
   updatePlayerList();
   startCountdown();
 }
@@ -50,7 +50,7 @@ function countdown(startTime) {
     return;
   }
 
-  document.querySelector('[data-screen="game_intro"] .countdown').innerHTML = timeTilStart;
+  document.querySelector('[data-screen="gameIntro"] .countdown').innerHTML = timeTilStart;
 
   setTimeout(() => {
     countdown(startTime);
@@ -59,9 +59,9 @@ function countdown(startTime) {
 
 function startRace() {
   console.log('start race!!');
-  document.querySelector('[data-screen="game_intro"] .countdown').classList.add('hide');
-  document.querySelector('[data-screen="game_intro"] .leader').classList.remove('hide');
-  document.querySelector('[data-screen="game_intro"] .tracks').classList.add('hot');
+  document.querySelector('[data-screen="gameIntro"] .countdown').classList.add('hide');
+  document.querySelector('[data-screen="gameIntro"] .leader').classList.remove('hide');
+  document.querySelector('[data-screen="gameIntro"] .tracks').classList.add('hot');
 
   const outcome = getOutcome();
   moveHorses(outcome);
@@ -69,7 +69,7 @@ function startRace() {
 
 function moveHorses(outcome) {
   console.log('move horses:', outcome);
-  // const horses = document.querySelectorAll('[data-screen="game_intro"] .track .horse');
+  // const horses = document.querySelectorAll('[data-screen="gameIntro"] .track .horse');
   let iteration = 0;
   const winner = getWinner(outcome);
 
@@ -81,7 +81,7 @@ function moveHorses(outcome) {
 
     for (let i = 0; i < outcome.length; i++) {
       const { distances } = outcome[i];
-      const horse = document.querySelector(`[data-screen="game_intro"] .track[data-key="${outcome[i].player}"] .horse`);
+      const horse = document.querySelector(`[data-screen="gameIntro"] .track[data-key="${outcome[i].player}"] .horse`);
       console.log('distance', distances[iteration]);
       // last lap
       if (iteration >= frames[0]) {
@@ -94,9 +94,9 @@ function moveHorses(outcome) {
     if (iteration >= frames[0] + 1) {
       clearInterval(interval);
       setTimeout(() => {
-        document.querySelector('[data-screen="game_intro"] .tracks').classList.remove('hot');
-        document.querySelector('[data-screen="game_intro"] .race-again').classList.remove('hide');
-        document.querySelector('[data-screen="game_intro"] .leader').innerHTML = `winner: ${winner}`;
+        document.querySelector('[data-screen="gameIntro"] .tracks').classList.remove('hot');
+        document.querySelector('[data-screen="gameIntro"] .race-again').classList.remove('hide');
+        document.querySelector('[data-screen="gameIntro"] .leader').innerHTML = `winner: ${winner}`;
         can_start_new_game = true;
       }, 1000);
     }
@@ -136,7 +136,7 @@ function updatePlayerList() {
     return `<div class="track" data-key=${player}><div class="horse" style="margin-left: -100px; filter: hue-rotate(${hue}deg)"></div><div class="player-name">${ playerName }</div></div>`;
   }).join('');
 
-  const track = document.querySelector('[data-screen="game_intro"] .tracks');
+  const track = document.querySelector('[data-screen="gameIntro"] .tracks');
   track.innerHTML = markup;
 }
 

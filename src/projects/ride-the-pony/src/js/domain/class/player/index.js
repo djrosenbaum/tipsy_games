@@ -1,6 +1,6 @@
-import { displayScreen } from '../../../library/display-screen';
-import { onPlayerListUpdated } from './on-player-list-updated';
-import { onScreenUpdated } from './on-screen-updated';
+import { displayScreen } from '../../../library/displayScreen';
+import { onPlayerListUpdated } from './onPlayerListUpdated';
+import { onScreenUpdated } from './onScreenUpdated';
 import { app } from '../../app';
 import { setCookie } from '../../../library/cookie';
 

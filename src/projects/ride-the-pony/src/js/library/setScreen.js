@@ -1,4 +1,4 @@
-import { getRef } from './get-ref';
+import { getRef } from './getRef';
 import { render } from '../domain/render';
 
 async function setScreen(screen) {

@@ -1,5 +1,5 @@
 import { app } from '../app';
-import { Host } from '../class/host';
+import { Host } from '../class/Host';
 import { render } from '../render';
 
 let canCreateNewGame = true;

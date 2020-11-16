@@ -1,6 +1,6 @@
 import { host } from './host';
 import { player } from './player';
-import { displayScreen } from '../../library/display-screen';
+import { displayScreen } from '../../library/displayScreen';
 
 async function render({ playerType, screen }) {
   console.log('render:', playerType, screen);

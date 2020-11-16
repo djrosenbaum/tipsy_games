@@ -1,4 +1,4 @@
-import { displayScreen } from '../../../library/display-screen';
+import { displayScreen } from '../../../library/displayScreen';
 
 function onScreenUpdated(snapshot) {
   const screen = snapshot.toJSON();

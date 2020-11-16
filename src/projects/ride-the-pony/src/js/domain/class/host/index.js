@@ -1,5 +1,5 @@
-import { createRoomCode } from './create-room-code';
-import { onPlayerListUpdated } from './on-player-list-updated';
+import { createRoomCode } from './createRoomCode';
+import { onPlayerListUpdated } from './onPlayerListUpdated';
 import { app } from '../../app';
 
 async function Host() {
