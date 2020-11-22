@@ -1,7 +1,9 @@
 import { lobby } from './lobby';
+import { gameIntro } from './gameIntro';
 
 const player = {
-  lobby
+  lobby,
+  gameIntro,
 }
 
 export {

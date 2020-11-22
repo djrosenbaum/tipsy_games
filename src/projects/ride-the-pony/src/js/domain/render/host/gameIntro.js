@@ -3,6 +3,7 @@ import { getRef } from '../../../library/getRef';
 let initial_markup = '';
 let can_start_new_game = true;
 let first_run = true;
+let outcome;
 
 function gameIntro() {
   console.log('render game intro');
@@ -15,7 +16,7 @@ function gameIntro() {
   newGame();
 }
 
-function newGame() {
+async function newGame() {
   if (!can_start_new_game) {
     return;
   }
@@ -28,12 +29,14 @@ function newGame() {
 async function startCountdown() {
   // set start time
   const startTime = Math.floor(Date.now() / 1000) + 10;
+  outcome = getOutcome();
 
   // get reference to firebase
   const ref = getRef();
 
   // send message to firebase with the timestamp
   await ref.update({
+    outcome: JSON.stringify(outcome),
     race_time: startTime,
   }).then(() => {
     countdown(startTime);
@@ -62,11 +65,10 @@ function startRace() {
   document.querySelector('[data-screen="gameIntro"] .leader').classList.remove('hide');
   document.querySelector('[data-screen="gameIntro"] .tracks').classList.add('hot');
 
-  const outcome = getOutcome();
-  moveHorses(outcome);
+  moveHorses();
 }
 
-function moveHorses(outcome) {
+function moveHorses() {
   console.log('move horses:', outcome);
   // const horses = document.querySelectorAll('[data-screen="gameIntro"] .track .horse');
   let iteration = 0;

@@ -1,7 +1,7 @@
 const record = [];
 
-export const log = (message) => {
-  record.push(message);
+export const log = () => {
+  record.push(...arguments);
 }
 
 export const displayLog = () => {

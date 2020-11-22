@@ -1,8 +1,12 @@
 import { render } from '../../render';
+import { log } from '../../../library/log';
 
-function onScreenUpdated(snapshot) {
-  console.log('on screen updated', snapshot);
+const onScreenUpdated = (snapshot) => {
+  log('on screen updated');
   const screen = snapshot.exists() ? snapshot.toJSON() : '';
+  if(!screen) {
+    return;
+  }
 
   render({
     playerType: 'player',
