@@ -1,9 +1,11 @@
 // cli user interface
 // https://www.npmjs.com/package/inquirer
-const inquirer = require('inquirer');
-const fs = require('fs');
-const path = require('path');
-const { execSync } = require('child_process');
+import inquirer from 'inquirer';
+import fs from 'fs';
+import path from 'path';
+import { execSync } from 'child_process';
+
+const __dirname = path.join('');
 
 function getGameList() {
   const projects = path.join(__dirname, 'projects');

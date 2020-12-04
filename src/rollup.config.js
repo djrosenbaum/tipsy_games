@@ -1,11 +1,11 @@
-const { nodeResolve } = require('@rollup/plugin-node-resolve');
-const { babel } = require('@rollup/plugin-babel');
-const commonjs = require('@rollup/plugin-commonjs');
-const path = require('path');
+import commonjs from '@rollup/plugin-commonjs';
+import path from 'path';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
+import { babel } from '@rollup/plugin-babel';
 
 const base = path.join('projects', process.env.CLIENT);
 
-module.exports = {
+export default {
   input: path.resolve(base, 'src', 'js', 'main.js'),
   output: {
     file: path.resolve(base, 'temp', 'js', 'bundle.js'),

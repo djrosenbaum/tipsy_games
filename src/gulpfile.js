@@ -1,12 +1,12 @@
-const cssimport = require('gulp-cssimport');
-const del = require('del');
-const { exec } = require('child_process');
-const gulp = require('gulp');
-const include = require('gulp-include');
-const minifier = require('gulp-minifier');
-const path = require('path');
-const rollup = require('rollup');
-const rollupConfig = require('./rollup.config');
+import cssimport from 'gulp-cssimport';
+import del from 'del';
+import gulp from 'gulp';
+import include from 'gulp-include';
+import minifier from 'gulp-minifier';
+import path from 'path';
+import rollupConfig from './rollup.config.js';
+import { exec } from 'child_process';
+import { rollup } from 'rollup';
 
 // The name of the project selected in cli.js
 const project = process.env.CLIENT;
@@ -47,7 +47,7 @@ function css() {
  *Bundle the javascript files
  */
 async function javascript() {
-  const bundle = await rollup.rollup(rollupConfig);
+  const bundle = await rollup(rollupConfig);
 
   await bundle.write(rollupConfig.output);
 }
@@ -138,7 +138,7 @@ function startServer(cb) {
 
   let childProcess = exec(
     `http-server ${path.resolve(docs)} -o -p ${port}`,
-    (err, stdout, stderr) => {
+    (err, stdout, stderr) => { // eslint-disable-line
       // child process
     }
   );
@@ -158,5 +158,7 @@ const build = gulp.series(
   startServer
 );
 
-exports.build = build;
-exports.watch = watch;
+export {
+  build,
+  watch,
+}
