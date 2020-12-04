@@ -6,6 +6,4 @@ function handleClick(event) {
   actions[action] && actions[action](event);
 }
 
-export {
-  handleClick
-}
+export { handleClick };

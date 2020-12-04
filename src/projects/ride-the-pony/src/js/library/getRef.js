@@ -8,6 +8,4 @@ function getRef() {
   }
 }
 
-export {
-  getRef
-}
+export { getRef };

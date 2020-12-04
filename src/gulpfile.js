@@ -37,8 +37,9 @@ async function clean() {
  * Pack the CSS files.
  */
 function css() {
-  return gulp.src(path.resolve(base, 'src', 'css', 'index.css'))
-  	.pipe(cssimport())
+  return gulp
+    .src(path.resolve(base, 'src', 'css', 'index.css'))
+    .pipe(cssimport())
     .pipe(gulp.dest(path.resolve(base, 'temp', 'css')));
 }
 
@@ -46,9 +47,9 @@ function css() {
  *Bundle the javascript files
  */
 async function javascript() {
-	const bundle = await rollup.rollup(rollupConfig);
+  const bundle = await rollup.rollup(rollupConfig);
 
-	await bundle.write(rollupConfig.output);
+  await bundle.write(rollupConfig.output);
 }
 
 /**
@@ -59,13 +60,15 @@ function copyImages() {
 
   // copy all images
   files.push(
-    gulp.src(path.resolve(base, 'src', 'images', '**', '*'))
+    gulp
+      .src(path.resolve(base, 'src', 'images', '**', '*'))
       .pipe(gulp.dest(path.resolve(docs, 'images')))
   );
 
   // copy favicon
   files.push(
-    gulp.src(path.resolve(base, 'src', 'images', 'favicon.ico'))
+    gulp
+      .src(path.resolve(base, 'src', 'images', 'favicon.ico'))
       .pipe(gulp.dest(path.resolve(docs)))
   );
 
@@ -73,29 +76,38 @@ function copyImages() {
 }
 
 function includes() {
-	return gulp.src(path.resolve(base, 'src', 'index.html'))
-	.pipe(include({
-    hardFail: true
-  }))
-	.on('error', console.log)
-	.pipe(gulp.dest(path.resolve(base, 'temp')))
+  return gulp
+    .src(path.resolve(base, 'src', 'index.html'))
+    .pipe(
+      include({
+        hardFail: true,
+      })
+    )
+    .on('error', console.log)
+    .pipe(gulp.dest(path.resolve(base, 'temp')));
 }
 
 function minifyHTML() {
-  return gulp.src(path.resolve(base, 'temp', 'index.html')).pipe(minifier({
-    minify: true,
-    minifyHTML: {
-      collapseWhitespace: true,
-      collapseInlineTagWhitespace: true,
-      minifyCSS: true,
-      minifyJS: true
-    }
-  })).pipe(gulp.dest(path.resolve(base, 'temp')));
+  return gulp
+    .src(path.resolve(base, 'temp', 'index.html'))
+    .pipe(
+      minifier({
+        minify: true,
+        minifyHTML: {
+          collapseWhitespace: true,
+          collapseInlineTagWhitespace: true,
+          minifyCSS: true,
+          minifyJS: true,
+        },
+      })
+    )
+    .pipe(gulp.dest(path.resolve(base, 'temp')));
 }
 
 async function watch() {
   shouldStartServer = true;
-  return gulp.watch([path.resolve(base, 'src')],
+  return gulp.watch(
+    [path.resolve(base, 'src')],
     {
       ignoreInitial: false,
     },
@@ -108,7 +120,8 @@ function outputToDocs() {
 
   // copy index
   files.push(
-    gulp.src(path.resolve(base, 'temp', 'index.html'))
+    gulp
+      .src(path.resolve(base, 'temp', 'index.html'))
       .pipe(gulp.dest(path.resolve(docs)))
   );
 
@@ -123,16 +136,27 @@ function startServer(cb) {
   console.log(`localhost:${port}`);
   shouldStartServer = false;
 
-  let childProcess = exec(`http-server ${path.resolve(docs)} -o -p ${port}`, (err, stdout, stderr) => {
-    // child process
-  });
+  let childProcess = exec(
+    `http-server ${path.resolve(docs)} -o -p ${port}`,
+    (err, stdout, stderr) => {
+      // child process
+    }
+  );
 
-  childProcess.stdout.on('data', data => console.log(data.toString()));
+  childProcess.stdout.on('data', (data) => console.log(data.toString()));
 
   cb();
 }
 
-const build = gulp.series(clean, gulp.parallel(css, javascript, copyImages), includes, minifyHTML, outputToDocs, clean, startServer);
+const build = gulp.series(
+  clean,
+  gulp.parallel(css, javascript, copyImages),
+  includes,
+  minifyHTML,
+  outputToDocs,
+  clean,
+  startServer
+);
 
 exports.build = build;
 exports.watch = watch;

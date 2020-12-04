@@ -9,7 +9,9 @@ a {
   text-decoration: none;
 }
 
-a, button, input {
+a,
+button,
+input {
   font-family: Lato, Arial, Helvetica, sans-serif;
 }
 
@@ -23,7 +25,7 @@ button {
   padding: 20px;
   text-shadow: 1px 2px #000;
   width: 100%;
-  font-family: Monoton,cursive;
+  font-family: Monoton, cursive;
   font-size: 21px;
   font-weight: 400;
   letter-spacing: 2px;
@@ -43,11 +45,14 @@ label {
 .absolute-center {
   margin: auto;
   position: absolute;
-  top: 0; left: 0; bottom: 0; right: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .hidden {
-  display: none!important;
+  display: none !important;
 }
 
 .invisible {

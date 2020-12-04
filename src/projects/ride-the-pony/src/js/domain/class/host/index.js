@@ -6,9 +6,9 @@ async function Host() {
   const code = createRoomCode();
   const ref = window.firebase.database().ref(`rooms/${code}`);
   console.log('ref:', ref);
-  
+
   let playerList = '';
-  
+
   // remove room from firebase when disconnected
   await ref.onDisconnect().remove();
 
@@ -22,7 +22,7 @@ async function Host() {
     listen,
     playerList,
     ref,
-  }
+  };
 }
 
 function listen() {
@@ -31,6 +31,4 @@ function listen() {
   ref.child('players').on('value', onPlayerListUpdated);
 }
 
-export {
-  Host,
-}
+export { Host };

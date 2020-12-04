@@ -1,13 +1,13 @@
-[data-screen="footer"] {
+[data-screen='footer'] {
   background-color: #fff;
   z-index: 777;
 }
 
-[data-screen="footer"] .wrapper {
+[data-screen='footer'] .wrapper {
   height: 50vh;
 }
 
-[data-screen="footer"] .sponsor-logo {
+[data-screen='footer'] .sponsor-logo {
   background-image: url('./images/sponsor/yuengling_logo.svg');
   background-repeat: no-repeat;
   background-position: center;

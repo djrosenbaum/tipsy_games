@@ -5,12 +5,12 @@ function Cards() {
   let discardPile = [];
 
   const config = {
-    '0': 18,
-    '1': 18,
-    '2': 18,
-    '3': 18,
-    '4': 4,
-  }
+    0: 18,
+    1: 18,
+    2: 18,
+    3: 18,
+    4: 4,
+  };
 
   function buildDeck() {
     const deck = Object.keys(config).reduce((accumulator, currentValue) => {
@@ -29,7 +29,7 @@ function Cards() {
 
   function draw(num) {
     const cardArray = [];
-    for(let i=0; i<num; i++) {
+    for (let i = 0; i < num; i++) {
       if (!cardPile.length) {
         cardPile = shuffle(discardPile);
         discardPile = [];

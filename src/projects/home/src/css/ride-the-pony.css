@@ -1,8 +1,8 @@
-[data-screen="ride-the-pony"] .wrapper {
+[data-screen='ride-the-pony'] .wrapper {
   min-height: 50vh;
 }
 
-[data-screen="ride-the-pony"] .meta {
+[data-screen='ride-the-pony'] .meta {
   padding-bottom: 30px;
   text-align: left;
   width: 50vw;
@@ -10,12 +10,12 @@
   color: #777;
 }
 
-[data-screen="ride-the-pony"] .game-title {
+[data-screen='ride-the-pony'] .game-title {
   font-size: 24px;
   font-weight: bold;
 }
 
-[data-screen="ride-the-pony"] .game-teaser {
+[data-screen='ride-the-pony'] .game-teaser {
   /* background-image: url('./images/ride-the-pony/teaser.svg');
   background-repeat: no-repeat;
   background-position: center;
@@ -25,7 +25,7 @@
   margin: 0 auto;
 }
 
-[data-screen="ride-the-pony"] .pony {
+[data-screen='ride-the-pony'] .pony {
   background-image: url('./images/ride-the-pony/horse_still_frame.png');
   background-position: right;
   background-size: contain;
@@ -34,18 +34,18 @@
   width: 100px;
 }
 
-[data-screen="ride-the-pony"] .pony:nth-child(2) {
-  filter: hue-rotate(270deg)
+[data-screen='ride-the-pony'] .pony:nth-child(2) {
+  filter: hue-rotate(270deg);
 }
 
-[data-screen="ride-the-pony"] .pony:nth-child(3) {
-  filter: hue-rotate(135deg)
+[data-screen='ride-the-pony'] .pony:nth-child(3) {
+  filter: hue-rotate(135deg);
 }
 
-[data-screen="ride-the-pony"] .pony:nth-child(4) {
-  filter: hue-rotate(225deg)
+[data-screen='ride-the-pony'] .pony:nth-child(4) {
+  filter: hue-rotate(225deg);
 }
 
-[data-screen="ride-the-pony"] button {
+[data-screen='ride-the-pony'] button {
   color: red;
 }

@@ -9,14 +9,14 @@ let canJoinGame = true;
 
 /**
  * Gets a room code from html <input> field
- * 
+ *
  * @returns {string} value of the room code input field
  */
 const getRoomCode = () => {
   log('getRoomCode');
-  let roomCode = document.querySelector('[data-input="room-code"]').value;  
+  let roomCode = document.querySelector('[data-input="room-code"]').value;
   return roomCode.toLowerCase();
-}
+};
 
 const joinGame = async () => {
   // prevent clicking join game multiple times
@@ -32,9 +32,9 @@ const joinGame = async () => {
   const code = getRoomCode();
   const ref = window.firebase.database().ref(`rooms/${code}`);
   let isValidRoom = false;
-  
+
   // get the room data from firebase
-  await ref.once('value').then(snapshot => {
+  await ref.once('value').then((snapshot) => {
     const { screen } = snapshot.toJSON() || {};
 
     if (screen === 'lobby') {
@@ -49,8 +49,6 @@ const joinGame = async () => {
     app.player = await new Player({ code });
     app.player.listen();
   }
-}
+};
 
-export {
-  joinGame,
-}
+export { joinGame };

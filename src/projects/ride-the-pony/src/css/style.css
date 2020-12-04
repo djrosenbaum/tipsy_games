@@ -9,7 +9,9 @@ a {
   text-decoration: none;
 }
 
-a, button, input {
+a,
+button,
+input {
   font-family: Lato, Arial, Helvetica, sans-serif;
 }
 
@@ -52,11 +54,11 @@ label {
 }
 
 .hidden {
-  display: none!important;
+  display: none !important;
 }
 
 .hide {
-  display: none!important;
+  display: none !important;
 }
 
 .invisible {

@@ -6,6 +6,4 @@ function onScreenUpdated(snapshot) {
   displayScreen(screen);
 }
 
-export {
-  onScreenUpdated,
-}
+export { onScreenUpdated };

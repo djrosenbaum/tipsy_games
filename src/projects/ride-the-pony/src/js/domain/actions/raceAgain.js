@@ -5,6 +5,4 @@ function raceAgain() {
   setScreen('lobby');
 }
 
-export {
-  raceAgain,
-}
+export { raceAgain };

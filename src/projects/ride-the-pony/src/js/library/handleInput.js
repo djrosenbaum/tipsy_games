@@ -7,6 +7,4 @@ function handleInput(event) {
   // }
 }
 
-export {
-  handleInput
-}
+export { handleInput };

@@ -9,16 +9,16 @@ module.exports = {
   input: path.resolve(base, 'src', 'js', 'main.js'),
   output: {
     file: path.resolve(base, 'temp', 'js', 'bundle.js'),
-    format: 'iife'
+    format: 'iife',
   },
   plugins: [
-		nodeResolve({
+    nodeResolve({
       browser: true,
     }),
     commonjs(),
-		babel({
+    babel({
       babelHelpers: 'bundled',
-			exclude: 'node_modules/**' // only transpile our source code
-		})
-  ]
+      exclude: 'node_modules/**', // only transpile our source code
+    }),
+  ],
 };

@@ -16,8 +16,6 @@ const actions = {
   startGame,
   selectPony,
   raceAgain,
-}
+};
 
-export {
-  actions
-}
+export { actions };

@@ -5,7 +5,7 @@ import { log } from '../library/log';
 
 /**
  * Initializes the application
- * 
+ *
  * @returns {undefined} undefined
  */
 const init = () => {
@@ -15,6 +15,4 @@ const init = () => {
   addEventListeners();
 };
 
-export {
-  init
-}
+export { init };

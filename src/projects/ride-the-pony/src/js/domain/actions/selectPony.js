@@ -1,4 +1,4 @@
-import { getRef } from'../../library/getRef';
+import { getRef } from '../../library/getRef';
 
 let canSelectPony = true;
 
@@ -11,14 +11,16 @@ async function selectPony(event) {
   const ref = getRef();
   const { playerKey } = window.app.player;
   // set pony
-  await ref.child('players').child(playerKey).update({
-    hue,
-  }).then(() => {
-    console.log('hue is set:', hue);
-    canSelectPony = true;
-  });
+  await ref
+    .child('players')
+    .child(playerKey)
+    .update({
+      hue,
+    })
+    .then(() => {
+      console.log('hue is set:', hue);
+      canSelectPony = true;
+    });
 }
 
-export {
-  selectPony,
-}
+export { selectPony };

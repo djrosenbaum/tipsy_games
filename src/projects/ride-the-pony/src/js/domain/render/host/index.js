@@ -3,9 +3,7 @@ import { gameIntro } from './gameIntro';
 
 const host = {
   gameIntro,
-  lobby
-}
+  lobby,
+};
 
-export {
-  host
-}
+export { host };

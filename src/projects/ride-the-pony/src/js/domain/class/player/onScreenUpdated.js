@@ -4,7 +4,7 @@ import { log } from '../../../library/log';
 const onScreenUpdated = (snapshot) => {
   log('on screen updated');
   const screen = snapshot.exists() ? snapshot.toJSON() : '';
-  if(!screen) {
+  if (!screen) {
     return;
   }
 
@@ -12,8 +12,6 @@ const onScreenUpdated = (snapshot) => {
     playerType: 'player',
     screen,
   });
-}
+};
 
-export {
-  onScreenUpdated,
-}
+export { onScreenUpdated };

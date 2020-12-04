@@ -9,12 +9,12 @@ function getGameList() {
   const projects = path.join(__dirname, 'projects');
   const files = fs.readdirSync(projects);
 
-  return files.filter(file => !file.startsWith('.'));
+  return files.filter((file) => !file.startsWith('.'));
 }
 
 function buildGame(answer) {
   execSync(`CLIENT=${answer.game} npm run dev`, {
-    stdio: 'inherit'
+    stdio: 'inherit',
   });
 }
 

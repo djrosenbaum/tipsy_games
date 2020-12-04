@@ -4,16 +4,16 @@ import { render } from '../domain/render';
 async function setScreen(screen) {
   const ref = getRef();
 
-  await ref.update({
-    screen,
-  }).then(() => {
-    render({
+  await ref
+    .update({
       screen,
-      playerType: 'host',
+    })
+    .then(() => {
+      render({
+        screen,
+        playerType: 'host',
+      });
     });
-  });
 }
 
-export {
-  setScreen,
-}
+export { setScreen };

@@ -22,6 +22,4 @@ async function newGame() {
   }
 }
 
-export {
-  newGame,
-}
+export { newGame };

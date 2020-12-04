@@ -9,12 +9,10 @@ async function render({ playerType, screen }) {
   const roomMap = {
     host,
     player,
-  }
+  };
 
-  await roomMap[playerType][screen] && roomMap[playerType][screen]();
+  (await roomMap[playerType][screen]) && roomMap[playerType][screen]();
   displayScreen(screen);
 }
 
-export {
-  render,
-}
+export { render };

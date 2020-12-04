@@ -6,4 +6,4 @@ export const addEventListeners = () => {
   log('add event listeners');
   document.addEventListener('click', handleClick, false);
   // document.addEventListener('input', handleInput, false);
-}
+};

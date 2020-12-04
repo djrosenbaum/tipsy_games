@@ -10,7 +10,8 @@ function gameIntro() {
 
   if (first_run) {
     first_run = false;
-    initial_markup = document.querySelector('[data-screen="gameIntro"]').innerHTML;
+    initial_markup = document.querySelector('[data-screen="gameIntro"]')
+      .innerHTML;
   }
 
   newGame();
@@ -21,7 +22,9 @@ async function newGame() {
     return;
   }
   can_start_new_game = false;
-  document.querySelector('[data-screen="gameIntro"]').innerHTML = initial_markup;
+  document.querySelector(
+    '[data-screen="gameIntro"]'
+  ).innerHTML = initial_markup;
   updatePlayerList();
   startCountdown();
 }
@@ -35,12 +38,14 @@ async function startCountdown() {
   const ref = getRef();
 
   // send message to firebase with the timestamp
-  await ref.update({
-    outcome: JSON.stringify(outcome),
-    race_time: startTime,
-  }).then(() => {
-    countdown(startTime);
-  });
+  await ref
+    .update({
+      outcome: JSON.stringify(outcome),
+      race_time: startTime,
+    })
+    .then(() => {
+      countdown(startTime);
+    });
 }
 
 function countdown(startTime) {
@@ -52,7 +57,9 @@ function countdown(startTime) {
     return;
   }
 
-  document.querySelector('[data-screen="gameIntro"] .countdown').innerHTML = timeTilStart;
+  document.querySelector(
+    '[data-screen="gameIntro"] .countdown'
+  ).innerHTML = timeTilStart;
 
   setTimeout(() => {
     countdown(startTime);
@@ -61,9 +68,15 @@ function countdown(startTime) {
 
 function startRace() {
   console.log('start race!!');
-  document.querySelector('[data-screen="gameIntro"] .countdown').classList.add('hide');
-  document.querySelector('[data-screen="gameIntro"] .leader').classList.remove('hide');
-  document.querySelector('[data-screen="gameIntro"] .tracks').classList.add('hot');
+  document
+    .querySelector('[data-screen="gameIntro"] .countdown')
+    .classList.add('hide');
+  document
+    .querySelector('[data-screen="gameIntro"] .leader')
+    .classList.remove('hide');
+  document
+    .querySelector('[data-screen="gameIntro"] .tracks')
+    .classList.add('hot');
 
   moveHorses();
 }
@@ -76,13 +89,15 @@ function moveHorses() {
 
   const interval = setInterval(() => {
     console.log('move horses', iteration);
-    const frames = outcome.map(horse => horse.frame).sort((a, b) => a - b);
+    const frames = outcome.map((horse) => horse.frame).sort((a, b) => a - b);
 
     console.log('frames:', frames);
 
     for (let i = 0; i < outcome.length; i++) {
       const { distances } = outcome[i];
-      const horse = document.querySelector(`[data-screen="gameIntro"] .track[data-key="${outcome[i].player}"] .horse`);
+      const horse = document.querySelector(
+        `[data-screen="gameIntro"] .track[data-key="${outcome[i].player}"] .horse`
+      );
       console.log('distance', distances[iteration]);
       // last lap
       if (iteration >= frames[0]) {
@@ -95,9 +110,15 @@ function moveHorses() {
     if (iteration >= frames[0] + 1) {
       clearInterval(interval);
       setTimeout(() => {
-        document.querySelector('[data-screen="gameIntro"] .tracks').classList.remove('hot');
-        document.querySelector('[data-screen="gameIntro"] .race-again').classList.remove('hide');
-        document.querySelector('[data-screen="gameIntro"] .leader').innerHTML = `winner: ${winner}`;
+        document
+          .querySelector('[data-screen="gameIntro"] .tracks')
+          .classList.remove('hot');
+        document
+          .querySelector('[data-screen="gameIntro"] .race-again')
+          .classList.remove('hide');
+        document.querySelector(
+          '[data-screen="gameIntro"] .leader'
+        ).innerHTML = `winner: ${winner}`;
         can_start_new_game = true;
       }, 1000);
     }
@@ -107,15 +128,17 @@ function moveHorses() {
 
 function moveHorse(horse, distance) {
   console.log('move horse:', horse, distance);
-  horse.style.marginLeft = `${parseInt(horse.style.marginLeft, 10) + distance}px`;
+  horse.style.marginLeft = `${
+    parseInt(horse.style.marginLeft, 10) + distance
+  }px`;
 }
 
 function getWinner(outcome) {
   // sort by frame finished
   const step1 = outcome.sort((a, b) => a.frame - b.frame);
-  
+
   // only keep the lowest frame
-  const step2 = step1.filter(a => a.frame === step1[0].frame);
+  const step2 = step1.filter((a) => a.frame === step1[0].frame);
 
   // sort by how many steps were taken in the last frame
   const step3 = step2.sort((a, b) => a.steps - b.steps);
@@ -132,10 +155,12 @@ function updatePlayerList() {
   const { playerList } = app.host;
   console.log('update player list', playerList);
 
-  let markup = Object.keys(playerList).map(player => {
-    const { playerName, hue } = playerList[player];
-    return `<div class="track" data-key=${player}><div class="horse" style="margin-left: -100px; filter: hue-rotate(${hue}deg)"></div><div class="player-name">${ playerName }</div></div>`;
-  }).join('');
+  let markup = Object.keys(playerList)
+    .map((player) => {
+      const { playerName, hue } = playerList[player];
+      return `<div class="track" data-key=${player}><div class="horse" style="margin-left: -100px; filter: hue-rotate(${hue}deg)"></div><div class="player-name">${playerName}</div></div>`;
+    })
+    .join('');
 
   const track = document.querySelector('[data-screen="gameIntro"] .tracks');
   track.innerHTML = markup;
@@ -144,16 +169,16 @@ function updatePlayerList() {
 function getOutcome() {
   const { playerList } = window.app.host;
 
-  return Object.keys(playerList).map(player => {
+  return Object.keys(playerList).map((player) => {
     let distances = [];
     let totalDistance = 0;
     let frame = 0;
     let steps = 0;
 
     // keep looping until the horse reaches the minimum
-    for(let i = 0; i < 100; i++) {
+    for (let i = 0; i < 100; i++) {
       const distance = getRandomDistance(30, 40);
-      
+
       if (totalDistance + distance >= 960) {
         frame = i;
         steps = 960 - totalDistance;
@@ -175,10 +200,7 @@ function getOutcome() {
 
 // // min and max included
 function getRandomDistance(min, max) {
-  return Math.floor(Math.random() * (max - min + 1) ) + min;  
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export {
-  gameIntro,
-  newGame,
-}
+export { gameIntro, newGame };

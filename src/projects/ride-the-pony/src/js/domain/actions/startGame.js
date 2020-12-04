@@ -8,6 +8,4 @@ async function startGame() {
   }
 }
 
-export {
-  startGame,
-}
+export { startGame };

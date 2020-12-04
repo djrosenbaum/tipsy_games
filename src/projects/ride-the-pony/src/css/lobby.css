@@ -1,14 +1,14 @@
-[data-screen="lobby"] {
+[data-screen='lobby'] {
   font-size: 20px;
   max-width: 420px;
   margin: 0 auto;
 }
 
-[data-screen="lobby"] button {
+[data-screen='lobby'] button {
   max-width: 250px;
 }
 
-[data-screen=lobby] .game-info {
+[data-screen='lobby'] .game-info {
   text-align: center;
   padding: 10px;
   border: 1px dashed #ccc;
@@ -17,16 +17,16 @@
   font-size: 18px;
 }
 
-[data-screen=lobby] .game-name {
+[data-screen='lobby'] .game-name {
   padding-bottom: 10px;
 }
 
-[data-group="host"] [data-screen="lobby"] {
+[data-group='host'] [data-screen='lobby'] {
   max-width: 1000px;
   margin: 0 auto;
 }
 
-[data-group="host"] [data-screen="lobby"] .horse {
+[data-group='host'] [data-screen='lobby'] .horse {
   height: 54px;
   width: 100px;
   margin-left: -100px;
@@ -36,12 +36,12 @@
   background-repeat: no-repeat;
 }
 
-[data-group="host"] [data-screen="lobby"] .track {
+[data-group='host'] [data-screen='lobby'] .track {
   border-bottom: 1px dashed #333;
   padding-top: 20px;
 }
 
-[data-group="host"] [data-screen="lobby"] .waiting {
+[data-group='host'] [data-screen='lobby'] .waiting {
   text-align: center;
   padding: 30px 0;
   text-transform: uppercase;
@@ -49,32 +49,32 @@
 
 /* ==== PLAYER ==== */
 
-[data-group="player"] [data-screen="lobby"] .section-title {
+[data-group='player'] [data-screen='lobby'] .section-title {
   text-align: center;
   border-bottom: 1px dotted #333;
 }
 
-[data-group="player"] [data-screen="lobby"] .player-list .player {
+[data-group='player'] [data-screen='lobby'] .player-list .player {
   padding: 10px;
   border-bottom: 1px dotted #ccc;
 }
 
-[data-group="player"] [data-screen="lobby"] .menu {
+[data-group='player'] [data-screen='lobby'] .menu {
   margin-bottom: 20px;
 }
 
-[data-group="player"] [data-screen="lobby"] .menu table {
+[data-group='player'] [data-screen='lobby'] .menu table {
   margin: 0 auto;
   border-collapse: collapse;
 }
 
-[data-group="player"] [data-screen="lobby"] .menu td {
+[data-group='player'] [data-screen='lobby'] .menu td {
   width: 100px;
   height: 54px;
   border: 1px solid #ccc;
 }
 
-[data-group="player"] [data-screen="lobby"] .menu button {
+[data-group='player'] [data-screen='lobby'] .menu button {
   width: 100%;
   height: 100%;
   background-color: transparent;
@@ -84,38 +84,38 @@
   background-position: center;
 }
 
-[data-group="player"] [data-screen="lobby"] .menu button[data-hue="0"] {
+[data-group='player'] [data-screen='lobby'] .menu button[data-hue='0'] {
   filter: hue-rotate(0deg);
 }
 
-[data-group="player"] [data-screen="lobby"] .menu button[data-hue="40"] {
+[data-group='player'] [data-screen='lobby'] .menu button[data-hue='40'] {
   filter: hue-rotate(40deg);
 }
 
-[data-group="player"] [data-screen="lobby"] .menu button[data-hue="80"] {
+[data-group='player'] [data-screen='lobby'] .menu button[data-hue='80'] {
   filter: hue-rotate(80deg);
 }
 
-[data-group="player"] [data-screen="lobby"] .menu button[data-hue="120"] {
+[data-group='player'] [data-screen='lobby'] .menu button[data-hue='120'] {
   filter: hue-rotate(120deg);
 }
 
-[data-group="player"] [data-screen="lobby"] .menu button[data-hue="160"] {
+[data-group='player'] [data-screen='lobby'] .menu button[data-hue='160'] {
   filter: hue-rotate(160deg);
 }
 
-[data-group="player"] [data-screen="lobby"] .menu button[data-hue="200"] {
+[data-group='player'] [data-screen='lobby'] .menu button[data-hue='200'] {
   filter: hue-rotate(200deg);
 }
 
-[data-group="player"] [data-screen="lobby"] .menu button[data-hue="240"] {
+[data-group='player'] [data-screen='lobby'] .menu button[data-hue='240'] {
   filter: hue-rotate(240deg);
 }
 
-[data-group="player"] [data-screen="lobby"] .menu button[data-hue="280"] {
+[data-group='player'] [data-screen='lobby'] .menu button[data-hue='280'] {
   filter: hue-rotate(280deg);
 }
 
-[data-group="player"] [data-screen="lobby"] .menu button[data-hue="320"] {
+[data-group='player'] [data-screen='lobby'] .menu button[data-hue='320'] {
   filter: hue-rotate(320deg);
 }

@@ -1,4 +1,4 @@
-[data-screen="sponsor"] .wrapper {
+[data-screen='sponsor'] .wrapper {
   height: 50vh;
 }
 
@@ -10,7 +10,7 @@
   color: #777;
 } */
 
-[data-screen="sponsor"] .sponsor-logo {
+[data-screen='sponsor'] .sponsor-logo {
   background-image: url('./images/sponsor/yuengling_logo.svg');
   background-repeat: no-repeat;
   background-position: center;
