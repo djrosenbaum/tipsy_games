@@ -49,6 +49,10 @@
     "ignore": [
       "**/*.min.js"
     ],
-    "*.js": ["prettier --write", "eslint"]
+    "*.js": [
+      "prettier --write",
+      "eslint",
+      "git add"
+    ]
   }
 }
