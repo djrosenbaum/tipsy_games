@@ -5,10 +5,17 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-const __dirname = path.join('');
+// check the node version
+const nvmrc = fs.readFileSync('.nvmrc', 'utf8');
+if (nvmrc !== process.version) {
+  console.log(
+    `Expected Node Version ${nvmrc} but instead found ${process.version} \n`
+  );
+  process.exit();
+}
 
 function getGameList() {
-  const projects = path.join(__dirname, 'projects');
+  const projects = path.join('', 'projects');
   const files = fs.readdirSync(projects);
 
   return files.filter((file) => !file.startsWith('.'));
