@@ -11,7 +11,9 @@
     "build": "gulp -f gulpfile.js build",
     "watch": "gulp -f gulpfile.js watch",
     "dev": "concurrently 'npm:watch'",
-    "cli": "node ./cli.js"
+    "cli": "node ./cli.js",
+    "precli": "node ./enforceNodeVersion",
+    "preinstall": "node ./enforceNodeVersion"
   },
   "keywords": [],
   "author": "DJ Rosenbaum",

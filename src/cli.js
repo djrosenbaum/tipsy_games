@@ -5,17 +5,6 @@ import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
 
-const checkNodeVersion = () => {
-  // check the node version
-  const nvmrc = fs.readFileSync('.nvmrc', 'utf8');
-  if (nvmrc !== process.version) {
-    console.log(
-      `Expected Node Version ${nvmrc} but instead found ${process.version} \n Try typing "nvm use" to switch node versions \n`
-    );
-    process.exit();
-  }
-};
-
 const getGameList = () => {
   const projects = path.join('', 'projects');
   const files = fs.readdirSync(projects);
@@ -42,5 +31,4 @@ const inquire = () => {
     .then(buildGame);
 };
 
-checkNodeVersion();
 inquire();
