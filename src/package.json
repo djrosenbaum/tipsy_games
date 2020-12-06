@@ -1,12 +1,11 @@
 {
-  "name": "client",
+  "name": "tipsy-games",
   "version": "1.0.0",
   "description": "tipsy games",
   "repository": {
     "type": "git",
     "url": "https://github.com/djrosenbaum/tipsy_games"
   },
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "gulp -f gulpfile.js build",
@@ -15,7 +14,7 @@
     "cli": "node ./cli.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "DJ Rosenbaum",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "7.12.9",
