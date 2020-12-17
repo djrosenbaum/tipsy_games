@@ -1,7 +1,7 @@
 /*
   Player clicks Join from the Landing page
 */
-import { Player } from '../class/Player';
+import Player from '../class/Player';
 import { log } from '../../library/log';
 import { app } from '../app';
 
@@ -46,7 +46,7 @@ const joinGame = async () => {
 
   if (isValidRoom) {
     document.querySelector('[data-group="host"]').remove();
-    app.player = await new Player({ code });
+    app.player = await Player.createNewPlayer({ code });
     app.player.listen();
   }
 };

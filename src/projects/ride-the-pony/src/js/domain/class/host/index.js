@@ -1,7 +1,7 @@
 import { createRoomCode } from './createRoomCode';
 import { onPlayerListUpdated } from './onPlayerListUpdated';
 
-async function Host() {
+async function createNewHost() {
   console.log('new host');
   const code = createRoomCode();
   const ref = window.firebase.database().ref(`rooms/${code}`);
@@ -31,4 +31,6 @@ function listen() {
   ref.child('players').on('value', onPlayerListUpdated);
 }
 
-export { Host };
+export default {
+  createNewHost,
+};

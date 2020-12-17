@@ -1,4 +1,4 @@
-import { Host } from '../class/Host';
+import Host from '../class/host';
 import { render } from '../render';
 import { app } from '../app';
 
@@ -13,7 +13,7 @@ async function newGame() {
   if (canCreateNewGame) {
     canCreateNewGame = false;
     document.querySelector('[data-group="player"]').remove();
-    app.host = await new Host();
+    app.host = await Host.createNewHost();
     app.host.listen();
     render({
       playerType: 'host',

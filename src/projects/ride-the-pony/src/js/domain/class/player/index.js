@@ -3,7 +3,7 @@ import { onPlayerListUpdated } from './onPlayerListUpdated';
 import { onScreenUpdated } from './onScreenUpdated';
 import { setCookie } from '../../../library/cookie';
 
-async function Player({ code }) {
+async function createNewPlayer({ code }) {
   console.log('new player');
   const ref = window.firebase.database().ref(`rooms/${code}`);
   let playerKey = '';
@@ -50,4 +50,6 @@ function listen() {
   ref.child('screen').on('value', onScreenUpdated);
 }
 
-export { Player };
+export default {
+  createNewPlayer,
+};
