@@ -50,6 +50,4 @@ function listen() {
   ref.child('screen').on('value', onScreenUpdated);
 }
 
-export default {
-  createNewPlayer,
-};
+export { createNewPlayer };

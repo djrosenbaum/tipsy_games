@@ -31,6 +31,4 @@ function listen() {
   ref.child('players').on('value', onPlayerListUpdated);
 }
 
-export default {
-  createNewHost,
-};
+export { createNewHost };
