@@ -8,22 +8,22 @@ function lobby() {
     setRoomCode(code);
   }
   updatePlayerList(playerList);
-  updateStartRaceButton(playerList, minimumPlayers);
+  updateStartGameButton(playerList, minimumPlayers);
 
   console.log('beginning to render the lobby');
 }
 
-function updateStartRaceButton(playerList, minimumPlayers) {
+function updateStartGameButton(playerList, minimumPlayers) {
   const totalPlayers = Object.keys(playerList).length;
-  const startRaceButtonWrapper = document.querySelector(
+  const startGameButtonWrapper = document.querySelector(
     '[data-screen="lobby"] button[data-action="startGame"]'
   ).parentNode;
 
   if (totalPlayers < minimumPlayers) {
-    startRaceButtonWrapper.classList.add('hide');
+    startGameButtonWrapper.classList.add('hide');
     return;
   }
-  startRaceButtonWrapper.classList.remove('hide');
+  startGameButtonWrapper.classList.remove('hide');
 }
 
 function updatePlayerList(playerList) {
