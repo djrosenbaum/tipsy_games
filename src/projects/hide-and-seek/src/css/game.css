@@ -1,0 +1,79 @@
+[data-screen='game'] {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+[data-screen='game'] .game-info {
+  text-align: center;
+  padding: 10px;
+  border: 1px dashed #ccc;
+  margin-bottom: 20px;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+[data-screen='game'] .game-name {
+  padding-bottom: 10px;
+}
+
+[data-screen='game'] .crates {
+  width: 300px;
+  margin: 0 auto;
+}
+
+[data-screen='game'] .crates [data-crates] {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
+  justify-content: center;
+  grid-template-rows: repeat(5, 60px);
+  align-items: center;
+}
+
+[data-screen='game'] .crate {
+  background-image: url(./images/crate.svg);
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+}
+
+[data-screen='game'] .crate.selected {
+  border: 3px solid gold;
+}
+
+[data-screen='game'] .play-again {
+  text-align: center;
+}
+
+[data-screen='game'] .play-again button {
+  max-width: 200px;
+  text-transform: capitalize;
+}
+
+[data-group='player'] [data-screen='game'] .treasure-wrapper {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
+  justify-content: center;
+  grid-template-rows: repeat(1, 60px);
+  align-items: center;
+  width: 300px;
+  margin: 0 auto;
+}
+
+[data-group='player'] [data-screen='game'] .treasure {
+  background-image: url(./images/gold.svg);
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+}
+
+[data-group='player'] [data-screen='game'] .commit-wrapper {
+  text-align: center;
+  margin-top: 30px;
+}
+
+[data-group='player'] [data-screen='game'] .commit-wrapper button {
+  color: gold;
+  width: 300px;
+}

@@ -1,0 +1,18 @@
+.header {
+  width: 100vw;
+  text-align: center;
+  background-color: #222;
+  color: #fff;
+  font-weight: 200;
+  padding: 10px 0;
+}
+
+.header h1 {
+  color: #fff;
+  font-family: 'Monoton', cursive;
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-shadow: 1px 2px #000;
+  text-transform: uppercase;
+}

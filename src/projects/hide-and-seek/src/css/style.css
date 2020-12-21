@@ -1,0 +1,103 @@
+body {
+  background-color: #fff;
+  color: #333;
+  font-family: Lato, Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a,
+button,
+input {
+  font-family: Lato, Arial, Helvetica, sans-serif;
+}
+
+button {
+  background-color: #222;
+  border: none;
+  border-radius: 2px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 21px;
+  padding: 15px;
+  width: 100%;
+}
+
+button:active {
+  border: 1px solid #333;
+  color: #333;
+  outline: 1px solid #333;
+}
+
+button:focus {
+  border: 1px solid #333;
+  color: #333;
+  outline: 1px solid #333;
+}
+
+input {
+  box-sizing: border-box;
+  font-family: Lato, Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+  margin-bottom: 40px;
+  width: 100%;
+}
+
+label {
+  font-family: Lato, Arial, Helvetica, sans-serif;
+  font-size: 21px;
+  font-weight: 200;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.hide {
+  display: none !important;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
+.spacer {
+  border-bottom: 1px dashed #777;
+  margin: 10px 0;
+}
+
+.page-wrapper {
+  margin: 0 auto;
+  max-width: 1000px;
+  padding: 10px 30px;
+}
+
+.button-wrapper {
+  text-align: center;
+  padding: 10px 0;
+}
+
+.container {
+  padding-bottom: 30px;
+}
+
+.room-code {
+  text-transform: uppercase;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.bold.link {
+  font-weight: 700;
+  padding: 10px 0;
+}
+
+.reflect {
+  -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(70%, transparent), to(rgba(250, 250, 250, 0.1)));
+}

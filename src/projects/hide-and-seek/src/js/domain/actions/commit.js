@@ -1,0 +1,54 @@
+import { getRef } from '../../library/getRef';
+
+let canCommit = true;
+
+async function commit() {
+  console.log('commit treasure');
+  if (!canCommit) {
+    return;
+  }
+  canCommit = false;
+
+  const $commitWrapper = document.querySelector(
+    '[data-screen="game"] .commit-wrapper'
+  );
+  $commitWrapper.classList.add('hide');
+
+  const indexes = getIndexes();
+  console.log('indexes', indexes);
+
+  const ref = getRef();
+  const { playerKey } = window.app.player;
+
+  // set indexes
+  await ref
+    .child('players')
+    .child(playerKey)
+    .update({
+      indexes,
+    })
+    .then(() => {
+      console.log('indexes are set:', indexes);
+      canCommit = true;
+    });
+}
+
+function getIndexes() {
+  const $selectedCrates = document.querySelectorAll('.crate.selected');
+  const indexes = [];
+  $selectedCrates.forEach((crate) => {
+    indexes.push(crate.dataset.index);
+  });
+  return indexes;
+}
+
+// function canCommit() {
+// const $commitWrapper = document.querySelector('[data-screen="game"] .commit-wrapper');
+// if ($commitWrapper.classList.contains('hide')) {
+//   return false;
+// }
+// $commitWrapper.addClass('hide');
+// return true;
+// }
+
+export { commit };

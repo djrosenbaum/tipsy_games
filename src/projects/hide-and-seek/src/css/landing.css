@@ -1,0 +1,26 @@
+[data-screen='landing'] {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+[data-screen='landing'] [data-input='room-code'] {
+  text-transform: uppercase;
+}
+
+[data-screen='landing'] button {
+  color: #ff0;
+  font-family: Monoton, cursive;
+  font-weight: 400;
+  letter-spacing: 2px;
+  text-shadow: 1px 2px #000;
+  text-transform: uppercase;
+}
+
+[data-screen='landing'] .game-name {
+  text-align: center;
+  padding: 10px;
+  border: 1px dashed #ccc;
+  margin-bottom: 20px;
+  font-weight: 400;
+  font-size: 18px;
+}
