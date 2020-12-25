@@ -1,8 +1,6 @@
 // import { getRef } from '../../library/getRef';
 
 async function selectCrate(event) {
-  const $selectedCrate = event.target;
-  const index = $selectedCrate.dataset.index;
   const $broadcast = document.querySelector(
     '[data-screen="game"] .game-info .broadcast'
   );
@@ -11,7 +9,9 @@ async function selectCrate(event) {
     hideTreasure(event);
   }
 
-  console.log('selected crate:', index);
+  if ($broadcast.innerText === 'You are seeking treasure') {
+    console.log('seeking treasure');
+  }
 }
 
 function hideTreasure(event) {

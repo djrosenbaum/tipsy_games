@@ -58,10 +58,10 @@ async function startRound() {
   console.log('player order:', playerOrder);
 
   // set the hider
-  const hider = playerOrder[0];
+  const seeker = playerOrder[0];
 
   // set the seeker
-  const seeker = shuffle(remainingBoards.filter((board) => board !== hider));
+  const hider = shuffle(remainingBoards.filter((board) => board !== seeker))[0];
 
   const round = {
     hider,
@@ -156,4 +156,4 @@ function updatePlayerList() {
   $playerList.innerHTML = markup;
 }
 
-export { game, newGame };
+export { game };

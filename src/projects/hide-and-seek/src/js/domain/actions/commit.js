@@ -9,6 +9,11 @@ async function commit() {
   }
   canCommit = false;
 
+  const $broadcast = document.querySelector(
+    '[data-screen="game"] .game-info .broadcast'
+  );
+  $broadcast.innerHTML = 'Your treasure is hidden';
+
   const $commitWrapper = document.querySelector(
     '[data-screen="game"] .commit-wrapper'
   );
