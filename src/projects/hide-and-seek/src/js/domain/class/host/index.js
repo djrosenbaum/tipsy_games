@@ -1,5 +1,6 @@
 import { createRoomCode } from './createRoomCode';
 import { onPlayerListUpdated } from './onPlayerListUpdated';
+import { onGameUpdated } from './onGameUpdated';
 
 async function createNewHost() {
   console.log('new host');
@@ -29,6 +30,7 @@ function listen() {
   console.log('listening');
   const { ref } = window.app.host;
   ref.child('players').on('value', onPlayerListUpdated);
+  ref.child('game').on('value', onGameUpdated);
 }
 
 export { createNewHost };

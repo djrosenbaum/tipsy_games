@@ -2,6 +2,7 @@ import { displayScreen } from '../../../library/displayScreen';
 import { onPlayerListUpdated } from './onPlayerListUpdated';
 import { onScreenUpdated } from './onScreenUpdated';
 import { setCookie } from '../../../library/cookie';
+import { onGameUpdated } from './onGameUpdated';
 
 async function createNewPlayer({ code }) {
   console.log('new player');
@@ -46,6 +47,7 @@ function listen() {
   const { ref } = window.app.player;
   ref.child('players').on('value', onPlayerListUpdated);
   ref.child('screen').on('value', onScreenUpdated);
+  ref.child('game').on('value', onGameUpdated);
 }
 
 export { createNewPlayer };

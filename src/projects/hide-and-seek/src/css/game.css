@@ -19,6 +19,7 @@
 [data-screen='game'] .crates {
   width: 300px;
   margin: 0 auto;
+  margin-bottom: 20px;
 }
 
 [data-screen='game'] .crates [data-crates] {
@@ -50,6 +51,22 @@
   text-transform: capitalize;
 }
 
+[data-screen='game'] .player-list {
+  border-top: 1px dashed #999;
+  margin: 0 auto;
+  padding-top: 30px;
+  width: 320px;
+}
+
+[data-screen='game'] .player-list .player {
+  padding: 10px;
+  border-bottom: 1px dotted #ccc;
+}
+
+[data-screen='game'] .player-list .player .player-name {
+  font-weight: bold;
+}
+
 [data-group='player'] [data-screen='game'] .treasure-wrapper {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -61,16 +78,30 @@
   margin: 0 auto;
 }
 
-[data-group='player'] [data-screen='game'] .treasure {
+[data-screen='game'] .treasure {
   background-image: url(./images/gold.svg);
   width: 40px;
   height: 40px;
   background-size: cover;
 }
 
+[data-screen='game'] .player-list .treasure {
+  margin-left: 15px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+[data-screen='game'] .narrative {
+  width: 320px;
+  margin: 0 auto;
+  text-align: center;
+  line-height: 24px;
+}
+
 [data-group='player'] [data-screen='game'] .commit-wrapper {
   text-align: center;
   margin-top: 30px;
+  margin-bottom: 30px;
 }
 
 [data-group='player'] [data-screen='game'] .commit-wrapper button {

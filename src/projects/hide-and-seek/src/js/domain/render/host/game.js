@@ -1,39 +1,114 @@
 import { app } from '../../app';
-// import { getRef } from '../../../library/getRef';
+import { get, shuffle } from 'lodash-es';
+import { getRef } from '../../../library/getRef';
 
 // store the initial html markup, allows for an easy game reset
 let initial_markup = '';
-let can_start_new_game = true;
-let first_run = true;
-// let outcome;
 let $crates;
 let $broadcast;
+let $narrative;
+let currentRound = 0;
 
 function game() {
-  console.log('render game intro');
+  console.log('render game');
 
-  if (first_run) {
-    first_run = false;
-    initial_markup = document.querySelector('[data-screen="game"]').innerHTML;
+  // check if there is an existing game state
+  if (!window.app.host.game) {
+    if (!initial_markup) {
+      initial_markup = document.querySelector('[data-screen="game"]').innerHTML;
+    }
+    newGame();
+    updatePlayerList();
+    return;
   }
+  if ($broadcast.innerText === 'Time to hide your treasure') {
+    updatePlayerList();
+    if (isReadyToStartRound()) {
+      console.log('Ready to start the round');
+      startRound();
+    }
+    return;
+  }
+}
 
-  newGame();
+function isReadyToStartRound() {
+  console.log('isReadyToStartRound');
+  // loop through each player and check if every player has 3 treasures
+  return Array.from(document.querySelectorAll('.player-list .player'))
+    .map(($player) => $player.querySelectorAll('.treasure').length)
+    .every((treasure) => treasure === 3);
+}
+
+async function startRound() {
+  console.log('start round');
+
+  const roundNumber = getRoundNumber();
+  if (currentRound === roundNumber) {
+    return;
+  }
+  currentRound = roundNumber;
+
+  const { playerList } = get(window, 'app.host') || {};
+  const { players } = get(window, 'app.host.game') || {};
+  const remainingBoards = getRemainingBoards();
+  console.log('remaining boards:', remainingBoards);
+
+  // get the player order
+  const playerOrder = shuffle(Object.keys(players));
+  console.log('player order:', playerOrder);
+
+  // set the hider
+  const hider = playerOrder[0];
+
+  // set the seeker
+  const seeker = shuffle(remainingBoards.filter((board) => board !== hider));
+
+  const round = {
+    hider,
+    playerOrder,
+    roundNumber,
+    seeker,
+  };
+
+  const ref = getRef();
+
+  await ref
+    .child(`game/round`)
+    .update(round)
+    .then(() => {
+      // set round number
+      $broadcast.innerHTML = `<div>Round ${roundNumber}</div>`;
+      $narrative.innerHTML = `<div>${playerList[seeker].playerName}<div><div>is seeking</div><div>${playerList[hider].playerName}'s treasure</div>`;
+    });
+}
+
+function getRoundNumber() {
+  return get(window, 'app.host.game.round.roundNumber') || 1;
+}
+
+function getRemainingBoards() {
+  const { players } = get(window, 'app.host.game') || {};
+  const remainingBoards = [];
+
+  for (const player in players) {
+    if (players[player].treasure > 0) {
+      remainingBoards.push(player);
+    }
+  }
+  return remainingBoards;
 }
 
 async function newGame() {
-  if (!can_start_new_game) {
-    return;
-  }
-  can_start_new_game = false;
   document.querySelector('[data-screen="game"]').innerHTML = initial_markup;
 
   $crates = document.querySelector('[data-screen="game"] .crates');
   $broadcast = document.querySelector('[data-screen="game"] .broadcast');
+  $narrative = document.querySelector('[data-screen="game"] .narrative');
+
   $broadcast.innerHTML = 'Time to hide your treasure';
   $broadcast.classList.remove('hide');
+
   displayGrid(getDefaultGridArray());
-  updatePlayerList();
-  // startCountdown();
 }
 
 function getDefaultGridArray() {
@@ -58,69 +133,20 @@ function displayGrid(gridArray) {
   $crates.innerHTML = `<div data-crates="default">${markup}</div>`;
 }
 
-// async function startCountdown() {
-//   // set start time
-//   const startTime = Math.floor(Date.now() / 1000) + 10;
-//   outcome = getOutcome();
-
-//   // get reference to firebase
-//   const ref = getRef();
-
-//   // send message to firebase with the timestamp
-//   await ref
-//     .update({
-//       outcome: JSON.stringify(outcome),
-//       race_time: startTime,
-//     })
-//     .then(() => {
-//       countdown(startTime);
-//     });
-// }
-
-// function countdown(startTime) {
-//   const currentTime = Math.floor(Date.now() / 1000);
-//   const timeTilStart = startTime - currentTime;
-
-//   if (timeTilStart <= 0) {
-//     startRace();
-//     return;
-//   }
-
-//   document.querySelector(
-//     '[data-screen="game"] .countdown'
-//   ).innerHTML = timeTilStart;
-
-//   setTimeout(() => {
-//     countdown(startTime);
-//   }, 1000);
-// }
-
-// function getWinner(outcome) {
-//   // sort by frame finished
-//   const step1 = outcome.sort((a, b) => a.frame - b.frame);
-
-//   // only keep the lowest frame
-//   const step2 = step1.filter((a) => a.frame === step1[0].frame);
-
-//   // sort by how many steps were taken in the last frame
-//   const step3 = step2.sort((a, b) => a.steps - b.steps);
-
-//   const winner = step3[0];
-
-//   console.log('==== GET WINNER ', winner);
-//   const { playerName } = window.app.host.playerList[winner.player];
-//   console.log('==== PLAYER NAME ', playerName);
-//   return playerName;
-// }
-
 function updatePlayerList() {
   const { playerList } = app.host;
   console.log('update player list', playerList);
+  const treasureMarkup = '<div class="treasure"></div>';
 
   let markup = Object.keys(playerList)
     .map((player) => {
-      const { playerName } = playerList[player];
-      return `<div class="player" data-key=${player}><div class="player-name">${playerName}</div></div>`;
+      const { playerName } =
+        get(app, `host.playerList.${player}`) || 'undefined';
+      const { treasure } = get(app, `host.game.players.${player}`) || 0;
+
+      return `<div class="player" data-key=${player}><div class="player-name">${playerName}</div>${treasureMarkup.repeat(
+        treasure
+      )}</div>`;
     })
     .join('');
 
@@ -129,42 +155,5 @@ function updatePlayerList() {
   );
   $playerList.innerHTML = markup;
 }
-
-// function getOutcome() {
-//   const { playerList } = window.app.host;
-
-//   return Object.keys(playerList).map((player) => {
-//     let distances = [];
-//     let totalDistance = 0;
-//     let frame = 0;
-//     let steps = 0;
-
-//     // keep looping until the horse reaches the minimum
-//     for (let i = 0; i < 100; i++) {
-//       const distance = getRandomDistance(30, 40);
-
-//       if (totalDistance + distance >= 960) {
-//         frame = i;
-//         steps = 960 - totalDistance;
-//         break;
-//       }
-
-//       distances.push(distance);
-//       totalDistance += distance;
-//     }
-
-//     return {
-//       distances,
-//       frame,
-//       player,
-//       steps,
-//     };
-//   });
-// }
-
-// // min and max included
-// function getRandomDistance(min, max) {
-//   return Math.floor(Math.random() * (max - min + 1)) + min;
-// }
 
 export { game, newGame };

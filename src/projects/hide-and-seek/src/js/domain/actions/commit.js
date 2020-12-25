@@ -22,10 +22,10 @@ async function commit() {
 
   // set indexes
   await ref
-    .child('players')
-    .child(playerKey)
+    .child(`game/players/${playerKey}`)
     .update({
       indexes,
+      treasure: 3,
     })
     .then(() => {
       console.log('indexes are set:', indexes);
