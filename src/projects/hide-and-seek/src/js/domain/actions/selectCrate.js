@@ -24,6 +24,12 @@ async function guessCrate(event) {
     false;
   }
 
+  const { round } = get(window, 'app.player.game');
+  if (!round.guesses) {
+    // no more guesses
+    return;
+  }
+
   console.log('Guessing a crate', event);
   const $selectedCrate = event.target;
   const selectedIndex = $selectedCrate.dataset.index;
@@ -31,8 +37,6 @@ async function guessCrate(event) {
 
   const _hider = get(window, `app.player.game.players.${hider}`) || {};
   const _seeker = get(window, `app.player.game.players.${seeker}`) || {};
-
-  // const { indexes, guesses } = get(window, `app.player.game.players.${hider}`) || {};
 
   const guessArray = _hider.guesses ? _hider.guesses.split(',') : [];
 
@@ -48,6 +52,7 @@ async function guessCrate(event) {
 
   let payload = {};
   payload[`game/players/${hider}/guesses`] = guessArray.join(',');
+  payload[`game/round/guesses`] = round.guesses -= 1;
 
   console.log('indexes:', _hider.indexes);
   console.log('selectedIndex:', selectedIndex);
@@ -59,7 +64,7 @@ async function guessCrate(event) {
 
   // set indexes
   await ref.update(payload).then(() => {
-    console.log('guesses updated:', guessArray);
+    console.log('guesses remaining', round.guesses);
     canGuess = true;
   });
 }

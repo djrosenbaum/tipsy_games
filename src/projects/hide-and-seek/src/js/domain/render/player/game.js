@@ -22,7 +22,7 @@ const game = () => {
   }
   updatePlayerList();
   if (canUpdateRound()) {
-    console.log('Ready to start the round');
+    console.log('update round');
     updateRound();
   }
 };
