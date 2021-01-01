@@ -44,7 +44,7 @@ function getIndexes() {
   $selectedCrates.forEach((crate) => {
     indexes.push(crate.dataset.index);
   });
-  return indexes;
+  return indexes.join(',');
 }
 
 // function canCommit() {

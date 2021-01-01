@@ -41,6 +41,7 @@ function updateRound() {
 
   $broadcast.innerHTML = `<div>Round ${roundNumber}</div>`;
   $narrative.innerHTML = `<div>${playerList[seeker].playerName}<div><div>is seeking</div><div>${playerList[hider].playerName}'s treasure</div>`;
+  displayGrid(getGridArrayFromPlayer(hider));
 }
 
 function canUpdateRound() {
@@ -73,7 +74,10 @@ function displayGrid(gridArray) {
         return `<div class="crate" data-action="selectCrate" data-index="${index}"></div>`;
       }
       if (item === 1) {
-        return `<div class="crate open" data-action="selectCrate" data-index="${index}"></div>`;
+        return `<div class="crate open"></div>`;
+      }
+      if (item === 2) {
+        return `<div class="treasure"></div>`;
       }
     })
     .join('');
@@ -85,6 +89,28 @@ function getDefaultGridArray() {
   gridArray.length = 25;
   gridArray.fill(0);
   return gridArray;
+}
+
+function getGridArrayFromPlayer(player) {
+  console.log('getGridArrayFromPlayer', player);
+  const grid = getDefaultGridArray();
+  const { indexes, guesses } =
+    get(window, `app.player.game.players.${player}`) || {};
+
+  if (guesses) {
+    const indexesArray = indexes.split(',');
+    console.log('indexesArray', indexesArray);
+    guesses.split(',').forEach((guess) => {
+      const index = Number(guess);
+      console.log('guess index:', index);
+      grid[index] = 1;
+      if (indexesArray.includes(index.toString())) {
+        grid[index] = 2;
+      }
+    });
+  }
+
+  return grid;
 }
 
 function updatePlayerList() {

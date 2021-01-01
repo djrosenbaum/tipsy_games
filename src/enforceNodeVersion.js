@@ -8,7 +8,7 @@ import fs from 'fs';
  */
 const enforceNodeVersion = () => {
   const nvmrc = fs.readFileSync('.nvmrc', 'utf8');
-  if (nvmrc !== process.version) {
+  if (nvmrc.trim() !== process.version) {
     console.log(
       `Expected Node Version ${nvmrc} but instead found ${process.version} \n Try typing "nvm use" to switch node versions \n`
     );

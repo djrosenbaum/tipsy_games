@@ -1,4 +1,7 @@
-// import { getRef } from '../../library/getRef';
+import { get } from 'lodash-es';
+import { getRef } from '../../library/getRef';
+
+let canGuess = true;
 
 async function selectCrate(event) {
   const $broadcast = document.querySelector(
@@ -9,9 +12,56 @@ async function selectCrate(event) {
     hideTreasure(event);
   }
 
-  if ($broadcast.innerText === 'You are seeking treasure') {
-    console.log('seeking treasure');
+  const seeker = get(window, 'app.player.game.round.seeker') || '';
+  const playerKey = get(window, 'app.player.playerKey') || '';
+  if (seeker && seeker === playerKey) {
+    guessCrate(event);
   }
+}
+
+async function guessCrate(event) {
+  if (!canGuess) {
+    false;
+  }
+
+  console.log('Guessing a crate', event);
+  const $selectedCrate = event.target;
+  const selectedIndex = $selectedCrate.dataset.index;
+  const { hider, seeker } = get(window, 'app.player.game.round') || {};
+
+  const _hider = get(window, `app.player.game.players.${hider}`) || {};
+  const _seeker = get(window, `app.player.game.players.${seeker}`) || {};
+
+  // const { indexes, guesses } = get(window, `app.player.game.players.${hider}`) || {};
+
+  const guessArray = _hider.guesses ? _hider.guesses.split(',') : [];
+
+  if (guessArray.includes(selectedIndex)) {
+    console.log('crate already opened');
+    return;
+  }
+  guessArray.push(selectedIndex);
+
+  const ref = getRef();
+
+  canGuess = false;
+
+  let payload = {};
+  payload[`game/players/${hider}/guesses`] = guessArray.join(',');
+
+  console.log('indexes:', _hider.indexes);
+  console.log('selectedIndex:', selectedIndex);
+  if (_hider.indexes.split(',').includes(selectedIndex)) {
+    console.log('a treasure was found');
+    payload[`game/players/${hider}/treasure`] = _hider.treasure -= 1;
+    payload[`game/players/${seeker}/treasure`] = _seeker.treasure += 1;
+  }
+
+  // set indexes
+  await ref.update(payload).then(() => {
+    console.log('guesses updated:', guessArray);
+    canGuess = true;
+  });
 }
 
 function hideTreasure(event) {

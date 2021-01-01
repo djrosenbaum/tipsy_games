@@ -8,6 +8,7 @@ let $crates;
 let $broadcast;
 let $narrative;
 let currentRound = 0;
+const guesses = 3;
 
 function game() {
   console.log('render game');
@@ -64,6 +65,7 @@ async function startRound() {
   const hider = shuffle(remainingBoards.filter((board) => board !== seeker))[0];
 
   const round = {
+    guesses,
     hider,
     playerOrder,
     roundNumber,
