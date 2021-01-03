@@ -1,5 +1,5 @@
 import { app } from '../../app';
-import { get, shuffle } from 'lodash-es';
+import { get, shuffle, intersection } from 'lodash-es';
 import { getRef } from '../../../library/getRef';
 
 // store the initial html markup, allows for an easy game reset
@@ -13,6 +13,13 @@ const guesses = 3;
 function game() {
   console.log('render game');
 
+  const { state } = get(window, 'app.host.game.round') || '';
+
+  if (state === 'winner') {
+    renderEndGame();
+    return;
+  }
+
   // check if there is an existing game state
   if (!window.app.host.game) {
     // store initial markup for easy reset
@@ -24,6 +31,7 @@ function game() {
     return;
   }
   updatePlayerList();
+
   if (canUpdateRound()) {
     console.log('can update round');
     updateRound();
@@ -37,12 +45,39 @@ function game() {
   }
 }
 
+function hasTreasure() {
+  const { hider } = get(window, 'app.host.game.round') || {};
+  const { indexes, guesses = '' } =
+    get(window, `app.host.game.players.${hider}`) || {};
+  const discoveredTreasure = intersection(
+    indexes.split(','),
+    guesses.split(',')
+  );
+  if (discoveredTreasure.length < 3) {
+    console.log('has treasure');
+    return true;
+  }
+  console.log('does not have treasure');
+  return false;
+}
+
+function renderEndGame() {
+  console.log('render end game');
+  // hide the crates
+}
+
 function canUpdateRound() {
   return !!get(window, 'app.host.game.round.roundNumber');
 }
 
 function updateRound() {
   console.log('update round');
+
+  if (!hasTreasure()) {
+    console.log('no treasure');
+    endTurn();
+    return;
+  }
 
   const { hider, seeker, roundNumber, guesses } =
     get(window, 'app.host.game.round') || {};
@@ -60,11 +95,12 @@ function updateRound() {
 
   if (!guesses) {
     console.log('Out of guesses, rotate to next player');
-    rotateRound();
+    endTurn();
   }
 }
 
-async function rotateRound() {
+async function endTurn() {
+  console.log('END TURN');
   const { round, players } = get(window, 'app.host.game') || {};
 
   let seekers = round.seekers.split(',');
@@ -78,20 +114,19 @@ async function rotateRound() {
   const totalPlayers = Object.keys(players).length;
 
   // rotate hider
-  const remainingBoards = getRemainingBoards().filter(
-    (board) => board !== seeker
-  );
-
-  if (!remainingBoards.length) {
-    console.log('we have a winner');
-    return;
-  }
-  if (totalPlayers > 2 && remainingBoards.length === 1) {
-    console.log('we have a winner');
+  let remainingBoards = getRemainingBoards();
+  if (remainingBoards.length === 1) {
+    console.log('all treasure found');
+    broadcastWinner();
     return;
   }
 
-  const hider = shuffle(remainingBoards)[0];
+  const filteredBoards = remainingBoards.filter((board) => board !== seeker);
+
+  console.log('total players: ', totalPlayers);
+  console.log('remaining boards: ', filteredBoards);
+
+  const hider = shuffle(filteredBoards)[0];
 
   const _round = {
     guesses,
@@ -108,6 +143,21 @@ async function rotateRound() {
     .update(_round)
     .then(() => {
       console.log('updated the round');
+    });
+}
+
+async function broadcastWinner() {
+  console.log('BROADCAST WINNER');
+
+  const ref = getRef();
+
+  await ref
+    .child(`game/round`)
+    .update({
+      state: 'winner',
+    })
+    .then(() => {
+      console.log('display the leaderboard');
     });
 }
 
@@ -144,7 +194,7 @@ function isReadyToStartRound() {
 }
 
 async function startRound() {
-  console.log('start round');
+  console.log('START ROUND');
 
   const roundNumber = getRoundNumber();
   if (currentRound === roundNumber) {
@@ -194,6 +244,7 @@ function getRoundNumber() {
 }
 
 function getRemainingBoards() {
+  console.log('get remaining boards');
   const { players } = get(window, 'app.host.game') || {};
   const remainingBoards = [];
 
@@ -201,9 +252,9 @@ function getRemainingBoards() {
     const { guesses = '', indexes = '' } = players[player];
     const _guesses = guesses.split(',');
     const _indexes = indexes.split(',');
-    const intersection = _indexes.filter((item) => _guesses.includes(item));
+    const discoveredTreasure = intersection(_indexes, _guesses);
     // if there is treasure to be found
-    if (intersection.length < 3) {
+    if (discoveredTreasure.length < 3) {
       console.log('treasure remains', player);
       remainingBoards.push(player);
     } else {

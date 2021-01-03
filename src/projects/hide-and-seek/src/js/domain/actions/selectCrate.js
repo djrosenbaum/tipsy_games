@@ -1,4 +1,4 @@
-import { get } from 'lodash-es';
+import { get, intersection } from 'lodash-es';
 import { getRef } from '../../library/getRef';
 
 let canGuess = true;
@@ -19,9 +19,36 @@ async function selectCrate(event) {
   }
 }
 
+function hasTreasure() {
+  console.log('hasTreasure()');
+  const { hider } = get(window, 'app.player.game.round') || {};
+  const { indexes, guesses = '' } =
+    get(window, `app.player.game.players.${hider}`) || {};
+
+  console.log('hider:', hider);
+  console.log('indexes:', indexes);
+  console.log('guesses:', guesses);
+
+  const discoveredTreasure = intersection(
+    indexes.split(','),
+    guesses.split(',')
+  );
+  if (discoveredTreasure.length < 3) {
+    console.log('has treasure');
+    return true;
+  }
+  console.log('does not have treasure');
+  return false;
+}
+
 async function guessCrate(event) {
   if (!canGuess) {
     false;
+  }
+
+  if (!hasTreasure()) {
+    console.log('no treasure left');
+    return;
   }
 
   const { round } = get(window, 'app.player.game');

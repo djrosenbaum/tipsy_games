@@ -11,7 +11,14 @@ let $treasureWrapper;
 // let currentRound = 0;
 
 const game = () => {
-  console.log('render game()');
+  console.log('render game');
+
+  const { state } = get(window, 'app.player.game.round') || '';
+
+  if (state === 'winner') {
+    renderEndGame();
+    return;
+  }
 
   // check if there is an existing game state
   if (!window.app.player.game) {
@@ -42,6 +49,11 @@ function updateRound() {
   $broadcast.innerHTML = `<div>Round ${roundNumber}</div>`;
   $narrative.innerHTML = `<div>${playerList[seeker].playerName}<div><div>is seeking</div><div>${playerList[hider].playerName}'s treasure</div>`;
   displayGrid(getGridArrayFromPlayer(hider));
+}
+
+function renderEndGame() {
+  console.log('render end game');
+  // hide the crates
 }
 
 function canUpdateRound() {
