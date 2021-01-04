@@ -46,8 +46,8 @@ function updateRound() {
   const { playerList } = get(window, `app.player`) || {};
   console.log('playerList:', playerList);
 
-  $broadcast.innerHTML = `<div>Round ${roundNumber}</div>`;
-  $narrative.innerHTML = `<div>${playerList[seeker].playerName}<div><div>is seeking</div><div>${playerList[hider].playerName}'s treasure</div>`;
+  $broadcast.innerHTML = `<div>${playerList[seeker].playerName} is seeking</div>`;
+  $narrative.innerHTML = `<div>${playerList[hider].playerName} has treasure hidden here</div>`;
   displayGrid(getGridArrayFromPlayer(hider));
 }
 
