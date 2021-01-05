@@ -14,6 +14,11 @@ async function commit() {
   );
   $broadcast.innerHTML = 'Your treasure is hidden';
 
+  const $treasureWrapper = document.querySelector(
+    '[data-screen="game"] .treasure-wrapper'
+  );
+  $treasureWrapper.classList.add('hide');
+
   const $commitWrapper = document.querySelector(
     '[data-screen="game"] .commit-wrapper'
   );
