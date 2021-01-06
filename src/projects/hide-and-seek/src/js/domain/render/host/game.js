@@ -7,6 +7,7 @@ let initial_markup = '';
 let $crates;
 let $broadcast;
 let $narrative;
+let $playAgain;
 let currentRound = 0;
 const guesses = 3;
 
@@ -16,6 +17,7 @@ function game() {
   const { state } = get(window, 'app.host.game.round') || '';
 
   if (state === 'winner') {
+    updateRound();
     renderEndGame();
     return;
   }
@@ -64,6 +66,9 @@ function hasTreasure() {
 function renderEndGame() {
   console.log('render end game');
   // hide the crates
+  $broadcast.innerHTML = 'tally up your treasure';
+  $narrative.classList.add('hide');
+  $playAgain.classList.remove('hide');
 }
 
 function canUpdateRound() {
@@ -270,6 +275,7 @@ async function newGame() {
   $crates = document.querySelector('[data-screen="game"] .crates');
   $broadcast = document.querySelector('[data-screen="game"] .broadcast');
   $narrative = document.querySelector('[data-screen="game"] .narrative');
+  $playAgain = document.querySelector('[data-screen="game"] .play-again');
 
   $broadcast.innerHTML = 'Time to hide your treasure';
   $broadcast.classList.remove('hide');

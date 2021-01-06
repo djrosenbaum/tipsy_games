@@ -47,6 +47,7 @@
 }
 
 [data-screen='game'] .play-again {
+  padding-top: 20px;
   text-align: center;
 }
 

@@ -53,7 +53,8 @@ function updateRound() {
 
 function renderEndGame() {
   console.log('render end game');
-  // hide the crates
+  $broadcast.classList.add('hide');
+  $narrative.innerHTML = 'tally up your treasure';
 }
 
 function canUpdateRound() {
