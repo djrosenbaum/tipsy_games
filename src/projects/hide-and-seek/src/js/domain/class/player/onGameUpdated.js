@@ -1,4 +1,5 @@
 import { render } from '../../render';
+import { app } from '../../app';
 
 function onGameUpdated(snapshot) {
   console.log('on game updated', snapshot);
@@ -7,7 +8,7 @@ function onGameUpdated(snapshot) {
     return;
   }
   console.log('snapshot does exist', snapshot.exists());
-  window.app.player.game = snapshot.toJSON() || {};
+  app.game = snapshot.toJSON() || {};
 
   render({
     playerType: 'player',

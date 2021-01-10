@@ -1,8 +1,9 @@
 import { render } from '../../render';
+import { app } from '../../app';
 
 function onPlayerListUpdated(snapshot) {
   console.log('on player list updated', snapshot);
-  window.app.host.playerList = snapshot.exists() ? snapshot.toJSON() : {};
+  app.playerList = snapshot.exists() ? snapshot.toJSON() : {};
 
   render({
     playerType: 'host',

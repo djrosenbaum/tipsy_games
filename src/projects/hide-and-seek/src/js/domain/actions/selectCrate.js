@@ -1,5 +1,6 @@
 import { get, intersection } from 'lodash-es';
 import { getRef } from '../../library/getRef';
+import { app } from '../app';
 
 let canGuess = true;
 
@@ -12,8 +13,8 @@ async function selectCrate(event) {
     hideTreasure(event);
   }
 
-  const seeker = get(window, 'app.player.game.round.seeker') || '';
-  const playerKey = get(window, 'app.player.playerKey') || '';
+  const seeker = get(app, 'game.round.seeker') || '';
+  const playerKey = app.playerKey || '';
   if (seeker && seeker === playerKey) {
     guessCrate(event);
   }
@@ -21,9 +22,8 @@ async function selectCrate(event) {
 
 function hasTreasure() {
   console.log('hasTreasure()');
-  const { hider } = get(window, 'app.player.game.round') || {};
-  const { indexes, guesses = '' } =
-    get(window, `app.player.game.players.${hider}`) || {};
+  const { hider } = get(app, 'game.round') || {};
+  const { indexes, guesses = '' } = get(app, `game.players.${hider}`) || {};
 
   console.log('hider:', hider);
   console.log('indexes:', indexes);
@@ -51,7 +51,7 @@ async function guessCrate(event) {
     return;
   }
 
-  const { round } = get(window, 'app.player.game');
+  const { round } = app.game || {};
   if (!round.guesses) {
     // no more guesses
     return;
@@ -60,10 +60,10 @@ async function guessCrate(event) {
   console.log('Guessing a crate', event);
   const $selectedCrate = event.target;
   const selectedIndex = $selectedCrate.dataset.index;
-  const { hider, seeker } = get(window, 'app.player.game.round') || {};
+  const { hider, seeker } = get(app, 'game.round') || {};
 
-  const _hider = get(window, `app.player.game.players.${hider}`) || {};
-  const _seeker = get(window, `app.player.game.players.${seeker}`) || {};
+  const _hider = get(app, `game.players.${hider}`) || {};
+  const _seeker = get(app, `game.players.${seeker}`) || {};
 
   const guessArray = _hider.guesses ? _hider.guesses.split(',') : [];
 

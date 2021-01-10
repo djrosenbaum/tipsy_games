@@ -1,4 +1,5 @@
 import { getRef } from '../../library/getRef';
+import { app } from '../app';
 
 let canCommit = true;
 
@@ -28,7 +29,7 @@ async function commit() {
   console.log('indexes', indexes);
 
   const ref = getRef();
-  const { playerKey } = window.app.player;
+  const { playerKey } = app;
 
   // set indexes
   await ref

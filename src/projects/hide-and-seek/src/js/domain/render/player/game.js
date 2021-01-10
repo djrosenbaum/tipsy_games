@@ -13,7 +13,7 @@ let $treasureWrapper;
 const game = () => {
   console.log('render game');
 
-  const { state } = get(window, 'app.player.game.round') || '';
+  const { state } = get(app, 'game.round') || '';
 
   if (state === 'winner') {
     renderEndGame();
@@ -21,7 +21,7 @@ const game = () => {
   }
 
   // check if there is an existing game state
-  if (!window.app.player.game) {
+  if (!app.game) {
     if (!initial_markup) {
       initial_markup = document.querySelector('[data-screen="game"]').innerHTML;
     }
@@ -37,13 +37,12 @@ const game = () => {
 function updateRound() {
   console.log('update round');
 
-  const { hider, seeker, roundNumber } =
-    get(window, 'app.player.game.round') || {};
+  const { hider, seeker, roundNumber } = get(app, 'game.round') || {};
   console.log('hider:', hider);
   console.log('seeker:', seeker);
   console.log('roundNumber:', roundNumber);
 
-  const { playerList } = get(window, `app.player`) || {};
+  const { playerList } = app || {};
   console.log('playerList:', playerList);
 
   $broadcast.innerHTML = `<div>${playerList[seeker].playerName} is seeking</div>`;
@@ -58,7 +57,7 @@ function renderEndGame() {
 }
 
 function canUpdateRound() {
-  return !!get(window, 'app.player.game.round.roundNumber');
+  return !!get(app, 'game.round.roundNumber');
 }
 
 function newGame() {
@@ -107,8 +106,7 @@ function getDefaultGridArray() {
 function getGridArrayFromPlayer(player) {
   console.log('getGridArrayFromPlayer', player);
   const grid = getDefaultGridArray();
-  const { indexes, guesses } =
-    get(window, `app.player.game.players.${player}`) || {};
+  const { indexes, guesses } = get(app, `game.players.${player}`) || {};
 
   if (guesses) {
     const indexesArray = indexes.split(',');
@@ -128,15 +126,14 @@ function getGridArrayFromPlayer(player) {
 
 function updatePlayerList() {
   console.log('updatePlayerList');
-  const { playerList } = app.player;
+  const { playerList } = app;
   console.log('update player list', playerList);
   const treasureMarkup = '<div class="treasure"></div>';
 
   let markup = Object.keys(playerList)
     .map((player) => {
-      const { playerName } =
-        get(app, `player.playerList.${player}`) || 'undefined';
-      const { treasure } = get(app, `player.game.players.${player}`) || 0;
+      const { playerName } = get(app, `playerList.${player}`) || 'undefined';
+      const { treasure } = get(app, `game.players.${player}`) || 0;
 
       return `<div class="player" data-key=${player}><div class="player-name">${playerName}</div>${treasureMarkup.repeat(
         treasure

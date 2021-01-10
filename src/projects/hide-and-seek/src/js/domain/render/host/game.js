@@ -14,7 +14,7 @@ const guesses = 3;
 function game() {
   console.log('render game');
 
-  const { state } = get(window, 'app.host.game.round') || '';
+  const { state } = get(window, 'app.game.round') || '';
 
   if (state === 'winner') {
     updateRound();
@@ -23,7 +23,7 @@ function game() {
   }
 
   // check if there is an existing game state
-  if (!window.app.host.game) {
+  if (!window.app.game) {
     // store initial markup for easy reset
     if (!initial_markup) {
       initial_markup = document.querySelector('[data-screen="game"]').innerHTML;
@@ -48,9 +48,8 @@ function game() {
 }
 
 function hasTreasure() {
-  const { hider } = get(window, 'app.host.game.round') || {};
-  const { indexes, guesses = '' } =
-    get(window, `app.host.game.players.${hider}`) || {};
+  const { hider } = get(window, 'app.game.round') || {};
+  const { indexes, guesses = '' } = get(app, `game.players.${hider}`) || {};
   const discoveredTreasure = intersection(
     indexes.split(','),
     guesses.split(',')
@@ -72,7 +71,7 @@ function renderEndGame() {
 }
 
 function canUpdateRound() {
-  return !!get(window, 'app.host.game.round.roundNumber');
+  return !!get(app, 'game.round.roundNumber');
 }
 
 function updateRound() {
@@ -84,14 +83,13 @@ function updateRound() {
     return;
   }
 
-  const { hider, seeker, roundNumber, guesses } =
-    get(window, 'app.host.game.round') || {};
+  const { hider, seeker, roundNumber, guesses } = get(app, 'game.round') || {};
   console.log('hider:', hider);
   console.log('seeker:', seeker);
   console.log('roundNumber:', roundNumber);
   console.log('guesses:', guesses);
 
-  const { playerList } = get(window, `app.host`) || {};
+  const { playerList } = app || {};
   console.log('playerList:', playerList);
 
   $broadcast.innerHTML = `<div>${playerList[seeker].playerName} is seeking</div>`;
@@ -106,7 +104,7 @@ function updateRound() {
 
 async function endTurn() {
   console.log('END TURN');
-  const { round, players } = get(window, 'app.host.game') || {};
+  const { round, players } = app.game || {};
 
   let seekers = round.seekers.split(',');
   if (seekers.length === 1) {
@@ -169,8 +167,7 @@ async function broadcastWinner() {
 function getGridArrayFromPlayer(player) {
   console.log('getGridArrayFromPlayer', player);
   const grid = getDefaultGridArray();
-  const { indexes, guesses } =
-    get(window, `app.host.game.players.${player}`) || {};
+  const { indexes, guesses } = get(app, `game.players.${player}`) || {};
 
   if (guesses) {
     const indexesArray = indexes.split(',');
@@ -189,12 +186,11 @@ function getGridArrayFromPlayer(player) {
 }
 
 function isReadyToStartRound() {
-  if (!app.host.game) {
+  if (!app.game) {
     return false;
   }
   return (
-    Object.keys(app.host.playerList).length ===
-    Object.keys(app.host.game.players).length
+    Object.keys(app.playerList).length === Object.keys(app.game.players).length
   );
 }
 
@@ -240,17 +236,17 @@ async function startRound() {
 }
 
 function getSeekers() {
-  const { players } = get(window, 'app.host.game') || {};
+  const { players } = app.game || {};
   return shuffle(Object.keys(players));
 }
 
 function getRoundNumber() {
-  return get(window, 'app.host.game.round.roundNumber') || 1;
+  return get(app, 'game.round.roundNumber') || 1;
 }
 
 function getRemainingBoards() {
   console.log('get remaining boards');
-  const { players } = get(window, 'app.host.game') || {};
+  const { players } = app.game || {};
   const remainingBoards = [];
 
   for (const player in players) {
@@ -308,14 +304,13 @@ function displayGrid(gridArray) {
 }
 
 function updatePlayerList() {
-  const { playerList } = app.host;
+  const { playerList } = app || {};
   console.log('update player list', playerList);
   const treasureMarkup = '<div class="treasure"></div>';
 
   let markup = Object.keys(playerList)
     .map((player) => {
-      const { playerName } =
-        get(app, `host.playerList.${player}`) || 'undefined';
+      const { playerName } = get(app, `playerList.${player}`) || 'undefined';
       const { treasure } = get(app, `host.game.players.${player}`) || 0;
 
       return `<div class="player" data-key=${player}><div class="player-name">${playerName}</div>${treasureMarkup.repeat(

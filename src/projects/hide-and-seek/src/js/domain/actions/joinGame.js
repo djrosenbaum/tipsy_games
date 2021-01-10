@@ -46,8 +46,8 @@ const joinGame = async () => {
 
   if (isValidRoom) {
     document.querySelector('[data-group="host"]').remove();
-    app.player = await createNewPlayer({ code });
-    app.player.listen();
+    await createNewPlayer({ code });
+    app.listen();
   }
 };
 

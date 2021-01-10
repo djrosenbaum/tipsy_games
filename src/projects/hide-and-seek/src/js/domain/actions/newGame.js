@@ -13,8 +13,8 @@ async function newGame() {
   if (canCreateNewGame) {
     canCreateNewGame = false;
     document.querySelector('[data-group="player"]').remove();
-    app.host = await createNewHost();
-    app.host.listen();
+    await createNewHost();
+    app.listen();
     render({
       playerType: 'host',
       screen: 'lobby',

@@ -3,6 +3,7 @@ import { onPlayerListUpdated } from './onPlayerListUpdated';
 import { onScreenUpdated } from './onScreenUpdated';
 import { setCookie } from '../../../library/cookie';
 import { onGameUpdated } from './onGameUpdated';
+import { app } from '../../app';
 
 async function createNewPlayer({ code }) {
   console.log('new player');
@@ -26,6 +27,16 @@ async function createNewPlayer({ code }) {
       displayScreen('lobby');
     });
 
+  const player = {
+    code,
+    listen,
+    playerKey,
+    playerList,
+    ref,
+  };
+
+  Object.assign(app, player);
+
   return {
     code,
     listen,
@@ -44,7 +55,7 @@ function getPlayerName() {
 
 function listen() {
   console.log('listening');
-  const { ref } = window.app.player;
+  const { ref } = app;
   ref.child('players').on('value', onPlayerListUpdated);
   ref.child('screen').on('value', onScreenUpdated);
   ref.child('game').on('value', onGameUpdated);

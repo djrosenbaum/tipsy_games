@@ -1,8 +1,10 @@
+import { app } from '../../app';
+
 function lobby() {
   console.log('render the lobby');
   const minimumPlayers = 2;
 
-  const { code, playerList } = window.app.host;
+  const { code, playerList } = app;
 
   if (code) {
     setRoomCode(code);
