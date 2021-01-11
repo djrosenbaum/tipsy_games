@@ -2,14 +2,7 @@ import { app } from '../../app';
 import { get, shuffle, intersection } from 'lodash-es';
 import { getRef } from '../../../library/getRef';
 
-// store the initial html markup, allows for an easy game reset
-let initial_markup = '';
-let $crates;
-let $broadcast;
-let $narrative;
-let $playAgain;
 let currentRound = 0;
-const guesses = 3;
 
 function game() {
   console.log('render game');
@@ -25,8 +18,10 @@ function game() {
   // check if there is an existing game state
   if (!window.app.game) {
     // store initial markup for easy reset
-    if (!initial_markup) {
-      initial_markup = document.querySelector('[data-screen="game"]').innerHTML;
+    if (!app.initial_markup) {
+      app.initial_markup = document.querySelector(
+        '[data-screen="game"]'
+      ).innerHTML;
     }
     newGame();
     updatePlayerList();
@@ -64,10 +59,11 @@ function hasTreasure() {
 
 function renderEndGame() {
   console.log('render end game');
+  const { dom } = app;
   // hide the crates
-  $broadcast.innerHTML = 'tally up your treasure';
-  $narrative.classList.add('hide');
-  $playAgain.classList.remove('hide');
+  dom.$broadcast.innerHTML = 'tally up your treasure';
+  dom.$narrative.classList.add('hide');
+  dom.$playAgain.classList.remove('hide');
 }
 
 function canUpdateRound() {
@@ -92,8 +88,10 @@ function updateRound() {
   const { playerList } = app || {};
   console.log('playerList:', playerList);
 
-  $broadcast.innerHTML = `<div>${playerList[seeker].playerName} is seeking</div>`;
-  $narrative.innerHTML = `<div>${playerList[hider].playerName} has treasure hidden here</div>`;
+  const { dom } = app;
+
+  dom.$broadcast.innerHTML = `<div>${playerList[seeker].playerName} is seeking</div>`;
+  dom.$narrative.innerHTML = `<div>${playerList[hider].playerName} has treasure hidden here</div>`;
   displayGrid(getGridArrayFromPlayer(hider));
 
   if (!guesses) {
@@ -132,7 +130,7 @@ async function endTurn() {
   const hider = shuffle(filteredBoards)[0];
 
   const _round = {
-    guesses,
+    guesses: 3,
     hider,
     roundNumber: round.roundNumber,
     seeker,
@@ -218,7 +216,7 @@ async function startRound() {
   console.log('hider:', seeker);
 
   const round = {
-    guesses,
+    guesses: 3,
     hider,
     roundNumber,
     seeker,
@@ -266,15 +264,19 @@ function getRemainingBoards() {
 }
 
 async function newGame() {
-  document.querySelector('[data-screen="game"]').innerHTML = initial_markup;
+  console.log('newGame()');
+  document.querySelector('[data-screen="game"]').innerHTML = app.initial_markup;
 
-  $crates = document.querySelector('[data-screen="game"] .crates');
-  $broadcast = document.querySelector('[data-screen="game"] .broadcast');
-  $narrative = document.querySelector('[data-screen="game"] .narrative');
-  $playAgain = document.querySelector('[data-screen="game"] .play-again');
+  const dom = {};
+  app.dom = dom;
 
-  $broadcast.innerHTML = 'Time to hide your treasure';
-  $broadcast.classList.remove('hide');
+  dom.$crates = document.querySelector('[data-screen="game"] .crates');
+  dom.$broadcast = document.querySelector('[data-screen="game"] .broadcast');
+  dom.$narrative = document.querySelector('[data-screen="game"] .narrative');
+  dom.$playAgain = document.querySelector('[data-screen="game"] .play-again');
+
+  dom.$broadcast.innerHTML = 'Time to hide your treasure';
+  dom.$broadcast.classList.remove('hide');
 
   displayGrid(getDefaultGridArray());
 }
@@ -300,7 +302,7 @@ function displayGrid(gridArray) {
       }
     })
     .join('');
-  $crates.innerHTML = `<div data-crates="default">${markup}</div>`;
+  app.dom.$crates.innerHTML = `<div data-crates="default">${markup}</div>`;
 }
 
 function updatePlayerList() {
@@ -311,7 +313,7 @@ function updatePlayerList() {
   let markup = Object.keys(playerList)
     .map((player) => {
       const { playerName } = get(app, `playerList.${player}`) || 'undefined';
-      const { treasure } = get(app, `host.game.players.${player}`) || 0;
+      const { treasure } = get(app, `game.players.${player}`) || 0;
 
       return `<div class="player" data-key=${player}><div class="player-name">${playerName}</div>${treasureMarkup.repeat(
         treasure
@@ -319,10 +321,10 @@ function updatePlayerList() {
     })
     .join('');
 
-  const $playerList = document.querySelector(
+  app.dom.$playerList = document.querySelector(
     '[data-screen="game"] .player-list'
   );
-  $playerList.innerHTML = markup;
+  app.dom.$playerList.innerHTML = markup;
 }
 
 export { game };
