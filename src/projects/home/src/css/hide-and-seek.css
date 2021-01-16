@@ -1,0 +1,55 @@
+[data-screen='hide-and-seek'] .wrapper {
+  min-height: 50vh;
+}
+
+[data-screen='hide-and-seek'] .meta {
+  padding-bottom: 30px;
+  text-align: left;
+  width: 50vw;
+  margin: 0 auto;
+  color: #777;
+}
+
+[data-screen='hide-and-seek'] .game-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+[data-screen='hide-and-seek'] .game-teaser {
+  max-width: 60vw;
+  margin: 0 auto;
+}
+
+[data-screen='hide-and-seek'] .game-teaser .crates {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
+  justify-content: center;
+  grid-template-rows: repeat(5, 60px);
+  align-items: center;
+  width: 300px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+}
+
+[data-screen='hide-and-seek'] .game-teaser .treasure {
+  background-image: url(images/hide-and-seek/gold.svg);
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+}
+
+[data-screen='hide-and-seek'] .game-teaser .crate {
+  background-image: url(images/hide-and-seek/crate.svg);
+  width: 40px;
+  height: 40px;
+  background-size: cover;
+}
+
+[data-screen='hide-and-seek'] .game-teaser .crate.open {
+  opacity: 0.3;
+}
+
+[data-screen='hide-and-seek'] button {
+  color: gold;
+}
