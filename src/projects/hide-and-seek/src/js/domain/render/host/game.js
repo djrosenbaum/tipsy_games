@@ -1,5 +1,5 @@
 import { app } from '../../app';
-import { get, shuffle, intersection } from 'lodash-es';
+import { get, remove, set, shuffle, intersection } from 'lodash-es';
 import { getRef } from '../../../library/getRef';
 
 let currentRound = 0;
@@ -112,22 +112,29 @@ async function endTurn() {
   }
   const seeker = seekers[0];
 
+  const remainingBoards = getRemainingBoards();
+
+  let hiders = get(app, 'local.hiders') || [];
+  if (!hiders.length) {
+    hiders = remainingBoards;
+  }
+
   const totalPlayers = Object.keys(players).length;
 
   // rotate hider
-  let remainingBoards = getRemainingBoards();
   if (remainingBoards.length === 1) {
     console.log('all treasure found');
     broadcastWinner();
     return;
   }
 
-  const filteredBoards = remainingBoards.filter((board) => board !== seeker);
+  const filteredBoards = hiders.filter((board) => board !== seeker);
 
   console.log('total players: ', totalPlayers);
   console.log('remaining boards: ', filteredBoards);
 
   const hider = shuffle(filteredBoards)[0];
+  remove(hiders, (item) => item === hider);
 
   const _round = {
     guesses: 3,
@@ -195,16 +202,19 @@ function isReadyToStartRound() {
 async function startRound() {
   console.log('START ROUND');
 
+  // look into removing round number
   const roundNumber = getRoundNumber();
   if (currentRound === roundNumber) {
     return;
   }
   currentRound = roundNumber;
 
-  const remainingBoards = getRemainingBoards(); // boards that have treasure
-  console.log('remaining boards:', remainingBoards);
+  // get available hiders
+  const hiders = getHiders();
+  set(app, 'local.hiders', hiders);
+  console.log('hiders:', hiders);
 
-  // set the seeker
+  // get available seekers
   const seekers = getSeekers();
   console.log('seekers:', seekers);
 
@@ -212,7 +222,7 @@ async function startRound() {
   console.log('seeker:', seeker);
 
   // set the hider
-  const hider = shuffle(remainingBoards.filter((board) => board !== seeker))[0];
+  const hider = shuffle(hiders.filter((board) => board !== seeker))[0];
   console.log('hider:', seeker);
 
   const round = {
@@ -236,6 +246,13 @@ async function startRound() {
 function getSeekers() {
   const { players } = app.game || {};
   return shuffle(Object.keys(players));
+}
+
+function getHiders() {
+  console.log('getHiders()');
+  const hiders = get(app, 'local.hiders') || getRemainingBoards();
+  console.log('hiders', hiders);
+  return shuffle(hiders);
 }
 
 function getRoundNumber() {
