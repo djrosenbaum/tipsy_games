@@ -1,13 +1,26 @@
 import { app } from '../../app';
 import { get, remove, set, shuffle, intersection } from 'lodash-es';
 import { getRef } from '../../../library/getRef';
-
-let currentRound = 0;
+import { hasTreasure } from './hasTreasure';
+import {
+  canUpdateRound,
+  displayGrid,
+  getDefaultGridArray,
+  getGridArrayFromPlayer,
+  updatePlayerList,
+} from '../shared';
 
 function game() {
   console.log('render game');
 
-  const { state } = get(window, 'app.game.round') || '';
+  // renderBroadcast();
+  // render
+
+  // renderEndGame
+  // renderNewGame
+  // renderUpdate
+
+  const { state } = get(app, 'game.round') || '';
 
   if (state === 'winner') {
     updateRound();
@@ -16,7 +29,7 @@ function game() {
   }
 
   // check if there is an existing game state
-  if (!window.app.game) {
+  if (!app.game) {
     // store initial markup for easy reset
     if (!app.initial_markup) {
       app.initial_markup = document.querySelector(
@@ -42,21 +55,6 @@ function game() {
   }
 }
 
-function hasTreasure() {
-  const { hider } = get(window, 'app.game.round') || {};
-  const { indexes, guesses = '' } = get(app, `game.players.${hider}`) || {};
-  const discoveredTreasure = intersection(
-    indexes.split(','),
-    guesses.split(',')
-  );
-  if (discoveredTreasure.length < 3) {
-    console.log('has treasure');
-    return true;
-  }
-  console.log('does not have treasure');
-  return false;
-}
-
 function renderEndGame() {
   console.log('render end game');
   const { dom } = app;
@@ -64,10 +62,6 @@ function renderEndGame() {
   dom.$broadcast.innerHTML = 'tally up your treasure';
   dom.$narrative.classList.add('hide');
   dom.$playAgain.classList.remove('hide');
-}
-
-function canUpdateRound() {
-  return !!get(app, 'game.round.roundNumber');
 }
 
 function updateRound() {
@@ -79,10 +73,9 @@ function updateRound() {
     return;
   }
 
-  const { hider, seeker, roundNumber, guesses } = get(app, 'game.round') || {};
+  const { hider, seeker, guesses } = get(app, 'game.round') || {};
   console.log('hider:', hider);
   console.log('seeker:', seeker);
-  console.log('roundNumber:', roundNumber);
   console.log('guesses:', guesses);
 
   const { playerList } = app || {};
@@ -113,9 +106,12 @@ async function endTurn() {
   const seeker = seekers[0];
 
   const remainingBoards = getRemainingBoards();
+  console.log('remaining boards:', remainingBoards);
 
   let hiders = get(app, 'local.hiders') || [];
-  if (!hiders.length) {
+  remove(hiders, (item) => item === seeker);
+  if (hiders.length < 1) {
+    console.log('no hiders found');
     hiders = remainingBoards;
   }
 
@@ -131,7 +127,7 @@ async function endTurn() {
   const filteredBoards = hiders.filter((board) => board !== seeker);
 
   console.log('total players: ', totalPlayers);
-  console.log('remaining boards: ', filteredBoards);
+  console.log('filtered boards: ', filteredBoards);
 
   const hider = shuffle(filteredBoards)[0];
   remove(hiders, (item) => item === hider);
@@ -139,7 +135,6 @@ async function endTurn() {
   const _round = {
     guesses: 3,
     hider,
-    roundNumber: round.roundNumber,
     seeker,
     seekers: seekers.join(','),
   };
@@ -169,45 +164,17 @@ async function broadcastWinner() {
     });
 }
 
-function getGridArrayFromPlayer(player) {
-  console.log('getGridArrayFromPlayer', player);
-  const grid = getDefaultGridArray();
-  const { indexes, guesses } = get(app, `game.players.${player}`) || {};
-
-  if (guesses) {
-    const indexesArray = indexes.split(',');
-    console.log('indexesArray', indexesArray);
-    guesses.split(',').forEach((guess) => {
-      const index = Number(guess);
-      console.log('guess index:', index);
-      grid[index] = 1;
-      if (indexesArray.includes(index.toString())) {
-        grid[index] = 2;
-      }
-    });
-  }
-
-  return grid;
-}
-
 function isReadyToStartRound() {
   if (!app.game) {
     return false;
   }
-  return (
-    Object.keys(app.playerList).length === Object.keys(app.game.players).length
-  );
+  const totalPlayersOnList = Object.keys(app.playerList).length;
+  const totalPlayersInGame = Object.keys(app.game.players).length;
+  return totalPlayersOnList === totalPlayersInGame;
 }
 
 async function startRound() {
   console.log('START ROUND');
-
-  // look into removing round number
-  const roundNumber = getRoundNumber();
-  if (currentRound === roundNumber) {
-    return;
-  }
-  currentRound = roundNumber;
 
   // get available hiders
   const hiders = getHiders();
@@ -228,7 +195,6 @@ async function startRound() {
   const round = {
     guesses: 3,
     hider,
-    roundNumber,
     seeker,
     seekers: seekers.join(','),
   };
@@ -253,10 +219,6 @@ function getHiders() {
   const hiders = get(app, 'local.hiders') || getRemainingBoards();
   console.log('hiders', hiders);
   return shuffle(hiders);
-}
-
-function getRoundNumber() {
-  return get(app, 'game.round.roundNumber') || 1;
 }
 
 function getRemainingBoards() {
@@ -296,52 +258,6 @@ async function newGame() {
   dom.$broadcast.classList.remove('hide');
 
   displayGrid(getDefaultGridArray());
-}
-
-function getDefaultGridArray() {
-  let gridArray = [];
-  gridArray.length = 25;
-  gridArray.fill(0);
-  return gridArray;
-}
-
-function displayGrid(gridArray) {
-  let markup = gridArray
-    .map((item, index) => {
-      if (item === 0) {
-        return `<div class="crate" data-action="selectCrate" data-index="${index}"></div>`;
-      }
-      if (item === 1) {
-        return `<div class="crate open"></div>`;
-      }
-      if (item === 2) {
-        return `<div class="treasure"></div>`;
-      }
-    })
-    .join('');
-  app.dom.$crates.innerHTML = `<div data-crates="default">${markup}</div>`;
-}
-
-function updatePlayerList() {
-  const { playerList } = app || {};
-  console.log('update player list', playerList);
-  const treasureMarkup = '<div class="treasure"></div>';
-
-  let markup = Object.keys(playerList)
-    .map((player) => {
-      const { playerName } = get(app, `playerList.${player}`) || 'undefined';
-      const { treasure } = get(app, `game.players.${player}`) || 0;
-
-      return `<div class="player" data-key=${player}><div class="player-name">${playerName}</div>${treasureMarkup.repeat(
-        treasure
-      )}</div>`;
-    })
-    .join('');
-
-  app.dom.$playerList = document.querySelector(
-    '[data-screen="game"] .player-list'
-  );
-  app.dom.$playerList.innerHTML = markup;
 }
 
 export { game };

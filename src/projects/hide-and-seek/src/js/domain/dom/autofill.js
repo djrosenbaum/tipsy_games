@@ -1,5 +1,5 @@
-import { getCookie } from '../library/cookie';
-import { log } from '../library/log';
+import { getCookie } from '../../library/cookie';
+import { log } from '../../library/log';
 
 /**
  * Autofills the player name input box if stored in a playerName cookie

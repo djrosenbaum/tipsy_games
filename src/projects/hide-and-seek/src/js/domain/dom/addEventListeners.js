@@ -1,5 +1,5 @@
-import { handleClick } from '../library/handleClick';
-import { log } from '../library/log';
+import { handleClick } from '../../library/handleClick';
+import { log } from '../../library/log';
 // import { handleInput } from '../library/handleInput';
 
 export const addEventListeners = () => {

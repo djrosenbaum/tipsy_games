@@ -1,5 +1,5 @@
-import { addEventListeners } from './addEventListeners';
-import { autofill } from './autofill';
+import { addEventListeners } from './dom/addEventListeners';
+import { autofill } from './dom/autofill';
 import { app } from './app';
 import { log } from '../library/log';
 
@@ -10,6 +10,7 @@ import { log } from '../library/log';
  */
 const init = () => {
   log('init');
+  // expose the app for easy troubleshooting in browser
   window.app = app;
   autofill();
   addEventListeners();
