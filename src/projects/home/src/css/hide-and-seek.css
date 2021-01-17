@@ -1,26 +1,23 @@
-[data-screen='hide-and-seek'] .wrapper {
-  min-height: 50vh;
-}
-
-[data-screen='hide-and-seek'] .meta {
-  padding-bottom: 30px;
-  text-align: left;
-  width: 50vw;
-  margin: 0 auto;
-  color: #777;
+[data-screen='hide-and-seek'] {
+  background-color: #fff;
+  padding: 80px 0;
+  min-height: 200px;
 }
 
 [data-screen='hide-and-seek'] .game-title {
-  font-size: 24px;
-  font-weight: bold;
+  color: #444;
+  font-size: 30px;
+  font-weight: 900;
+  margin-bottom: 20px;
 }
 
-[data-screen='hide-and-seek'] .game-teaser {
-  max-width: 60vw;
-  margin: 0 auto;
+[data-screen='hide-and-seek'] .game-description {
+  margin-bottom: 50px;
+  font-size: 21px;
+  color: #555;
 }
 
-[data-screen='hide-and-seek'] .game-teaser .crates {
+[data-screen='hide-and-seek'] .crates {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   justify-items: center;
@@ -32,24 +29,73 @@
   margin-bottom: 20px;
 }
 
-[data-screen='hide-and-seek'] .game-teaser .treasure {
+[data-screen='hide-and-seek'] .treasure {
   background-image: url(images/hide-and-seek/gold.svg);
   width: 40px;
   height: 40px;
   background-size: cover;
 }
 
-[data-screen='hide-and-seek'] .game-teaser .crate {
+[data-screen='hide-and-seek'] .crate {
   background-image: url(images/hide-and-seek/crate.svg);
   width: 40px;
   height: 40px;
   background-size: cover;
 }
 
-[data-screen='hide-and-seek'] .game-teaser .crate.open {
+[data-screen='hide-and-seek'] .crate.open {
   opacity: 0.3;
 }
 
 [data-screen='hide-and-seek'] button {
-  color: gold;
+  color: #cddc39;
+}
+
+@media (min-width: 576px) {
+  [data-screen='hero'] {
+    height: 250px;
+    padding-top: 80px;
+  }
+
+  [data-screen='hide-and-seek'] .game-title {
+    font-size: 36px;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 768px) {
+  [data-screen='hero'] {
+    height: 300px;
+  }
+
+  [data-screen='hide-and-seek'] .game-title {
+    font-size: 38px;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  [data-screen='hero'] {
+    height: 350px;
+  }
+
+  [data-screen='hide-and-seek'] .game-title {
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 1200px) {
+  [data-screen='hero'] {
+    height: 400px;
+  }
+
+  [data-screen='hide-and-seek'] .game-title {
+    font-size: 42px;
+    font-weight: 900;
+    margin-bottom: 20px;
+  }
 }

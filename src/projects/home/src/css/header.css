@@ -1,18 +1,71 @@
-.header {
-  width: 100vw;
-  text-align: center;
+[data-screen='header'] {
   background-color: #222;
   color: #fff;
   font-weight: 200;
   padding: 10px 0;
 }
 
-.header h1 {
-  color: magenta;
-  font-family: 'Monoton', cursive;
-  font-size: 24px;
-  font-weight: 400;
+[data-screen='header'] h1 {
+  color: #fff;
+  display: inline;
+  font-family: system-ui;
+  font-size: 21px;
+  font-weight: 100;
   letter-spacing: 2px;
-  text-shadow: 1px 2px #000;
+  text-shadow: 0 0 5px #fff;
   text-transform: uppercase;
+  padding-left: 10px;
+  vertical-align: bottom;
+}
+
+[data-screen='header'] .trophy {
+  display: inline-block;
+  background-image: url(images/header/trophy.svg);
+  width: 30px;
+  height: 30px;
+  background-size: cover;
+}
+
+@media (min-width: 576px) {
+  [data-screen='header'] {
+    padding: 10px 0;
+  }
+  [data-screen='header'] h1 {
+    font-size: 21px;
+  }
+}
+
+@media (min-width: 768px) {
+  [data-screen='header'] {
+    padding: 14px 0;
+  }
+  [data-screen='header'] h1 {
+    font-size: 24px;
+  }
+  [data-screen='header'] .trophy {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (min-width: 992px) {
+  [data-screen='header'] {
+    padding: 16px 0;
+  }
+  [data-screen='header'] h1 {
+    font-size: 26px;
+  }
+}
+
+@media (min-width: 1200px) {
+  [data-screen='header'] {
+    padding: 20px 0;
+  }
+  [data-screen='header'] h1 {
+    font-size: 30px;
+  }
+  [data-screen='header'] .trophy {
+    width: 40px;
+    height: 40px;
+  }
 }
