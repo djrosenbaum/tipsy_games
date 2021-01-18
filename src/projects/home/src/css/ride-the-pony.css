@@ -1,28 +1,5 @@
 [data-screen='ride-the-pony'] {
-  background-color: wheat;
-}
-
-[data-screen='ride-the-pony'] .meta {
-  padding-bottom: 30px;
-  text-align: left;
-  width: 50vw;
-  margin: 0 auto;
-  color: #777;
-}
-
-[data-screen='ride-the-pony'] .game-title {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-[data-screen='ride-the-pony'] .game-teaser {
-  /* background-image: url('./images/ride-the-pony/teaser.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain; */
-  height: 40vh;
-  max-width: 60vw;
-  margin: 0 auto;
+  background-color: #e1e1e1;
 }
 
 [data-screen='ride-the-pony'] .pony {

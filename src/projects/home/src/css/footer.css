@@ -1,18 +1,18 @@
 [data-screen='footer'] {
-  background-color: #fff;
+  background-color: #222;
   z-index: 777;
+  height: 100vh;
 }
 
-[data-screen='footer'] .wrapper {
-  height: 50vh;
-}
-
-[data-screen='footer'] .sponsor-logo {
-  background-image: url('./images/sponsor/yuengling_logo.svg');
+[data-screen='footer'] .trophy {
+  background-image: url('./images/header/trophy.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
-  height: 40vh;
-  max-width: 80vw;
-  margin: 0 auto;
+  height: 20vh;
+  position: absolute;
+  top: 40%;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
