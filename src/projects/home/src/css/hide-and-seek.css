@@ -34,7 +34,7 @@
 }
 
 [data-screen='hide-and-seek'] button {
-  color: #cddc39;
+  color: yellow;
 }
 
 @media (min-width: 576px) {
