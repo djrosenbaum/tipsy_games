@@ -1,25 +1,26 @@
 import { createNewHost } from '../class/Host';
-import { render } from '../render';
-import { app } from '../app';
+import { firebaseConfig } from '../../domain/firebase/firebaseConfig';
 
 let canCreateNewGame = true;
 
 async function newGame() {
-  const { host } = window.app;
-  if (host) {
+  if (!canCreateNewGame) {
     return;
   }
+  canCreateNewGame = false;
 
-  if (canCreateNewGame) {
-    canCreateNewGame = false;
-    document.querySelector('[data-group="player"]').remove();
-    await createNewHost();
-    app.listen();
-    render({
-      playerType: 'host',
-      screen: 'lobby',
+  // remove player from the DOM
+  document.querySelector('[data-group="player"]').remove();
+
+  // initialize Firebase
+  window.firebase.initializeApp(firebaseConfig);
+  window.firebase
+    .auth()
+    .signInAnonymously()
+    .then(createNewHost)
+    .catch((error) => {
+      console.error(error);
     });
-  }
 }
 
 export { newGame };

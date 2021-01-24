@@ -1,7 +1,5 @@
-import { app } from '../domain/app';
-
-function getRef() {
-  return app.ref;
+function getRef(path) {
+  return window.firebase.database().ref(path);
 }
 
 export { getRef };

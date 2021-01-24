@@ -1,41 +1,57 @@
-import { createRoomCode } from './createRoomCode';
-import { onPlayerListUpdated } from './onPlayerListUpdated';
-import { onGameUpdated } from './onGameUpdated';
 import { app } from '../../app';
+import { getAvailableChannelId } from './getAvailableChannelId';
+import { getRef } from '../../../library/getRef';
+import { onGameUpdate } from './onGameUpdate';
+import { onPlayerUpdate } from './onPlayerUpdate';
 
+/**
+ * Creates a new host, reserves a room, and sets up a new game
+ */
 async function createNewHost() {
-  console.log('new host');
-  const code = createRoomCode();
-  const ref = window.firebase.database().ref(`rooms/${code}`);
-  const playerType = 'host';
-  console.log('ref:', ref);
+  console.log('createNewHost');
+  const { game } = app.store;
+  game.playerType = 'host';
 
-  let playerList = '';
+  // first channel id where reserved == false
+  const channelId = await getAvailableChannelId();
+  console.log('channel id', channelId);
 
-  // remove room from firebase when disconnected
-  await ref.onDisconnect().remove();
+  if (!channelId) {
+    console.error('all channels full or something went wrong');
+    return;
+  }
+  game.channelId = channelId;
 
-  console.log('ref set lobby');
-  await ref.set({
-    screen: 'lobby',
+  const channelRef = getRef(`channel/${channelId}`);
+  await channelRef.onDisconnect().set({
+    reserved: false,
   });
 
-  const host = {
-    code,
-    listen,
-    playerList,
-    playerType,
-    ref,
-  };
+  // get the user id
+  const uid = firebase.auth().getUid();
+  console.log('uid:', uid);
 
-  Object.assign(app, host);
-}
+  const timestamp = firebase.database.ServerValue.TIMESTAMP;
+  console.log('timestamp:', timestamp);
 
-function listen() {
-  console.log('listening');
-  const { ref } = app;
-  ref.child('players').on('value', onPlayerListUpdated);
-  ref.child('game').on('value', onGameUpdated);
+  channelRef
+    .update({
+      reserved: true,
+      uid,
+      timestamp,
+    })
+    .then(() => {
+      console.log('channel reserved');
+      const gameRef = getRef(`games/${channelId}`);
+      gameRef.onDisconnect().remove();
+      gameRef.child('public').push({
+        payload: JSON.stringify({
+          screen: 'lobby',
+        }),
+      });
+      gameRef.child('public').on('child_added', onGameUpdate);
+      gameRef.child('private').on('child_added', onPlayerUpdate);
+    });
 }
 
 export { createNewHost };

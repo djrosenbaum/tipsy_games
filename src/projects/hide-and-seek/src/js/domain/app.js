@@ -2,5 +2,9 @@ import { displayLog } from '../library/log';
 
 export const app = {
   displayLog,
-  store: {},
+  store: {
+    game: {
+      name: 'hide_and_seek',
+    },
+  },
 };
