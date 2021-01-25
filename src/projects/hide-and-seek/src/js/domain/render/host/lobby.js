@@ -1,21 +1,16 @@
 import { app } from '../../app';
+import { get } from 'lodash-es';
+import { displayScreen } from '../../../library/displayScreen';
 
 function lobby() {
   console.log('render the lobby');
-  const minimumPlayers = 2;
-
-  const { code, playerList } = app;
-
-  if (code) {
-    setRoomCode(code);
-  }
-  updatePlayerList(playerList);
-  updateStartGameButton(playerList, minimumPlayers);
-
-  console.log('beginning to render the lobby');
+  setRoomCode();
+  // updatePlayerList();
+  // updateStartGameButton();
+  displayScreen('lobby');
 }
 
-function updateStartGameButton(playerList, minimumPlayers) {
+function updateStartGameButton() {
   const totalPlayers = Object.keys(playerList).length;
   const startGameButtonWrapper = document.querySelector(
     '[data-screen="lobby"] button[data-action="startGame"]'
@@ -42,8 +37,11 @@ function updatePlayerList(playerList) {
   crates.innerHTML = markup;
 }
 
-function setRoomCode(code) {
-  document.querySelector('[data-screen="lobby"] .room-code').innerText = code;
+function setRoomCode() {
+  const { channelId } = get(app, 'store.game');
+  document.querySelector(
+    '[data-screen="lobby"] .room-code'
+  ).innerText = channelId;
 }
 
 export { lobby };

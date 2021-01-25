@@ -3,6 +3,7 @@ import { getAvailableChannelId } from './getAvailableChannelId';
 import { getRef } from '../../../library/getRef';
 import { onGameUpdate } from './onGameUpdate';
 import { onPlayerUpdate } from './onPlayerUpdate';
+import { set } from 'lodash-es';
 
 /**
  * Creates a new host, reserves a room, and sets up a new game
@@ -42,8 +43,14 @@ async function createNewHost() {
     })
     .then(() => {
       console.log('channel reserved');
+      // remove player from the DOM
+      document.querySelector('[data-group="player"]').remove();
       const gameRef = getRef(`games/${channelId}`);
+      set(app, 'store.game.ref', gameRef);
       gameRef.onDisconnect().remove();
+      gameRef.set({
+        can_join: true,
+      });
       gameRef.child('public').push({
         payload: JSON.stringify({
           screen: 'lobby',

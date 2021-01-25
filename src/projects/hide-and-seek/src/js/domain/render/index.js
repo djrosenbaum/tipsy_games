@@ -1,11 +1,14 @@
 import { app } from '../app';
 import { host } from './host';
 import { player } from './player';
-import { displayScreen } from '../../library/displayScreen';
-import { log } from '../../library/log';
+import { get } from 'lodash-es';
 
 async function render({ screen }) {
-  const { playerType } = app;
+  const playerType = get(app, 'store.game.playerType');
+  if (!playerType) {
+    return;
+  }
+  console.log('render:', playerType, screen);
 
   const screenMap = {
     host,

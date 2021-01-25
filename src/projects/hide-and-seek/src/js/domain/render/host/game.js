@@ -13,6 +13,12 @@ import {
 function game() {
   console.log('render game');
 
+  const { state } = get(app, 'store.game') || {};
+  console.log('game state:', state);
+  if (!state) {
+    return;
+  }
+
   // renderBroadcast();
   // render
 
@@ -20,7 +26,9 @@ function game() {
   // renderNewGame
   // renderUpdate
 
-  const { state } = get(app, 'game.round') || '';
+  return;
+
+  // const { state } = get(app, 'game.round') || '';
 
   if (state === 'winner') {
     updateRound();

@@ -4,6 +4,9 @@
 import { createNewPlayer } from '../class/Player';
 import { log } from '../../library/log';
 import { app } from '../app';
+import { firebaseConfig } from '../../domain/firebase/firebaseConfig';
+import { getRef } from '../../library/getRef';
+import { set } from 'lodash-es';
 
 let canJoinGame = true;
 
@@ -18,37 +21,40 @@ const getRoomCode = () => {
   return roomCode.toLowerCase();
 };
 
-const joinGame = async () => {
+async function joinGame() {
   // prevent clicking join game multiple times
   if (!canJoinGame) {
     return;
   }
-  const { player } = window.app;
-  if (player) {
+  canJoinGame = false; // prevent joining multiple times
+
+  const channelId = getRoomCode();
+  if (!channelId) {
+    canJoinGame = true;
     return;
   }
 
-  canJoinGame = false; // prevent joining multiple times
-  const code = getRoomCode();
-  const ref = window.firebase.database().ref(`rooms/${code}`);
-  let isValidRoom = false;
+  // initialize Firebase
+  window.firebase.initializeApp(firebaseConfig);
 
-  // get the room data from firebase
-  await ref.once('value').then((snapshot) => {
-    const { screen } = snapshot.toJSON() || {};
-
-    if (screen === 'lobby') {
-      isValidRoom = true;
-    } else {
+  // check if can join room
+  const gameRef = getRef(`games/${channelId}`);
+  gameRef
+    .child('can_join')
+    .once('value')
+    .then((snapshot) => {
+      const canJoin = snapshot.toJSON();
+      if (canJoin) {
+        set(app, 'store.game.channelId', channelId);
+        createNewPlayer();
+      } else {
+        canJoinGame = true;
+      }
+    })
+    .catch((error) => {
+      console.error(error);
       canJoinGame = true;
-    }
-  });
-
-  if (isValidRoom) {
-    document.querySelector('[data-group="host"]').remove();
-    await createNewPlayer({ code });
-    app.listen();
-  }
-};
+    });
+}
 
 export { joinGame };

@@ -6,8 +6,6 @@ function displayScreen(screen) {
   document
     .querySelector(`[data-screen="${screen}"]`)
     .classList.remove('hidden');
-
-  window.app.screen = screen;
 }
 
 export { displayScreen };

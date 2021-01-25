@@ -9,9 +9,6 @@ async function newGame() {
   }
   canCreateNewGame = false;
 
-  // remove player from the DOM
-  document.querySelector('[data-group="player"]').remove();
-
   // initialize Firebase
   window.firebase.initializeApp(firebaseConfig);
   window.firebase

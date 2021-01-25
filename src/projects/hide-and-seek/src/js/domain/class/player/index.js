@@ -4,46 +4,53 @@ import { onScreenUpdated } from './onScreenUpdated';
 import { setCookie } from '../../../library/cookie';
 import { onGameUpdated } from './onGameUpdated';
 import { app } from '../../app';
+import { get } from 'lodash-es';
+import { getRef } from '../../../library/getRef';
 
-async function createNewPlayer({ code }) {
-  console.log('new player');
-  const ref = window.firebase.database().ref(`rooms/${code}`);
-  let playerKey = '';
-  let playerList = '';
-  const playerName = getPlayerName();
-  setCookie('playerName', playerName);
+async function createNewPlayer() {
+  console.log('createNewPlayer');
 
-  await ref
-    .child('players')
-    .push({
-      playerName,
+  window.firebase
+    .auth()
+    .signInAnonymously()
+    .then(() => {
+      const playerName = getPlayerName();
+      setCookie('playerName', playerName);
+
+      const uid = firebase.auth().getUid();
+      const channelId = get(app, 'store.game.channelId');
+      const userRef = getRef(`games/${channelId}/private/${uid}`);
+
+      userRef.onDisconnect().update({
+        status: 'offline',
+      });
+
+      userRef
+        .set({
+          status: 'online',
+        })
+        .then(() => {
+          console.log('is connected', uid);
+        });
     })
-    .then((data) => {
-      console.log('player set');
-      playerKey = data.getKey();
-      // remove player when disconnected
-      ref.child('players').child(playerKey).onDisconnect().remove();
-      console.log('display lobby');
-      displayScreen('lobby');
+    .catch((error) => {
+      console.error(error);
     });
 
-  const player = {
-    code,
-    listen,
-    playerKey,
-    playerList,
-    ref,
-  };
+  // .push({
+  //   playerName,
+  // })
+  // .then((data) => {
+  //   console.log('player set');
+  //   playerKey = data.getKey();
+  //   // remove player when disconnected
+  //   ref.child('players').child(playerKey).onDisconnect().remove();
+  //   console.log('display lobby');
+  //   displayScreen('lobby');
 
-  Object.assign(app, player);
+  // document.querySelector('[data-group="host"]').remove();
 
-  return {
-    code,
-    listen,
-    playerKey,
-    playerList,
-    ref,
-  };
+  // const ref = window.firebase.database().ref(`rooms/${code}`);
 }
 
 function getPlayerName() {
@@ -53,12 +60,12 @@ function getPlayerName() {
   return playerName;
 }
 
-function listen() {
-  console.log('listening');
-  const { ref } = app;
-  ref.child('players').on('value', onPlayerListUpdated);
-  ref.child('screen').on('value', onScreenUpdated);
-  ref.child('game').on('value', onGameUpdated);
-}
+// function listen() {
+//   console.log('listening');
+//   const { ref } = app;
+//   ref.child('players').on('value', onPlayerListUpdated);
+//   ref.child('screen').on('value', onScreenUpdated);
+//   ref.child('game').on('value', onGameUpdated);
+// }
 
 export { createNewPlayer };

@@ -5,6 +5,8 @@ export const app = {
   store: {
     game: {
       name: 'hide_and_seek',
+      minimumPlayers: 2,
+      state: {},
     },
   },
 };
