@@ -9,14 +9,12 @@ export function onPlayerUpdate(snapshot) {
     return;
   }
   console.log('snapshot does exist', snapshot.exists());
-  const { payload, status } = snapshot.toJSON();
+  const { message } = snapshot.toJSON();
 
-  if (status) {
-    handleStatus(snapshot);
-  }
-  if (payload) {
-    const message = JSON.parse(payload);
-    handlePlayerMessage(snapshot);
+  try {
+    console.log('player message:', JSON.parse(message));
+  } catch (error) {
+    console.error('invalid message from player', error);
   }
 }
 

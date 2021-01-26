@@ -22,12 +22,17 @@ async function createNewPlayer() {
       const userRef = getRef(`games/${channelId}/private/${uid}`);
 
       userRef.onDisconnect().update({
-        status: 'offline',
+        message: JSON.stringify({
+          status: 'offline',
+        }),
       });
 
       userRef
         .set({
-          status: 'online',
+          message: JSON.stringify({
+            playerName,
+            status: 'online',
+          }),
         })
         .then(() => {
           console.log('is connected', uid);
