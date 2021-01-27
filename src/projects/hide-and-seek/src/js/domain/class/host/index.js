@@ -13,7 +13,6 @@ async function createNewHost() {
   const { game } = app.store;
   game.playerType = 'host';
 
-  // first channel id where reserved == false
   const channelId = await getAvailableChannelId();
   console.log('channel id', channelId);
 
@@ -25,7 +24,7 @@ async function createNewHost() {
 
   const channelRef = getRef(`channel/${channelId}`);
   await channelRef.onDisconnect().set({
-    reserved: false,
+    timestamp: 0,
   });
 
   // get the user id
@@ -37,7 +36,6 @@ async function createNewHost() {
 
   channelRef
     .update({
-      reserved: true,
       uid,
       timestamp,
     })
