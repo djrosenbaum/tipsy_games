@@ -1,13 +1,12 @@
+import { app } from '../app';
 import { createNewHost } from '../class/Host';
 import { firebaseConfig } from '../../domain/firebase/firebaseConfig';
 
-let canCreateNewGame = true;
-
 async function newGame() {
-  if (!canCreateNewGame) {
+  if (app.store.isBusy) {
     return;
   }
-  canCreateNewGame = false;
+  app.store.isBusy = true;
 
   // initialize Firebase
   window.firebase.initializeApp(firebaseConfig);
@@ -17,7 +16,7 @@ async function newGame() {
     .then(createNewHost)
     .catch((error) => {
       console.error(error);
-      canCreateNewGame = true;
+      app.store.isBusy = false;
     });
 }
 

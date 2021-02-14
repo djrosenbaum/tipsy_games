@@ -31,7 +31,7 @@ async function createNewHost() {
   const timestamp = firebase.database.ServerValue.TIMESTAMP;
   console.log('timestamp:', timestamp);
 
-  channelRef
+  await channelRef
     .update({
       uid,
       timestamp,
@@ -62,6 +62,8 @@ async function createNewHost() {
         .on('child_changed', onPlayerStatusChange);
       // gameRef.child('players/messages/o').on('child_added', onNewMessage);
     });
+
+  app.store.isBusy = false;
 }
 
 export { createNewHost };

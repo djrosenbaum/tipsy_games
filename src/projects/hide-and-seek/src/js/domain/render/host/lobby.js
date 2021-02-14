@@ -1,6 +1,8 @@
 import { app } from '../../app';
 import { get } from 'lodash-es';
 import { displayScreen } from '../../../library/displayScreen';
+import { getActivePlayers } from '../shared/getActivePlayers';
+import { setRoomCode } from '../shared/lobby/setRoomCode';
 
 function lobby() {
   console.log('render the lobby');
@@ -27,24 +29,17 @@ function updateStartGameButton() {
 
 function updatePlayerList() {
   const players = get(app, 'store.game.players', {});
-  console.log('update player list', players);
+  let activePlayers = getActivePlayers(players);
 
-  let markup = Object.keys(players)
+  let markup = Object.keys(activePlayers)
     .map((player) => {
-      const { displayName } = players[player];
+      const { displayName } = activePlayers[player];
       return `<div class="crate-wrapper"><div class="crate reflect"></div><div class="player-name">${displayName}</div></div>`;
     })
     .join('');
 
   const crates = document.querySelector('[data-screen="lobby"] .crates');
   crates.innerHTML = markup;
-}
-
-function setRoomCode() {
-  const { channelId } = get(app, 'store.game');
-  document.querySelector(
-    '[data-screen="lobby"] .room-code'
-  ).innerText = channelId;
 }
 
 export { lobby };

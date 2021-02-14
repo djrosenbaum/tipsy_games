@@ -7,7 +7,7 @@ import { app } from '../../app';
 async function createNewPlayer() {
   console.log('createNewPlayer');
 
-  window.firebase
+  await window.firebase
     .auth()
     .signInAnonymously()
     .then(() => {
@@ -45,6 +45,8 @@ async function createNewPlayer() {
     .catch((error) => {
       console.error(error);
     });
+
+  app.store.isBusy = false;
 }
 
 function getPlayerName() {

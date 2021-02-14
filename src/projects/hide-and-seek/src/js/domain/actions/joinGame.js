@@ -8,8 +8,6 @@ import { firebaseConfig } from '../../domain/firebase/firebaseConfig';
 import { getRef } from '../../library/getRef';
 import { set } from 'lodash-es';
 
-let canJoinGame = true;
-
 /**
  * Gets a room code from html <input> field
  *
@@ -23,17 +21,16 @@ const getRoomCode = () => {
 
 async function joinGame() {
   // prevent clicking join game multiple times
-  if (!canJoinGame) {
+  if (app.store.isBusy) {
     return;
   }
-  canJoinGame = false; // prevent joining multiple times
 
   const channelId = getRoomCode();
   if (!channelId) {
-    canJoinGame = true;
     return;
   }
 
+  app.store.isBusy = true;
   // initialize Firebase
   window.firebase.initializeApp(firebaseConfig);
 
@@ -49,12 +46,12 @@ async function joinGame() {
         set(app, 'store.game.channelId', channelId);
         createNewPlayer();
       } else {
-        canJoinGame = true;
+        app.store.isBusy = false;
       }
     })
     .catch((error) => {
       console.error(error);
-      canJoinGame = true;
+      app.store.isBusy = false;
     });
 }
 

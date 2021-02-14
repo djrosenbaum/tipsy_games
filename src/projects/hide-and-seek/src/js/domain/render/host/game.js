@@ -13,15 +13,10 @@ import {
 function game() {
   console.log('render game');
 
-  const { state } = get(app, 'store.game') || {};
+  const { state } = get(app, 'store.game');
   console.log('game state:', state);
-  if (!state) {
-    return;
-  }
 
   // renderBroadcast();
-  // render
-
   // renderEndGame
   // renderNewGame
   // renderUpdate
