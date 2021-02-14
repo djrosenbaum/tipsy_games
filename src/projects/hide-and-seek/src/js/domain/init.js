@@ -12,8 +12,8 @@ const init = () => {
   log('init');
   // expose the app for easy troubleshooting in browser
   window.app = app;
-  autofill();
   addEventListeners();
+  autofill();
 };
 
 export { init };

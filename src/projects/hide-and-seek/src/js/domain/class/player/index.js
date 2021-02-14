@@ -19,43 +19,26 @@ async function createNewPlayer() {
 
       const uid = firebase.auth().getUid();
       const channelId = get(app, 'store.game.channelId');
-      const userRef = getRef(`games/${channelId}/private/${uid}`);
+      const registerRef = getRef(`games/${channelId}/players/register/${uid}`);
 
-      userRef.onDisconnect().update({
-        message: JSON.stringify({
-          status: 'offline',
-        }),
+      // todo check if player exists and is reconnecting
+
+      // set status offline
+      registerRef.onDisconnect().update({
+        s: false,
       });
 
-      userRef
-        .set({
-          message: JSON.stringify({
-            playerName,
-            status: 'online',
-          }),
-        })
-        .then(() => {
-          console.log('is connected', uid);
-        });
+      // set status online
+      registerRef.update({
+        s: true,
+        n: playerName,
+      });
+
+      document.querySelector('[data-group="host"]').remove();
     })
     .catch((error) => {
       console.error(error);
     });
-
-  // .push({
-  //   playerName,
-  // })
-  // .then((data) => {
-  //   console.log('player set');
-  //   playerKey = data.getKey();
-  //   // remove player when disconnected
-  //   ref.child('players').child(playerKey).onDisconnect().remove();
-  //   console.log('display lobby');
-  //   displayScreen('lobby');
-
-  // document.querySelector('[data-group="host"]').remove();
-
-  // const ref = window.firebase.database().ref(`rooms/${code}`);
 }
 
 function getPlayerName() {

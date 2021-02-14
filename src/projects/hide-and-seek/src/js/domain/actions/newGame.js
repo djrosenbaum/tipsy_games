@@ -17,6 +17,7 @@ async function newGame() {
     .then(createNewHost)
     .catch((error) => {
       console.error(error);
+      canCreateNewGame = true;
     });
 }
 

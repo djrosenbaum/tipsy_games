@@ -2,7 +2,8 @@ import { app } from '../../app';
 import { getAvailableChannelId } from './getAvailableChannelId';
 import { getRef } from '../../../library/getRef';
 import { onGameUpdate } from './onGameUpdate';
-import { onPlayerUpdate } from './onPlayerUpdate';
+import { onNewPlayer } from './onNewPlayer';
+import { onPlayerStatusChange } from './onPlayerStatusChange';
 import { set } from 'lodash-es';
 
 /**
@@ -17,15 +18,12 @@ async function createNewHost() {
   console.log('channel id', channelId);
 
   if (!channelId) {
-    console.error('all channels full or something went wrong');
+    console.error('something went wrong getting a new channel id');
     return;
   }
   game.channelId = channelId;
 
   const channelRef = getRef(`channel/${channelId}`);
-  await channelRef.onDisconnect().set({
-    timestamp: 0,
-  });
 
   // get the user id
   const uid = firebase.auth().getUid();
@@ -44,18 +42,26 @@ async function createNewHost() {
       // remove player from the DOM
       document.querySelector('[data-group="player"]').remove();
       const gameRef = getRef(`games/${channelId}`);
-      set(app, 'store.game.ref', gameRef);
-      gameRef.onDisconnect().remove();
+      game.ref = gameRef;
+
+      // to do handle host on disconnect
+      // gameRef.onDisconnect().remove();
+
       gameRef.set({
         can_join: true,
       });
       gameRef.child('public').push({
+        type: 'screen',
         payload: JSON.stringify({
           screen: 'lobby',
         }),
       });
       gameRef.child('public').on('child_added', onGameUpdate);
-      gameRef.child('private').on('child_added', onPlayerUpdate);
+      gameRef.child('players/register').on('child_added', onNewPlayer);
+      gameRef
+        .child('players/register')
+        .on('child_changed', onPlayerStatusChange);
+      // gameRef.child('players/messages/o').on('child_added', onNewMessage);
     });
 }
 
