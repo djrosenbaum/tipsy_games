@@ -5,13 +5,15 @@ import { displayScreen } from '../../../library/displayScreen';
 function lobby() {
   console.log('render the lobby');
   setRoomCode();
-  // updatePlayerList();
-  // updateStartGameButton();
+  updatePlayerList();
+  updateStartGameButton();
   displayScreen('lobby');
 }
 
 function updateStartGameButton() {
-  const totalPlayers = Object.keys(playerList).length;
+  const players = get(app, 'store.game.players', {});
+  const minimumPlayers = get(app, 'store.game.minimumPlayers');
+  const totalPlayers = Object.keys(players).length;
   const startGameButtonWrapper = document.querySelector(
     '[data-screen="lobby"] button[data-action="startGame"]'
   ).parentNode;
@@ -23,13 +25,14 @@ function updateStartGameButton() {
   startGameButtonWrapper.classList.remove('hide');
 }
 
-function updatePlayerList(playerList) {
-  console.log('update player list', playerList);
+function updatePlayerList() {
+  const players = get(app, 'store.game.players', {});
+  console.log('update player list', players);
 
-  let markup = Object.keys(playerList)
+  let markup = Object.keys(players)
     .map((player) => {
-      const { playerName } = playerList[player];
-      return `<div class="crate-wrapper"><div class="crate reflect"></div><div class="player-name">${playerName}</div></div>`;
+      const { displayName } = players[player];
+      return `<div class="crate-wrapper"><div class="crate reflect"></div><div class="player-name">${displayName}</div></div>`;
     })
     .join('');
 

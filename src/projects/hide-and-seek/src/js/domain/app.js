@@ -7,6 +7,7 @@ export const app = {
       name: 'hide_and_seek',
       minimumPlayers: 2,
       state: {},
+      players: [],
     },
   },
 };

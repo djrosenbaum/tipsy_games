@@ -1,11 +1,8 @@
-import { displayScreen } from '../../../library/displayScreen';
-import { onPlayerListUpdated } from './onPlayerListUpdated';
-import { onScreenUpdated } from './onScreenUpdated';
 import { setCookie } from '../../../library/cookie';
-import { onGameUpdated } from './onGameUpdated';
+import { onGameUpdate } from './onGameUpdate';
+import { onNewPlayer } from '../shared/onNewPlayer';
+import { onPlayerStatusChange } from '../shared/onPlayerStatusChange';
 import { app } from '../../app';
-import { get } from 'lodash-es';
-import { getRef } from '../../../library/getRef';
 
 async function createNewPlayer() {
   console.log('createNewPlayer');
@@ -17,11 +14,12 @@ async function createNewPlayer() {
       const playerName = getPlayerName();
       setCookie('playerName', playerName);
 
-      const uid = firebase.auth().getUid();
-      const channelId = get(app, 'store.game.channelId');
-      const registerRef = getRef(`games/${channelId}/players/register/${uid}`);
+      const { game } = app.store;
+      game.playerType = 'player';
 
-      // todo check if player exists and is reconnecting
+      const gameRef = game.ref;
+      const uid = firebase.auth().getUid();
+      const registerRef = gameRef.child(`players/register/${uid}`);
 
       // set status offline
       registerRef.onDisconnect().update({
@@ -29,10 +27,18 @@ async function createNewPlayer() {
       });
 
       // set status online
-      registerRef.update({
-        s: true,
-        n: playerName,
-      });
+      registerRef
+        .update({
+          s: true,
+          n: playerName,
+        })
+        .then(() => {
+          gameRef.child('public').on('child_added', onGameUpdate);
+          gameRef.child('players/register').on('child_added', onNewPlayer);
+          gameRef
+            .child('players/register')
+            .on('child_changed', onPlayerStatusChange);
+        });
 
       document.querySelector('[data-group="host"]').remove();
     })
@@ -47,13 +53,5 @@ function getPlayerName() {
     document.querySelector('[data-input="player-name"]').value || 'guest';
   return playerName;
 }
-
-// function listen() {
-//   console.log('listening');
-//   const { ref } = app;
-//   ref.child('players').on('value', onPlayerListUpdated);
-//   ref.child('screen').on('value', onScreenUpdated);
-//   ref.child('game').on('value', onGameUpdated);
-// }
 
 export { createNewPlayer };

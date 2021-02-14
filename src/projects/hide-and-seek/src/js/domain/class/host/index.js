@@ -2,9 +2,8 @@ import { app } from '../../app';
 import { getAvailableChannelId } from './getAvailableChannelId';
 import { getRef } from '../../../library/getRef';
 import { onGameUpdate } from './onGameUpdate';
-import { onNewPlayer } from './onNewPlayer';
-import { onPlayerStatusChange } from './onPlayerStatusChange';
-import { set } from 'lodash-es';
+import { onNewPlayer } from '../shared/onNewPlayer';
+import { onPlayerStatusChange } from '../shared/onPlayerStatusChange';
 
 /**
  * Creates a new host, reserves a room, and sets up a new game

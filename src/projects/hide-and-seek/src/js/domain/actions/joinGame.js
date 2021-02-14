@@ -39,6 +39,7 @@ async function joinGame() {
 
   // check if can join room
   const gameRef = getRef(`games/${channelId}`);
+  set(app, 'store.game.ref', gameRef);
   gameRef
     .child('can_join')
     .once('value')

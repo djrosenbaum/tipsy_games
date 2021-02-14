@@ -3,9 +3,11 @@ import { host } from './host';
 import { player } from './player';
 import { get } from 'lodash-es';
 
-async function render({ screen }) {
+async function render() {
+  console.log('render');
   const playerType = get(app, 'store.game.playerType');
-  if (!playerType) {
+  const screen = get(app, 'store.game.state.screen');
+  if (!playerType || !screen) {
     return;
   }
   console.log('render:', playerType, screen);
