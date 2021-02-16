@@ -14,7 +14,7 @@ function lobby() {
 
 function updateStartGameButton() {
   const players = get(app, 'store.game.players', {});
-  const minimumPlayers = get(app, 'store.game.minimumPlayers');
+  const minimumPlayers = get(app, 'store.game.config.minimumPlayers');
   const totalPlayers = Object.keys(players).length;
   const startGameButtonWrapper = document.querySelector(
     '[data-screen="lobby"] button[data-action="startGame"]'

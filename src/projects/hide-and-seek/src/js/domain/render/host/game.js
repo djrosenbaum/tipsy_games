@@ -9,53 +9,23 @@ import {
   getGridArrayFromPlayer,
   updatePlayerList,
 } from '../shared';
+import {
+  renderInfoboard,
+  renderCrates,
+  renderNarrative,
+} from './game/index.js';
+import { displayScreen } from '../../../library/displayScreen';
 
 function game() {
   console.log('render game');
+  renderInfoboard();
+  renderNarrative();
+  renderCrates();
+  renderScoreboard();
 
-  const { state } = get(app, 'store.game');
-  console.log('game state:', state);
-
-  // renderBroadcast();
-  // renderEndGame
-  // renderNewGame
-  // renderUpdate
+  displayScreen('game');
 
   return;
-
-  // const { state } = get(app, 'game.round') || '';
-
-  if (state === 'winner') {
-    updateRound();
-    renderEndGame();
-    return;
-  }
-
-  // check if there is an existing game state
-  if (!app.game) {
-    // store initial markup for easy reset
-    if (!app.initial_markup) {
-      app.initial_markup = document.querySelector(
-        '[data-screen="game"]'
-      ).innerHTML;
-    }
-    newGame();
-    updatePlayerList();
-    return;
-  }
-  updatePlayerList();
-
-  if (canUpdateRound()) {
-    console.log('can update round');
-    updateRound();
-  } else {
-    console.log('can not update round');
-    console.log('isReadyToStartRound:', isReadyToStartRound());
-    if (isReadyToStartRound()) {
-      console.log('ready to start the round');
-      startRound();
-    }
-  }
 }
 
 function renderEndGame() {
@@ -243,24 +213,6 @@ function getRemainingBoards() {
     }
   }
   return remainingBoards;
-}
-
-async function newGame() {
-  console.log('newGame()');
-  document.querySelector('[data-screen="game"]').innerHTML = app.initial_markup;
-
-  const dom = {};
-  app.dom = dom;
-
-  dom.$crates = document.querySelector('[data-screen="game"] .crates');
-  dom.$broadcast = document.querySelector('[data-screen="game"] .broadcast');
-  dom.$narrative = document.querySelector('[data-screen="game"] .narrative');
-  dom.$playAgain = document.querySelector('[data-screen="game"] .play-again');
-
-  dom.$broadcast.innerHTML = 'Time to hide your treasure';
-  dom.$broadcast.classList.remove('hide');
-
-  displayGrid(getDefaultGridArray());
 }
 
 export { game };

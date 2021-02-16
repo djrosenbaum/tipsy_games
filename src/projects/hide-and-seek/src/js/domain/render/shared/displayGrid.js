@@ -1,6 +1,4 @@
-import { app } from '../../app';
-
-export function displayGrid(gridArray) {
+export function displayGrid(gridArray, $crates) {
   let markup = gridArray
     .map((item, index) => {
       if (item === 0) {
@@ -14,5 +12,5 @@ export function displayGrid(gridArray) {
       }
     })
     .join('');
-  app.dom.$crates.innerHTML = `<div data-crates="default">${markup}</div>`;
+  $crates.innerHTML = `<div data-crates="default">${markup}</div>`;
 }

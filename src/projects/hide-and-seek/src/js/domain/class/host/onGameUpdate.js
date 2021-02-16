@@ -8,15 +8,14 @@ export function onGameUpdate(snapshot) {
     return;
   }
   let { payload, type } = snapshot.toJSON();
-  console.log('on game updated payload', payload);
+  console.log('on game update', payload, type);
   if (!payload || !type) {
     return;
   }
 
-  const state = get(app, 'store.game.state');
+  const { state } = get(app, 'store.game');
 
   payload = JSON.parse(payload);
-  console.log('payload');
 
   if (type === 'screen') {
     state.screen = payload.screen;

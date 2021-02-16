@@ -5,7 +5,7 @@ import {
   displayGrid,
   getDefaultGridArray,
   getGridArrayFromPlayer,
-  updatePlayerList,
+  renderScoreboard,
 } from '../shared';
 
 function game() {
@@ -27,7 +27,7 @@ function game() {
     }
     newGame();
   }
-  updatePlayerList();
+  renderScoreboard();
   if (canUpdateRound()) {
     console.log('update round');
     updateRound();
