@@ -16,10 +16,23 @@ export function onGameUpdate(snapshot) {
   const state = get(app, 'store.game.state');
 
   payload = JSON.parse(payload);
-  console.log('payload');
+  console.log('payload', payload);
 
-  if (type === 'screen') {
-    state.screen = payload.screen;
+  const { screen, stage, activePlayers } = payload;
+
+  if (screen) {
+    state.screen = screen;
+  }
+  if (stage) {
+    console.log('new stage', stage);
+    state.stage = stage;
+
+    if (stage === 'intro') {
+      state.players = activePlayers.reduce((acc, val) => {
+        acc[val] = {};
+        return acc;
+      }, {});
+    }
   }
 
   // render the current game screen

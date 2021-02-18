@@ -1,5 +1,6 @@
 import { app } from '../app';
 import { get } from 'lodash-es';
+import { getActivePlayers } from '../../domain/render/shared/getActivePlayers';
 
 async function startGame() {
   console.log('start game');
@@ -10,11 +11,15 @@ async function startGame() {
   app.store.isBusy = true;
 
   const gameRef = get(app, 'store.game.ref');
+  const activePlayers = Object.keys(getActivePlayers());
+  console.log('active players:', activePlayers);
 
   await gameRef.child('public').push({
-    type: 'screen',
+    type: 'start_game',
     payload: JSON.stringify({
       screen: 'game',
+      stage: 'intro',
+      activePlayers,
     }),
   });
 

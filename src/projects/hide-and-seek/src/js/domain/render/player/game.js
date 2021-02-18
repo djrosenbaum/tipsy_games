@@ -7,31 +7,19 @@ import {
   getGridArrayFromPlayer,
   renderScoreboard,
 } from '../shared';
+import { renderInfoboard, renderCrates } from './game/index.js';
+import { renderNarrative } from '../shared/game/renderNarrative';
+import { displayScreen } from '../../../library/displayScreen';
 
 function game() {
   console.log('render game');
-
-  const { state } = get(app, 'game.round') || '';
-
-  if (state === 'winner') {
-    renderEndGame();
-    return;
-  }
-
-  // check if there is an existing game state
-  if (!app.game) {
-    if (!app.initial_markup) {
-      app.initial_markup = document.querySelector(
-        '[data-screen="game"]'
-      ).innerHTML;
-    }
-    newGame();
-  }
+  console.log('render game');
+  renderInfoboard();
+  renderNarrative();
+  renderCrates();
   renderScoreboard();
-  if (canUpdateRound()) {
-    console.log('update round');
-    updateRound();
-  }
+
+  displayScreen('game');
 }
 
 function updateRound() {

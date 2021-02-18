@@ -7,13 +7,10 @@ import {
   displayGrid,
   getDefaultGridArray,
   getGridArrayFromPlayer,
-  updatePlayerList,
+  renderScoreboard,
 } from '../shared';
-import {
-  renderInfoboard,
-  renderCrates,
-  renderNarrative,
-} from './game/index.js';
+import { renderInfoboard, renderCrates } from './game/index.js';
+import { renderNarrative } from '../shared/game/renderNarrative';
 import { displayScreen } from '../../../library/displayScreen';
 
 function game() {
@@ -24,8 +21,6 @@ function game() {
   renderScoreboard();
 
   displayScreen('game');
-
-  return;
 }
 
 function renderEndGame() {

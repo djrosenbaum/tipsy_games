@@ -7,6 +7,6 @@ export function renderInfoboard() {
 
   // New Game
   if (state.stage === 'intro') {
-    $broadcast.innerHTML = 'Time to hide your treasure';
+    $broadcast.innerHTML = 'Select crates to hide your treasure';
   }
 }
