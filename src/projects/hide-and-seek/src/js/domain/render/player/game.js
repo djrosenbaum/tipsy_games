@@ -7,15 +7,15 @@ import {
   getGridArrayFromPlayer,
   renderScoreboard,
 } from '../shared';
-import { renderInfoboard, renderCrates } from './game/index.js';
+import { renderCrates, renderInfoboard, renderTreasure } from './game/index.js';
 import { renderNarrative } from '../shared/game/renderNarrative';
 import { displayScreen } from '../../../library/displayScreen';
 
 function game() {
   console.log('render game');
-  console.log('render game');
   renderInfoboard();
   renderNarrative();
+  renderTreasure();
   renderCrates();
   renderScoreboard();
 
@@ -43,23 +43,23 @@ function renderEndGame() {
   app.dom.$narrative.innerHTML = 'tally up your treasure';
 }
 
-async function newGame() {
-  document.querySelector('[data-screen="game"]').innerHTML = app.initial_markup;
+// async function newGame() {
+// document.querySelector('[data-screen="game"]').innerHTML = app.initial_markup;
 
-  const dom = {};
-  app.dom = dom;
+// const dom = {};
+// app.dom = dom;
 
-  dom.$crates = document.querySelector('[data-screen="game"] .crates');
-  dom.$broadcast = document.querySelector('[data-screen="game"] .broadcast');
-  dom.$narrative = document.querySelector('[data-screen="game"] .narrative');
-  dom.$treasureWrapper = document.querySelector(
-    '[data-screen="game"] .treasure-wrapper'
-  );
-  dom.$broadcast.innerHTML = 'Select crates to hide your treasure';
-  dom.$treasureWrapper.innerHTML =
-    '<div class="treasure"></div><div class="treasure"></div><div class="treasure"></div>';
+// dom.$crates = document.querySelector('[data-screen="game"] .crates');
+// dom.$broadcast = document.querySelector('[data-screen="game"] .broadcast');
+// dom.$narrative = document.querySelector('[data-screen="game"] .narrative');
+// dom.$treasureWrapper = document.querySelector(
+//   '[data-screen="game"] .treasure-wrapper'
+// );
+// dom.$broadcast.innerHTML = 'Select crates to hide your treasure';
+// dom.$treasureWrapper.innerHTML =
+//   '<div class="treasure"></div><div class="treasure"></div><div class="treasure"></div>';
 
-  displayGrid(getDefaultGridArray());
-}
+// displayGrid(getDefaultGridArray());
+// }
 
 export { game };

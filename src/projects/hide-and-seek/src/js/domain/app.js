@@ -8,8 +8,13 @@ export const app = {
       config: {
         name: 'hide_and_seek',
         minimumPlayers: 1,
+        startingTreasure: 3,
       },
-      state: {},
+      state: {
+        local: {
+          myTreasure: [],
+        },
+      },
       players: {},
     },
   },

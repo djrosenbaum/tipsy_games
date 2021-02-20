@@ -1,23 +1,28 @@
-import { get, intersection } from 'lodash-es';
+import { get, intersection, pull } from 'lodash-es';
 import { getRef } from '../../library/getRef';
 import { app } from '../app';
+import { render } from '../render';
 
-let canGuess = true;
+// let canGuess = true;
 
 async function selectCrate(event) {
-  const $broadcast = document.querySelector(
-    '[data-screen="game"] .game-info .broadcast'
-  );
+  console.log('selecting a crate:', event);
 
-  if ($broadcast.innerText === 'Select crates to hide your treasure') {
+  const { state } = app.store.game;
+
+  // New Game
+  if (state.stage === 'intro') {
+    state.local = state.local || {};
+    state.local.myTreasure = state.local.myTreasure || [];
+
     hideTreasure(event);
   }
 
-  const seeker = get(app, 'game.round.seeker') || '';
-  const playerKey = app.playerKey || '';
-  if (seeker && seeker === playerKey) {
-    guessCrate(event);
-  }
+  // const seeker = get(app, 'game.round.seeker') || '';
+  // const playerKey = app.playerKey || '';
+  // if (seeker && seeker === playerKey) {
+  //   guessCrate(event);
+  // }
 }
 
 function hasTreasure() {
@@ -97,42 +102,50 @@ async function guessCrate(event) {
 }
 
 function hideTreasure(event) {
-  console.log('hiding a treasure');
+  const { myTreasure } = app.store.game.state.local;
+
+  console.log('hiding a treasure', myTreasure);
+
   const $selectedCrate = event.target;
-  const $treasureWrapper = document.querySelector(
-    '[data-screen="game"] .treasure-wrapper'
-  );
-  const $commitWrapper = document.querySelector(
-    '[data-screen="game"] .commit-wrapper'
-  );
+  const selectedIndex = $selectedCrate.dataset.index;
 
-  const isCrateSelected = $selectedCrate.classList.contains('selected');
-  // check if the crate is already selected
-  if (isCrateSelected) {
-    // unselect the crate and add treasure
-    $selectedCrate.classList.remove('selected');
-    $treasureWrapper.insertAdjacentHTML(
-      'beforeend',
-      '<div class="treasure"></div>'
-    );
-    $commitWrapper.classList.add('hide');
-    return;
+  if (myTreasure.includes(selectedIndex)) {
+    console.log('unselect treasure');
+    pull(myTreasure, selectedIndex);
+  } else {
+    console.log('select treasure');
+    myTreasure.push(selectedIndex);
   }
 
-  const $treasures = document.querySelectorAll(
-    '[data-screen="game"] .treasure-wrapper .treasure'
-  );
-  if (!$treasures.length) {
-    // return if there are no treasures
-    return;
-  }
-  if ($treasures.length === 1) {
-    // show commit button
-    $commitWrapper.classList.remove('hide');
-  }
+  render();
 
-  $selectedCrate.classList.add('selected');
-  $treasureWrapper.removeChild($treasureWrapper.lastChild);
+  // const isCrateSelected = $selectedCrate.classList.contains('selected');
+  // // check if the crate is already selected
+  // if (isCrateSelected) {
+  //   // unselect the crate and add treasure
+  //   $selectedCrate.classList.remove('selected');
+  //   $treasureWrapper.insertAdjacentHTML(
+  //     'beforeend',
+  //     '<div class="treasure"></div>'
+  //   );
+  //   $commitWrapper.classList.add('hide');
+  //   return;
+  // }
+
+  // const $treasures = document.querySelectorAll(
+  //   '[data-screen="game"] .treasure-wrapper .treasure'
+  // );
+  // if (!$treasures.length) {
+  //   // return if there are no treasures
+  //   return;
+  // }
+  // if ($treasures.length === 1) {
+  //   // show commit button
+  //   $commitWrapper.classList.remove('hide');
+  // }
+
+  // $selectedCrate.classList.add('selected');
+  // $treasureWrapper.removeChild($treasureWrapper.lastChild);
 }
 
 export { selectCrate };

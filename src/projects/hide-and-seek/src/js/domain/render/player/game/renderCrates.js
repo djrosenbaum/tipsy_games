@@ -4,6 +4,7 @@ import {
   getDefaultGridArray,
   getGridArrayFromPlayer,
 } from '../../shared';
+import { get } from 'lodash-es';
 
 export function renderCrates() {
   const { state } = app.store.game;
@@ -13,5 +14,13 @@ export function renderCrates() {
   // New Game
   if (state.stage === 'intro') {
     displayGrid(getDefaultGridArray(), $crates);
+    const { myTreasure = [] } = get(app, 'store.game.state.local') || {};
+
+    // highlight selected treasure
+    myTreasure.forEach((index) => {
+      document
+        .querySelector(`[data-screen="game"] .crate[data-index="${index}"]`)
+        .classList.add('selected');
+    });
   }
 }
