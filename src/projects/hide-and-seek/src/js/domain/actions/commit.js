@@ -1,14 +1,27 @@
-import { getRef } from '../../library/getRef';
 import { app } from '../app';
-
-let canCommit = true;
+import { get } from 'lodash-es';
 
 async function commit() {
   console.log('commit treasure');
-  if (!canCommit) {
+  if (app.store.isBusy) {
     return;
   }
-  canCommit = false;
+
+  const { myTreasure } = get(app, 'store.game.state.local') || {};
+  const uid = window.firebase.auth().getUid();
+  const gameRef = app.store.game.ref;
+  const messageRef = gameRef.child(`players/messages/o/${uid}`);
+
+  app.store.isBusy = true;
+
+  messageRef.push({
+    type: 'hide',
+    payload: JSON.stringify({
+      myTreasure,
+    }),
+  });
+
+  return;
 
   const $broadcast = document.querySelector(
     '[data-screen="game"] .game-info .broadcast'
@@ -42,15 +55,6 @@ async function commit() {
       console.log('indexes are set:', indexes);
       canCommit = true;
     });
-}
-
-function getIndexes() {
-  const $selectedCrates = document.querySelectorAll('.crate.selected');
-  const indexes = [];
-  $selectedCrates.forEach((crate) => {
-    indexes.push(crate.dataset.index);
-  });
-  return indexes.join(',');
 }
 
 // function canCommit() {

@@ -4,6 +4,7 @@ import { getRef } from '../../../library/getRef';
 import { onGameUpdate } from './onGameUpdate';
 import { onNewPlayer } from '../shared/onNewPlayer';
 import { onPlayerStatusChange } from '../shared/onPlayerStatusChange';
+import { onNewMessage } from './onNewMessage';
 
 /**
  * Creates a new host, reserves a room, and sets up a new game
@@ -60,7 +61,7 @@ async function createNewHost() {
       gameRef
         .child('players/register')
         .on('child_changed', onPlayerStatusChange);
-      // gameRef.child('players/messages/o').on('child_added', onNewMessage);
+      gameRef.child('players/messages/o').on('child_added', onNewMessage);
     });
 
   app.store.isBusy = false;
