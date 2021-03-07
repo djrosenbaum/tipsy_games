@@ -1,6 +1,6 @@
 import { render } from '../../render';
 import { app } from '../../app';
-import { get } from 'lodash-es';
+import { get, set } from 'lodash-es';
 
 export function onGameUpdate(snapshot) {
   if (!snapshot.exists()) {
@@ -16,7 +16,8 @@ export function onGameUpdate(snapshot) {
   const state = get(app, 'store.game.state');
 
   payload = JSON.parse(payload);
-  console.log('payload', payload);
+  console.log('type:', type);
+  console.log('payload:', payload);
 
   const { screen, stage, activePlayers } = payload;
 
@@ -33,6 +34,12 @@ export function onGameUpdate(snapshot) {
         return acc;
       }, {});
     }
+  }
+  if (type === 'hidden') {
+    const { playerId } = payload;
+    // give the player 3 treasure
+    console.log('player id:', playerId);
+    set(app, `store.game.state.players.${playerId}.treasure`, 3);
   }
 
   // render the current game screen

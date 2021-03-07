@@ -1,6 +1,6 @@
 import { render } from '../../render';
 import { app } from '../../app';
-import { get } from 'lodash-es';
+import { get, set } from 'lodash-es';
 
 // called when a player commits to hiding their treasure
 function hide({ payload, playerId }) {
@@ -8,6 +8,20 @@ function hide({ payload, playerId }) {
   const data = JSON.parse(payload);
   console.log('player id:', playerId);
   console.log('data:', data);
+
+  // TO DO validate the hidden treasure data
+  // . player treasure has not been hidden yet
+  // . should be an array with 3 different valid indexes
+
+  set(app, `store.game.state.local.hiddenTreasure.${playerId}`, data);
+
+  const gameRef = app.store.game.ref;
+  gameRef.child('public').push({
+    type: 'hidden',
+    payload: JSON.stringify({
+      playerId,
+    }),
+  });
 }
 
 const handleMessage = {
